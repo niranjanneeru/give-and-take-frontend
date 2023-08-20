@@ -1,0 +1,17 @@
+section {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sectionRight {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+}
+.feed {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  block-size: 100%;
+}

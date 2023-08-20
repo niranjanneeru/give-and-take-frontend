@@ -1,0 +1,12 @@
+.emp-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.emp-item span {
+  padding-bottom: 10px;
+  color: #8b8d9d;
+}
+.emp-item .item-value {
+  padding: 10px 0px;
+}

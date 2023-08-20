@@ -1,0 +1,38 @@
+section {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.section1 {
+  background-color: #e6f7fd;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  border-radius: 50%;
+  height: 650px;
+  width: 650px;
+  background-color: #fff;
+  border: 30px solid white;
+}
+
+.section2 {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logo {
+  height: 50px;
+  margin: 10px 0;
+}
+
+.login-form {
+  width: 450px;
+}
