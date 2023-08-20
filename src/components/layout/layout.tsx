@@ -4,7 +4,7 @@ import './layout.css';
 import Subheader from '../subheader/subheader';
 import { FC } from 'react';
 type LayoutProps = {
-  userRole: string;
+  userRole?: string;
   children: any;
   subheaderProps: any;
 };

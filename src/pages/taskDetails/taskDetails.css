@@ -1,0 +1,27 @@
+.TaskDetailsCard {
+    max-width: 1275px;
+    /* height: 400px; */
+     display: flex;
+     align-items: center;
+     background-color: #ffffff;
+     border-radius: 7px;
+     margin: 20px 20px;
+     padding: 15px;
+     box-shadow: 0px 5px 5px -3px rgb(191, 193, 194);
+     flex-wrap: wrap;
+     justify-content: space-between;
+   }
+   .description{
+    width: 698px;
+  height: 107px; 
+  padding: 15px;
+  flex-direction: column;
+  }
+  .description-heading{
+  color: #8b8d9d;
+  font-size: 16px;
+  padding-bottom: 10px;
+  }
+  .description-dummy{
+    visibility: hidden;
+  }
