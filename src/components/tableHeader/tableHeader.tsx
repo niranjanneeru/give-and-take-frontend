@@ -1,6 +1,7 @@
 import './tableHeader.css';
 
 const TableHeader = ({ userRole }) => {
+  console.log(userRole);
   const headerData = [
     'Employee Name',
     'Employee ID',
@@ -8,7 +9,8 @@ const TableHeader = ({ userRole }) => {
     'Role',
     'Status',
     'Experience',
-    userRole == 'admin' ? 'Action' : null
+    'Bounty Points',
+    userRole == 'HR' ? 'Action' : null
   ];
 
   return (
