@@ -1,0 +1,8 @@
+.input-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.input-flex-row {
+  display: flex;
+  flex-wrap: wrap;
+}
