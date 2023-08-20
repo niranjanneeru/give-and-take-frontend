@@ -11,6 +11,9 @@
      flex-wrap: wrap;
      justify-content: space-between;
    }
+   .HiddenCard{
+    display: none;
+   }
    .description{
     width: 698px;
   height: 107px; 
