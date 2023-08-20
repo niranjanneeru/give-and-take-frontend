@@ -1,0 +1,26 @@
+.popupInputDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-top: 16px;
+}
+
+.popupInputDiv input {
+  font: normal normal 600 14px/19px 'Nunito';
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  color: #8a8c8f;
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.popupInputDiv label {
+  font: normal normal 600 16px/22px Nunito;
+  letter-spacing: 0px;
+  color: #3e3e3e;
+  margin-bottom: 10px;
+}
