@@ -1,7 +1,7 @@
 import baseApi from '../../services/index';
 
 type LoginPayloadType = {
-  username: string;
+  email: string;
   password: string;
 };
 
