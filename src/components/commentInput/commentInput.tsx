@@ -8,6 +8,9 @@ export default function CommentInput() {
         <button className='file-button'>
           <img src='assets/img/add.png' />
         </button>
+        <button className='preview-button'>
+          <img src='assets/img/view.png' />
+        </button>
         <button className='send-button'>
           <img src='assets/img/send.png' />
         </button>

@@ -56,8 +56,10 @@ const Subheader: FC<subheaderProps> = ({
       )}
       {isTaskPage && (
         <div className='editTask-button'>
+          <Button value='  Join   ' />
           <Button value='Approve' />
-          <Button value='Edit Task' />
+          <Button value='  Edit   ' />
+          <Button value='Delete ' />
         </div>
       )}
     </div>

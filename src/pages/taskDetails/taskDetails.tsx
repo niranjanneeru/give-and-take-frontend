@@ -26,7 +26,6 @@ const TaskDetails = () => {
   function handleAccordian(): void {
     setAccordian(!accordian);
   }
- 
 
   return (
     <Layout subheaderProps={subheaderProps}>

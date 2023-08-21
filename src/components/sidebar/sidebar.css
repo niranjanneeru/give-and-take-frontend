@@ -3,9 +3,10 @@
   flex-direction: column;
   block-size: 100%;
   inline-size: 350px;
+  background-color: #252540;
 }
 .logo-employee {
-  background-color: #f9fafe;
+  background-color: #2d2d4b;
   padding-right: 30px;
   padding-left: 30px;
   padding-top: 20px;
@@ -19,7 +20,7 @@
 }
 .side-nav {
   block-size: 100%;
-  box-shadow: inset -3px 0px 1px -3px #d5d5d5;
+  box-shadow: inset -3px 0px 1px -3px #252540;
 }
 .side-nav > .list {
   overflow: hidden;
@@ -31,7 +32,7 @@
   cursor: pointer;
   margin-top: 30px;
   margin-left: 30px;
-  background-color: #03aeee;
+  background-color: #A18B9E;
   border: none;
   border-bottom-left-radius: 25px;
   border-top-left-radius: 25px;

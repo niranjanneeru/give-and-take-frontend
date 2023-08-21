@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 type ItemPropTypes = {
   label: string;
-  type: 'text' | 'status';
+  type: 'text' | 'status' | 'badge';
   value: string;
 };
 
@@ -12,10 +12,12 @@ const DetailsItem: FC<ItemPropTypes> = ({ label, type, value }) => {
   return (
     <div className='emp-item'>
       <span>{label}</span>
-      {type != 'status' ? (
-        <div className='item-value'>{value}</div>
+      {type === 'status' ? (
+        <Status status={value} />
+      ) : type === 'badge' ? (
+        <img className='tier-img' src={`/assets/img/tiers/${value}.png`} />
       ) : (
-        <Status status={value}></Status>
+        <div className='item-value'>{value}</div>
       )}
     </div>
   );

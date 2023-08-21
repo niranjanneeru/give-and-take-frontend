@@ -3,3 +3,8 @@
   flex-direction: column;
   height: 100%;
 }
+.scroll-tr{
+  max-height: 71vh;
+  resize: vertical;
+  overflow: auto;
+}
