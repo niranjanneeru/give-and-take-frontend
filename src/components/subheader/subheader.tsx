@@ -22,7 +22,7 @@ const Subheader: FC<subheaderProps> = ({
   userRole,
   handleAccordian = null,
   isTask,
-  isTaskPage = false
+  isTaskPage = false // clean code
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
 
