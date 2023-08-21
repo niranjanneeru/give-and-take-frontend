@@ -6,6 +6,22 @@ const taskDetailApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/tasks/${id}`,
         method: 'get'
+      }),
+      providesTags: ['task.detail']
+    }),
+    addComments: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/tasks/${id}/comments`,
+        method: 'post',
+        body
+      }),
+      invalidatesTags: ['task.detail']
+    }),
+    uploadFile: builder.mutation({
+      query:(body) => ({
+        url: 'uploads',
+        method: 'post',
+        body
       })
     })
   })
@@ -13,4 +29,4 @@ const taskDetailApi = baseApi.injectEndpoints({
 
 export default taskDetailApi;
 
-export const { useGetTaskByIDQuery } = taskDetailApi;
+export const { useGetTaskByIDQuery, useAddCommentsMutation, useUploadFileMutation } = taskDetailApi;
