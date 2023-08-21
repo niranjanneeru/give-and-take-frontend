@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import './tableRow.css';
 import Status from '../status/status';
-import SkillBlock from '../skillBlock/skillBlock';
 type tableRowProps = {
   row: Object;
   onClick: (e) => void;
@@ -34,8 +33,6 @@ const TableRow: FC<tableRowProps> = ({
             <Status status={row[key]}></Status>
           ) : key === 'Assignees' ? (
             `${row['employees'].length}/${row['maxParticipants']}`
-          ) : key === 'skills' ? (
-            <SkillBlock value={row['skills']} />
           ) : (
             row[key]
           )}
