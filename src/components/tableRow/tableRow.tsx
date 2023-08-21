@@ -6,7 +6,7 @@ type tableRowProps = {
   onClick: (e) => void;
   onEdit: (e) => void;
   onDelete: (e) => void;
-  onAward: (e) => void;
+  onAward?: (e) => void;
   userRole: string;
 };
 
@@ -15,7 +15,7 @@ const TableRow: FC<tableRowProps> = ({
   onClick,
   onDelete,
   onEdit,
-  onAward,
+  onAward = null,
   userRole
 }) => {
   const keys = ['name', 'id', 'joiningDate', 'role', 'status', 'experience', 'bounty'];
@@ -31,7 +31,7 @@ const TableRow: FC<tableRowProps> = ({
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />
-          <img src={`assets/icons/dollar1.svg`} onClick={onAward} />
+          {onAward && <img src={`assets/icons/dollar1.svg`} onClick={onAward} />}
         </td>
       )}
     </tr>
