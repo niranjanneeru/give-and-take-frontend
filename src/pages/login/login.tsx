@@ -21,7 +21,7 @@ const Login = () => {
     if (name.length == 0 || password.length == 0) setError(true);
     else
       login({
-        username: name,
+        email: name,
         password: password
       });
   };
