@@ -1,0 +1,21 @@
+.comment-div {
+  font-size: 15px;
+  background-color: rgb(245, 235, 235);
+  margin: 8px;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.comment-date {
+  color: #808080;
+  margin-top: 8px;
+  font-size: smaller;
+}
+
+.comment-creator {
+  margin-bottom: 12px;
+}
+
+.comment-content {
+  margin-bottom: 12px;
+}

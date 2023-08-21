@@ -5,6 +5,7 @@ import './taskDetails.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
+import Comment from '../../components/comment/Comment';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
@@ -46,8 +47,17 @@ const TaskDetails = () => {
           </div>
         </>
       </div>
-      <div className='progress-subheader'>
-        <div className='progress'>Progress</div>
+      <div className='progress'>
+        <div className='progress-header'>Comments</div>
+        <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+          <Comment author='author6' date='12/12/12' comment='comment1' attachment='attachment0' />
+          <Comment author='author5' date='12/12/12' comment='comment1' attachment='attachment0' />
+          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment1' />
+          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment2' />
+          <Comment author='author2' date='12/12/12' comment='comment1' attachment='attachment3' />
+          <Comment author='author1' date='12/12/12' comment='comment1' attachment='attachment4' />
+          <Comment author='author0' date='12/12/12' comment='comment1' attachment='attachment5' />
+        </div>
       </div>
       <div className='commentBox'>
         <div className='comment-text' contentEditable='true'>
