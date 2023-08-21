@@ -32,8 +32,9 @@ const EmployeeDetails = () => {
             <DetailsItem label='Experience' value={String(employee.data.experience)} type='text' />
             <DetailsItem label='Role' value={employee.data.role} type='text' />
             <DetailsItem label='Status' value={employee.data.status} type='status' />
-            <DetailsItem label='Address' value={employee.data.address.line1} type='text' />
+            <DetailsItem label='Department' value={employee.data.department.name} type='text' />
             <DetailsItem label='Employee ID' value={String(employee.data.id)} type='text' />
+            <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
           </>
         )}
       </div>

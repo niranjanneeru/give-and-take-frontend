@@ -29,7 +29,7 @@ const employeeApi = baseApi.injectEndpoints({
     }),
     getUser: builder.query<any, void>({
       query: () => ({
-        url: '/user',
+        url: '/employees/me',
         method: 'get'
       })
     })

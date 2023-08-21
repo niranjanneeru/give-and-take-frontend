@@ -10,7 +10,7 @@ type tableRowProps = {
 };
 
 const TableRow: FC<tableRowProps> = ({ employee, onClick, onDelete, onEdit, userRole }) => {
-  const keys = ['name', 'id', 'joiningDate', 'role', 'status', 'experience'];
+  const keys = ['name', 'id', 'joiningDate', 'role', 'status', 'experience', 'bounty'];
 
   return (
     <tr className='tabled'>
@@ -19,7 +19,7 @@ const TableRow: FC<tableRowProps> = ({ employee, onClick, onDelete, onEdit, user
           {key === 'status' ? <Status status={employee[key]}></Status> : employee[key]}
         </td>
       ))}
-      {userRole == 'admin' && (
+      {userRole == 'HR' && (
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />
