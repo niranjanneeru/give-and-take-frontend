@@ -3,21 +3,23 @@ import './styles.css';
 import Subheader from '../../components/subheader/subheader';
 import TaskListHeader from '../../components/taskListHeader/taskListHeader';
 import TaskListRow from '../../components/taskListRow/taskListRow';
+import { useNavigate } from 'react-router-dom';
 import { useGetTasksQuery } from './api';
 
 const TaskListPage = () => {
   const [icon] = useState('pencil');
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // add use effect
   const { data: taskData } = useGetTasksQuery();
 
-  const onClick = (id) => console.log(`Clicked on task ${id}`);
+  const onClick = (id) => navigate(`/tasks/${id}`);
+
   const subheaderProps = {
     heading: 'TASKS',
     iconText: 'Create Task',
     iconImg: icon,
-    onClick: () => console.log('Clicked create task')
+    onClick: () => navigate('/tasks/create')
   };
 
   return (

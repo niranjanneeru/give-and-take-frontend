@@ -8,7 +8,7 @@ type subheaderProps = {
   iconText?: string;
   iconImg?: string;
   onClick?: (e) => void;
-  handleAccordian;
+  handleAccordian?;
   isTaskPage?: boolean;
   userRole?: string;
 };
@@ -19,7 +19,7 @@ const Subheader: FC<subheaderProps> = ({
   iconImg,
   onClick,
   userRole,
-  handleAccordian = () => {},
+  handleAccordian = null,
   isTaskPage = false
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
@@ -28,21 +28,21 @@ const Subheader: FC<subheaderProps> = ({
     <div className='subheader'>
       <div className='header-div'>
         <div className='heading'>{heading}</div>
-        <div
-          className='accordion'
-          onClick={() => {
-            handleAccordian();
-            if (icon === 'assets/img/accordion-logo.png')
-              setIcon('assets/img/accordion-logo-opp.png');
-            else setIcon('assets/img/accordion-logo.png');
-          }}
-        >
-          <img src={icon} />
-        </div>
+        {handleAccordian && (
+          <div
+            className='accordion'
+            onClick={() => {
+              handleAccordian();
+              if (icon === 'assets/img/accordion-logo.png')
+                setIcon('assets/img/accordion-logo-opp.png');
+              else setIcon('assets/img/accordion-logo.png');
+            }}
+          >
+            <img src={icon} />
+          </div>
+        )}
       </div>
-      {userRole == 'admin' && iconText ? (
-
-        {(!userRole || userRole == 'HR') && iconText ? (
+      {(!userRole || userRole == 'HR') && iconText ? (
         <a className='subheader-right' onClick={onClick}>
           <div className='icon-edit'>
             <img src={`assets/icons/${iconImg}.svg`} />
