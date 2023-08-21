@@ -64,7 +64,7 @@ const CreateEmployee = () => {
   };
 
   useEffect(() => {
-    getEmp(id);
+    if (id) getEmp(id);
   }, [id]);
 
   useEffect(() => {

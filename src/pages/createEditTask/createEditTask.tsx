@@ -2,22 +2,24 @@ import Layout from '../../components/layout/layout';
 import { useEffect, useState } from 'react';
 import './createEditTask.css';
 import FormInput from '../../components/formInput/formInput';
-import { useNavigate, useParams } from 'react-router-dom';
 import MultiValueInput from '../../components/multiValueInput/multiValueInput';
 import { useCreateTaskMutation, useUpdateTaskMutation } from './api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useLazyGetTaskByIDQuery } from '../taskDetails/api';
 
 const CreateEditTask = () => {
   const [details, setDetails] = useState({
     title: '',
     deadline: '',
-    maxParticipants: 0,
-    bounty: 10,
+    maxParticipants: null,
+    bounty: null,
     skills: '',
     description: ''
   });
-
+  const navigate = useNavigate();
   const [createTask, { data: createData, isSuccess: isSuccessOnCreate }] = useCreateTaskMutation();
   const [editTask, { data: editData, isSuccess: isSuccessOnEdit }] = useUpdateTaskMutation();
+  const [getTask, { data: taskData, isSuccess: isSuccessOnGetLazy }] = useLazyGetTaskByIDQuery();
 
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
@@ -28,26 +30,52 @@ const CreateEditTask = () => {
   const { id } = useParams();
   const isEditing = !!id;
 
-  const navigate = useNavigate();
   const handleSubmit = () => {
-    if (!isEditing) {
-      createTask(details);
-      navigate('/tasks');
-    } else {
-      editTask(details);
-      navigate('/tasks');
-    }
+    if (!isEditing) createTask(details);
+    else editTask({ id, ...details });
   };
+
+  useEffect(() => {
+    if (id) getTask(id);
+  }, [id]);
 
   useEffect(() => {
     if ((createData && isSuccessOnCreate) || (editData && isSuccessOnEdit)) navigate('/tasks');
   }, [createData, isSuccessOnCreate, editData, isSuccessOnEdit]);
 
-  useEffect(() => {}, [id]); // get task using id
+  useEffect(() => {
+    if (taskData && isSuccessOnGetLazy) {
+      const updateDetails = taskData?.data;
+
+      // List of properties to update
+      const propertiesToUpdate = [
+        'title',
+        'deadline',
+        'maxParticipants',
+        'bounty',
+        'skills',
+        'description'
+      ];
+
+      // Update only specific properties of the `details` object
+      setDetails((prevDetails) => {
+        const updatedDetails = { ...prevDetails }; // Copy the existing details
+
+        propertiesToUpdate.forEach((property) => {
+          if (updateDetails[property] !== undefined && updateDetails[property] !== null)
+            updatedDetails[property] = updateDetails[property];
+        });
+
+        return updatedDetails;
+      });
+    }
+  }, [taskData, isSuccessOnGetLazy]);
 
   const subheaderProps = {
     heading: isEditing ? 'Edit Task' : 'Create Task'
   };
+
+  console.log('details', details);
 
   return (
     <Layout subheaderProps={subheaderProps}>
