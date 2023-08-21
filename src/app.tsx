@@ -6,6 +6,7 @@ import EmployeePage from './pages/employee/employee';
 import EmployeeDetails from './pages/employeeDetails/employeeDetails';
 import CreateEmployee from './pages/createEmployee/createEmployee';
 import TaskDetails from './pages/taskDetails/taskDetails';
+import TaskListPage from './pages/task/task';
 
 const App: FC = () => {
   return (
@@ -16,11 +17,10 @@ const App: FC = () => {
         <Route path='/employees/:id' element={<EmployeeDetails />} />
         <Route path='/employees/create' element={<CreateEmployee />} />
         <Route path='/employees/edit/:id' element={<CreateEmployee />} />
-        <Route path='/taskDetails' element={<TaskDetails />} />
+        <Route path='/tasks/:id' element={<TaskDetails />} />
+        <Route path='/tasks' element={<TaskListPage />} />
       </Routes>
     </BrowserRouter>
-
-    // <Login></Login>
   );
 };
 

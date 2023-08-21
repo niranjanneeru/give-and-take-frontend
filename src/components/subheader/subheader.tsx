@@ -8,9 +8,9 @@ type subheaderProps = {
   iconText?: string;
   iconImg?: string;
   onClick?: (e) => void;
-  userRole: string;
   handleAccordian;
   isTaskPage?: boolean;
+  userRole?: string;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -41,6 +41,8 @@ const Subheader: FC<subheaderProps> = ({
         </div>
       </div>
       {userRole == 'admin' && iconText ? (
+
+        {(!userRole || userRole == 'HR') && iconText ? (
         <a className='subheader-right' onClick={onClick}>
           <div className='icon-edit'>
             <img src={`assets/icons/${iconImg}.svg`} />
