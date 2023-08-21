@@ -11,6 +11,7 @@ type subheaderProps = {
   handleAccordian?;
   isTaskPage?: boolean;
   userRole?: string;
+  isTask: boolean;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -20,6 +21,7 @@ const Subheader: FC<subheaderProps> = ({
   onClick,
   userRole,
   handleAccordian = null,
+  isTask,
   isTaskPage = false
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
@@ -42,7 +44,7 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {userRole && userRole === 'HR' && iconText ? (
+      {(isTask || userRole === 'HR') && iconText ? (
         <a className='subheader-right' onClick={onClick}>
           <div className='icon-edit'>
             <img src={`assets/icons/${iconImg}.svg`} />
