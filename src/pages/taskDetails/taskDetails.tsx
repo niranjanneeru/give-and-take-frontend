@@ -45,7 +45,10 @@ const TaskDetails = () => {
               <div className='description-heading'>Description</div>
               <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
             </div>
-            <ParticipantList participants={taskData?.data?.assignees}></ParticipantList>
+            <ParticipantList
+              participants={taskData?.data?.assignees}
+              maxParticipants={taskData?.data?.maxParticipants}
+            ></ParticipantList>
             <div className='description-dummy'>
               <div>Description</div>
               <div className='description-heading'>Description</div>
