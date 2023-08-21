@@ -1,17 +1,28 @@
 import './tableHeader.css';
 
-const TableHeader = ({ userRole }) => {
+const TableHeader = ({ userRole, isTask }) => {
   console.log(userRole);
-  const headerData = [
+  const empHeaderData = [
     'Employee Name',
     'Employee ID',
     'Joining Date',
     'Role',
     'Status',
     'Experience',
-    'Bounty Points',
-    userRole == 'HR' ? 'Action' : null
+    'Bounty Points'
   ];
+
+  const taskHeaderData = [
+    'Task Title',
+    'Deadline',
+    'Bounty',
+    'Skills Required',
+    'Status',
+    'Assignees'
+  ];
+
+  if (userRole == 'HR') empHeaderData.push('Action');
+  const headerData = isTask ? taskHeaderData : empHeaderData;
 
   return (
     <th className='tableHeader'>

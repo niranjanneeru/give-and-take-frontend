@@ -41,18 +41,19 @@ const EmployeePage = () => {
     heading: 'Employee List',
     iconText: 'Create employee',
     iconImg: icon,
-    onClick: () => navigate(`/employees/create`)
+    onClick: () => navigate(`/employees/create`),
+    isTask: false
   };
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
-        <TableHeader userRole={user?.data.role}></TableHeader>
+        <TableHeader userRole={user?.data.role} isTask={false}></TableHeader>
         {employeesData &&
           employeesData.data.map((employee) => (
             <TableRow
               key={employee.id}
-              employee={employee}
+              row={employee}
               onClick={() => onClick(employee.id)}
               onEdit={() => handleEdit(String(employee.id))}
               onDelete={() => {
@@ -64,6 +65,7 @@ const EmployeePage = () => {
                 setId(employee.id);
               }}
               userRole={user?.data.role}
+              isTask={false}
             />
           ))}
         {open ? (
