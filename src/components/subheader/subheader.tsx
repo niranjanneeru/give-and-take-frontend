@@ -42,7 +42,7 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {(!userRole || userRole == 'HR') && iconText ? (
+      {userRole && userRole === 'HR' && iconText ? (
         <a className='subheader-right' onClick={onClick}>
           <div className='icon-edit'>
             <img src={`assets/icons/${iconImg}.svg`} />
