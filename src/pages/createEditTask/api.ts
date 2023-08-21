@@ -8,7 +8,7 @@ const createTaskApi = baseApi.injectEndpoints({
         method: 'POST',
         body
       }),
-      invalidatesTags: ['task.list']
+      invalidatesTags: ['task.list', 'employee.list']
     }),
     updateTask: builder.mutation({
       query: ({ id, ...patch }) => ({

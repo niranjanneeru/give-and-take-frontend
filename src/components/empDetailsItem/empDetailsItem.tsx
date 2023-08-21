@@ -1,3 +1,4 @@
+import SkillBlock from '../skillBlock/skillBlock';
 import Status from '../status/status';
 import './empDetailsItem.css';
 import type { FC } from 'react';
@@ -12,10 +13,12 @@ const DetailsItem: FC<ItemPropTypes> = ({ label, type, value }) => {
   return (
     <div className='emp-item'>
       <span>{label}</span>
-      {type != 'status' ? (
-        <div className='item-value'>{value}</div>
-      ) : (
+      {type === 'status' ? (
         <Status status={value}></Status>
+      ) : label === 'Skills' ? (
+        <SkillBlock value={value} />
+      ) : (
+        <div className='item-value'>{value}</div>
       )}
     </div>
   );
