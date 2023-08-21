@@ -6,11 +6,13 @@ import TableRow from '../../components/tableRow/tableRow';
 import { useNavigate } from 'react-router-dom';
 import DeletePopup from '../../components/deletePopup/deletePopup';
 import { useDeleteEmployeesMutation, useGetEmployeesQuery, useGetUserQuery } from './api';
+import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 
 const EmployeePage = () => {
   const [icon] = useState('pencil');
   const [id, setId] = useState('');
   const [open, setOpen] = useState(false);
+  const [openDirectBounty, setopenDirectBounty] = useState(false);
 
   const { data: employeesData } = useGetEmployeesQuery();
   const [deleteEmp] = useDeleteEmployeesMutation();
@@ -27,6 +29,12 @@ const EmployeePage = () => {
 
   const handleEdit = (id: string) => {
     navigate(`/employees/edit/${id}`);
+  };
+
+  const handleDirectBountyAward = (id: string) => {
+    console.log('id', id);
+    setopenDirectBounty(false);
+    navigate('/employees');
   };
 
   const subheaderProps = {
@@ -51,6 +59,10 @@ const EmployeePage = () => {
                 setOpen(true);
                 setId(employee.id);
               }}
+              onAward={() => {
+                setopenDirectBounty(true);
+                setId(employee.id);
+              }}
               userRole={user?.data.role}
             />
           ))}
@@ -59,6 +71,12 @@ const EmployeePage = () => {
             onConfirm={() => handleDelete(id)}
             onClose={() => setOpen(false)}
           ></DeletePopup>
+        ) : null}
+        {openDirectBounty ? (
+          <DirectBountyPopup
+            onConfirm={() => handleDirectBountyAward(id)}
+            onClose={() => setopenDirectBounty(false)}
+          ></DirectBountyPopup>
         ) : null}
       </table>
     </Layout>
