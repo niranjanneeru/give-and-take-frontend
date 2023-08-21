@@ -31,9 +31,11 @@ const EmployeePage = () => {
     navigate(`/employees/edit/${id}`);
   };
 
-  // const handleDirectBountyAward = (id: string) => {
-  //   console.log('id');
-  // };
+  const handleDirectBountyAward = (id: string) => {
+    console.log('id', id);
+    setopenDirectBounty(false);
+    navigate('/employees');
+  };
 
   const subheaderProps = {
     heading: 'Employee List',
@@ -72,7 +74,7 @@ const EmployeePage = () => {
         ) : null}
         {openDirectBounty ? (
           <DirectBountyPopup
-            onConfirm={() => () => {}}
+            onConfirm={() => handleDirectBountyAward(id)}
             onClose={() => setopenDirectBounty(false)}
           ></DirectBountyPopup>
         ) : null}

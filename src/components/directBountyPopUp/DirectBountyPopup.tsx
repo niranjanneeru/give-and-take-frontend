@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import './DirectBountyPopup.css';
 import PopupInput from '../popupInput/PopupInput';
-import TextArea from '../TextArea/TextArea';
+import TextArea from '../textArea/TextArea';
 
 type DirectBountyPopupType = {
   onClose: () => void;
@@ -9,12 +9,12 @@ type DirectBountyPopupType = {
 };
 
 const DirectBountyPopup: FC<DirectBountyPopupType> = ({ onClose, onConfirm }) => {
-  const [bountyPoints, setBountyPoints] = useState(0);
+  const [bountyPoints, setBountyPoints] = useState('');
   const [reason, setReason] = useState('');
 
   const handleBountyChange = (e: any) => {
-    if (+e.target.value <= 0) {
-      setBountyPoints(0);
+    if (+e.target.value < 0) {
+      setBountyPoints('0');
 
       return;
     }
@@ -52,7 +52,15 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({ onClose, onConfirm }) =>
           </div>
         </div>
         <div className='popupButton1'>
-          <input type='submit' value='Award' className='pop-confirm' onClick={onConfirm} />
+          <input
+            type='submit'
+            value='Award'
+            className='pop-confirm'
+            onClick={() => {
+              console.log(bountyPoints, reason);
+              onConfirm();
+            }}
+          />
         </div>
       </div>
     </div>
