@@ -7,9 +7,9 @@ import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
 import { useGetTaskByIDQuery } from './api';
 import CommentInput from '../../components/commentInput/commentInput';
+import Comment from '../../components/comment/Comment';
 
 const TaskDetails = () => {
-  const [icon] = useState('pencil');
   const navigate = useNavigate();
   const { id } = useParams();
   const [accordian, setAccordian] = useState(true);
@@ -18,8 +18,6 @@ const TaskDetails = () => {
 
   const subheaderProps = {
     heading: 'Task Details',
-    iconText: 'Edit',
-    iconImg: icon,
     isTaskPage: true,
     handleAccordian,
     onClick: () => navigate(`/employees/edit/${id}`)
@@ -57,8 +55,17 @@ const TaskDetails = () => {
           </>
         )}
       </div>
-      <div className='progress-subheader'>
-        <div className='progress'>Progress</div>
+      <div className='progress'>
+        <div className='progress-header'>Comments</div>
+        <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+          <Comment author='author6' date='12/12/12' comment='comment1' attachment='attachment0' />
+          <Comment author='author5' date='12/12/12' comment='comment1' attachment='attachment0' />
+          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment1' />
+          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment2' />
+          <Comment author='author2' date='12/12/12' comment='comment1' attachment='attachment3' />
+          <Comment author='author1' date='12/12/12' comment='comment1' attachment='attachment4' />
+          <Comment author='author0' date='12/12/12' comment='comment1' attachment='attachment5' />
+        </div>
       </div>
       <CommentInput></CommentInput>
     </Layout>
