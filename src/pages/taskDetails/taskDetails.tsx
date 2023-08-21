@@ -7,15 +7,12 @@ import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
 
 const TaskDetails = () => {
-  const [icon] = useState('pencil');
   const navigate = useNavigate();
   const { id } = useParams();
   const [accordian, setAccordian] = useState(true);
 
   const subheaderProps = {
     heading: 'Task Details',
-    iconText: 'Edit',
-    iconImg: icon,
     isTaskPage: true,
     handleAccordian,
     onClick: () => navigate(`/employees/edit/${id}`)
