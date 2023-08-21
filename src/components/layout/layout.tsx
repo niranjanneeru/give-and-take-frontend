@@ -22,12 +22,17 @@ const Layout: FC<LayoutProps> = ({ userRole, subheaderProps, children }) => {
     console.log('here');
     navigate('/tasks');
   };
+  const handleNavigateToLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
     <section>
       <Sidebar
         handleNavigateToEmployeeList={handleNavigateToEmployeeList}
         handleNavigateToTaskList={handleNavigateToTaskList}
+        handleNavigateToLogout={handleNavigateToLogout}
       ></Sidebar>
       <div className='sectionRight'>
         <Header></Header>
