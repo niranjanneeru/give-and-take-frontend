@@ -4,21 +4,25 @@ import './createEditTask.css';
 import FormInput from '../../components/formInput/formInput';
 import { useNavigate, useParams } from 'react-router-dom';
 import MultiValueInput from '../../components/multiValueInput/multiValueInput';
+import { useCreateTaskMutation, useUpdateTaskMutation } from './api';
 
 const CreateEditTask = () => {
   const [details, setDetails] = useState({
-    title: 'implement auth',
-    deadline: '2020-12-12',
+    title: '',
+    deadline: '',
     maxParticipants: 0,
     bounty: 10,
-    skillsRequired: 'java,c,cloud',
-    description: 'hello'
+    skills: '',
+    description: ''
   });
+
+  const [createTask, { data: createData, isSuccess: isSuccessOnCreate }] = useCreateTaskMutation();
+  const [editTask, { data: editData, isSuccess: isSuccessOnEdit }] = useUpdateTaskMutation();
 
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
 
-    key == 'maxParticipants' || key == 'bounty' ? (temp[key] = Number(value)) : (temp[key] = value);
+    key == 'maxParticipants' || key == 'bounty' ? (temp[key] = Number(value)) : (temp[key] = value); // type correcting
     setDetails(temp);
   };
   const { id } = useParams();
@@ -26,17 +30,24 @@ const CreateEditTask = () => {
 
   const navigate = useNavigate();
   const handleSubmit = () => {
-    if (!isEditing) navigate('/tasks');
-    else navigate('/tasks');
+    if (!isEditing) {
+      createTask(details);
+      navigate('/tasks');
+    } else {
+      editTask(details);
+      navigate('/tasks');
+    }
   };
+
+  useEffect(() => {
+    if ((createData && isSuccessOnCreate) || (editData && isSuccessOnEdit)) navigate('/tasks');
+  }, [createData, isSuccessOnCreate, editData, isSuccessOnEdit]);
 
   useEffect(() => {}, [id]); // get task using id
 
   const subheaderProps = {
     heading: isEditing ? 'Edit Task' : 'Create Task'
   };
-
-  console.log('de', details);
 
   return (
     <Layout subheaderProps={subheaderProps}>
@@ -79,10 +90,10 @@ const CreateEditTask = () => {
               onChange={handleChange}
             ></FormInput>
             <MultiValueInput
-              name='skillsRequired'
+              name='skills'
               label='Skills Required'
               placeholder='Enter Skills'
-              value={details.skillsRequired}
+              value={details.skills}
               onChange={handleChange}
             ></MultiValueInput>
           </div>
