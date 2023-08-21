@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  margin: 5px;
 }
 
 .formInputCreate {
@@ -11,6 +12,11 @@
   background-color: #fafafa;
   margin: 10px 0;
   box-sizing: border-box;
-  /* flex-grow: 1; */
-  width: 400px;
+  width: 450px;
+}
+
+.wr textarea{
+  width: 930px;
+  resize: vertical;
+  min-height: 100px;
 }
