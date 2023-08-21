@@ -26,7 +26,6 @@ const TaskDetails = () => {
   function handleAccordian(): void {
     setAccordian(!accordian);
   }
- 
 
   return (
     <Layout subheaderProps={subheaderProps}>
@@ -58,13 +57,18 @@ const TaskDetails = () => {
       <div className='progress'>
         <div className='progress-header'>Comments</div>
         <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-          <Comment author='author6' date='12/12/12' comment='comment1' attachment='attachment0' />
-          <Comment author='author5' date='12/12/12' comment='comment1' attachment='attachment0' />
-          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment1' />
-          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment2' />
-          <Comment author='author2' date='12/12/12' comment='comment1' attachment='attachment3' />
-          <Comment author='author1' date='12/12/12' comment='comment1' attachment='attachment4' />
-          <Comment author='author0' date='12/12/12' comment='comment1' attachment='attachment5' />
+          {taskData &&
+            taskData?.data?.comments.map((comment) => {
+              return (
+                <Comment
+                  key={comment.id}
+                  author={comment?.postedBy?.name}
+                  date={comment?.createdAt}
+                  comment={comment?.comment}
+                  attachment={comment?.url}
+                />
+              );
+            })}
         </div>
       </div>
       <CommentInput></CommentInput>
