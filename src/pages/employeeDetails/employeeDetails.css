@@ -10,3 +10,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
+.tier-img{
+  height: 50px;
+  width: 50px;
+}

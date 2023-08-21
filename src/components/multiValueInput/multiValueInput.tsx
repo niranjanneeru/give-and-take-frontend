@@ -20,7 +20,7 @@ const MultiValueInput: FC<MultiValueInputPropTypes> = ({ label, onChange, value 
       const newValue = event.target.textContent.trim();
 
       if (newValue) {
-        onChange('skillsRequired', [...values, newValue].toString());
+        onChange('skills', [...values, newValue].toString());
         event.target.textContent = '';
       }
       event.preventDefault();
@@ -30,7 +30,7 @@ const MultiValueInput: FC<MultiValueInputPropTypes> = ({ label, onChange, value 
   const handleRemoveValue = (index) => {
     const newValues = values.filter((_, i) => i !== index);
 
-    onChange('skillsRequired', newValues.toString());
+    onChange('skills', newValues.toString());
   };
 
   return (

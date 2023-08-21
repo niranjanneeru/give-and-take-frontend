@@ -29,6 +29,7 @@ const TaskListPage = () => {
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <div className='taskList-container'>
+<<<<<<< HEAD
       <table className='table'>
         <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
         {taskData &&
@@ -43,6 +44,22 @@ const TaskListPage = () => {
           ))}
        </table>
        </div>
+=======
+        <table className='table'>
+          <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
+          {taskData &&
+            taskData.data.map((task) => (
+              <TableRow
+                key={task['id']}
+                row={task}
+                onClick={() => onClick(task['id'])}
+                isTask={true}
+                userRole={user?.data.role}
+              />
+            ))}
+        </table>
+      </div>
+>>>>>>> dev
     </Layout>
   );
 };
