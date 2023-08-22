@@ -1,0 +1,24 @@
+.dropdown-content {
+  list-style: none;
+  position: absolute;
+  top: 3.2em;
+  width: 100%;
+  background: #feffff;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.dropdown-content li:hover {
+  background: #aeaeb1;
+}
+.dropdown-content li a {
+  display: block;
+  padding: 0.7em 0.5em;
+  color: #000000;
+  margin: 0.1em 0;
+  text-decoration: none;
+}
+
+.button-relative:focus + .dropdown-content {
+  visibility: visible;
+}

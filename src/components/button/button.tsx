@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import './styles.css';
+import DropdownContent from '../dropdownContent/dropdownContent';
 
 export type ButtonProps = {
   value: string;
@@ -13,6 +14,7 @@ const Button: FC<ButtonProps> = ({ value, onClick, iconImg }) => {
       {iconImg && <img className='subheader-img' src={`assets/icons/${iconImg}.svg`} />}
 
       <input type='submit' value={value} className='form-login' data-testid='button-test'></input>
+      <DropdownContent value={''}></DropdownContent>
     </div>
   );
 };
