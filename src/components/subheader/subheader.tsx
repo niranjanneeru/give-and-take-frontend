@@ -18,6 +18,8 @@ const Subheader: FC<subheaderProps> = ({
   heading,
   onClick,
   userRole,
+  iconImg,
+  iconText,
   handleAccordian = null,
   isTask,
   isTaskPage = false // clean code
@@ -42,14 +44,15 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {isTask && userRole === 'LEAD' ? (
-        <a className='editTask-button' onClick={onClick}>
-          <Button value='Create Task' iconImg={'plus'}></Button>
+      {isTask && userRole === 'LEAD' && (
+        <a className='editTask-button'>
+          <Button value='Create Task' iconImg={'plus'} onClick={onClick}></Button>
           <Button value='Filter task' iconImg={'filter'}></Button>
         </a>
-      ) : (
+      )}
+      {!isTask && userRole === 'LEAD' && (
         <a className='editTask-button' onClick={onClick}>
-          <Button value='Create Employee' iconImg={'plus'}></Button>
+          <Button value={iconText} iconImg={iconImg}></Button>
         </a>
       )}
       {isTaskPage && (
