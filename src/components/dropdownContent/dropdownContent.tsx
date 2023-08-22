@@ -2,14 +2,14 @@ import type { FC } from 'react';
 import './dropdownContent.css';
 
 export type DropdownProps = {
-  value: string;
+  onClick?: (e) => void;
 };
 
 const DropdownContent: FC<DropdownProps> = () => {
   return (
     <ul className='dropdown-content'>
       <li>
-        <a href='#'>Created</a>
+        <a>Created</a>
       </li>
       <li>
         <a href='#'>In Progress</a>

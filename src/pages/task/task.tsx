@@ -21,7 +21,8 @@ const TaskListPage = () => {
     iconText: 'Create Task',
     iconImg: 'plus',
     onClick: () => navigate('/tasks/create'),
-    isTask: true
+    isTask: true,
+    onFilter: () => {} // pass taskdata
   };
 
   return (
