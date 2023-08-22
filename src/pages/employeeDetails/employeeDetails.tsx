@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './employeeDetails.css';
 import Layout from '../../components/layout/layout';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +7,6 @@ import { useGetUserQuery } from '../employee/api';
 import { getTier } from '../../utils/tiers';
 
 const EmployeeDetails = () => {
-  const [icon] = useState('pencil');
   const { id } = useParams();
 
   const { data: employee } = useGetEmployeeByIDQuery(id);
@@ -18,8 +16,8 @@ const EmployeeDetails = () => {
   const navigate = useNavigate();
   const subheaderProps = {
     heading: 'Employee Details',
-    iconText: 'Edit',
-    iconImg: icon,
+    iconText: 'Edit Employee',
+    iconImg: 'pencil',
     onClick: () => navigate(`/employees/edit/${id}`)
   };
 
@@ -34,7 +32,6 @@ const EmployeeDetails = () => {
             <DetailsItem label='Role' value={employee.data.role.name} type='text' />
             <DetailsItem label='Status' value={employee.data.status} type='status' />
             <DetailsItem label='Department' value={employee.data.department.name} type='text' />
-            <DetailsItem label='Employee ID' value={String(employee.data.id)} type='text' />
             <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
             <DetailsItem label='Tier' value={getTier(employee.data.bounty)} type='text' />
             <DetailsItem label='Badge' type='badge' value={getTier(employee.data.bounty)} />

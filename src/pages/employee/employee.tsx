@@ -10,7 +10,6 @@ import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPo
 import { useCreateTaskMutation } from '../createEditTask/api';
 
 const EmployeePage = () => {
-  const [icon] = useState('pencil');
   const [id, setId] = useState('');
   const [open, setOpen] = useState(false);
   const [openDirectBounty, setopenDirectBounty] = useState(false);
@@ -54,7 +53,7 @@ const EmployeePage = () => {
   const subheaderProps = {
     heading: 'Employee List',
     iconText: 'Create employee',
-    iconImg: icon,
+    iconImg: 'plus',
     onClick: () => navigate(`/employees/create`),
     isTask: false
   };
@@ -63,8 +62,10 @@ const EmployeePage = () => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
 
+  console.log(user);
+
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
         <TableHeader userRole={user?.data.role.name} isTask={false}></TableHeader>
         {employeesData &&
@@ -78,10 +79,10 @@ const EmployeePage = () => {
                 setOpen(true);
                 setId(employee.id);
               }}
-              onAward={() => {
-                setopenDirectBounty(true);
-                setId(employee.id);
-              }}
+              // onAward={() => {
+              //   setopenDirectBounty(true);
+              //   setId(employee.id);
+              // }}
               userRole={user?.data.role.name}
               isTask={false}
             />
