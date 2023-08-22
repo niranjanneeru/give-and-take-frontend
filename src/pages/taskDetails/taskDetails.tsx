@@ -44,9 +44,9 @@ const TaskDetails = () => {
 
   const handleApprove = () => {
     console.log('Approve clicked');
+    console.log(taskData?.data);
     approveTask({
       id: taskData?.data.id,
-      approvedBy: user?.data,
       status: 'COMPLETED'
     });
   };
@@ -77,7 +77,7 @@ const TaskDetails = () => {
   }, [approveData, approveSuccess]);
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
         {isSuccess && (
           <>
