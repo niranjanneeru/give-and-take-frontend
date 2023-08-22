@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './employeeDetails.css';
 import Layout from '../../components/layout/layout';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +7,6 @@ import { useGetUserQuery } from '../employee/api';
 import { getTier } from '../../utils/tiers';
 
 const EmployeeDetails = () => {
-  const [icon] = useState('pencil');
   const { id } = useParams();
 
   const { data: employee } = useGetEmployeeByIDQuery(id);
@@ -18,8 +16,8 @@ const EmployeeDetails = () => {
   const navigate = useNavigate();
   const subheaderProps = {
     heading: 'Employee Details',
-    iconText: 'Edit',
-    iconImg: icon,
+    iconText: 'Edit Employee',
+    iconImg: 'pencil',
     onClick: () => navigate(`/employees/edit/${id}`)
   };
 

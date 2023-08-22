@@ -89,10 +89,7 @@ height: 55px;
 margin-top: 12px;
 margin-left:-10px;
 }
-img {
-  max-width: 100%;
-  height: auto;
-}
+
 .send-button {
   padding: 8px 16px;
   border: none;

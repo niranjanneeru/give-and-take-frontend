@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useGetTasksQuery } from './api';
@@ -8,7 +7,6 @@ import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 
 const TaskListPage = () => {
-  const [icon] = useState('pencil');
   const navigate = useNavigate();
 
   // add use effect
@@ -21,7 +19,7 @@ const TaskListPage = () => {
   const subheaderProps = {
     heading: 'TASKS',
     iconText: 'Create Task',
-    iconImg: icon,
+    iconImg: 'plus',
     onClick: () => navigate('/tasks/create'),
     isTask: true
   };

@@ -1,17 +1,27 @@
-.relative {
-  position: relative;
-  margin: 0px 0px 0px 0px;
-}
-
-.form-login {
-  margin: 10px 0;
+.button-relative {
+  display: flex;
+  margin: 10px 0px;
   padding: 15px;
-  border: none;
   border-radius: 5px;
-  width: 100%;
   background-color: #a18b9e;
   color: #fff;
   cursor: pointer;
   font-weight: bold;
   box-shadow: 0px 5px 5px #43465f;
+  justify-content: center;
+  gap: 5px;
+  height: 50px;
+  min-width: 110px;
+}
+
+.form-login {
+  background-color: #a18b9e;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+}
+
+.subheader-img {
+  width: 20px;
 }
