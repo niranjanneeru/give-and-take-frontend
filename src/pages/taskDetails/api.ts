@@ -27,8 +27,7 @@ const taskDetailsApi = baseApi.injectEndpoints({
     addAssignee: builder.mutation({
       query: ({ taskId, assigneeId }) => ({
         url: `/tasks/${taskId}/assignees/${assigneeId}`,
-        method: 'patch',
-        body:{}
+        method: 'PATCH'
       }),
       invalidatesTags: ['task.detail']
     })

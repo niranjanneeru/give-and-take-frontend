@@ -23,24 +23,31 @@ const TaskDetails = () => {
 
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
 
+  console.log(taskData?.data);
+
   const { data: user } = useGetUserQuery();
   const userId = user?.data?.id;
 
   const [addAssignee] = useAddAssigneeMutation();
 
   function handleJoin() {
-    console.log('inside join', user.data.id);
     addAssignee({ taskId: id, assigneeId: userId });
   }
 
   const [addComments] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
+
   const subheaderProps = {
     heading: 'Task Details',
     isTaskPage: true,
     handleAccordian,
     handleJoin,
-    taskStatus: 'CREATED',
+    taskStatus:
+      taskData?.data.status !== 'COMPLETED' &&
+      taskData?.data.assignees.length < taskData?.data.maxParticipants &&
+      !taskData?.data.assignees.find((assignee) => assignee.id === userId)
+        ? true
+        : false,
     onClick: () => navigate(`/employees/edit/${id}`)
   };
 
