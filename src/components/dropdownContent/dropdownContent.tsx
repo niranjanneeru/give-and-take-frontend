@@ -9,19 +9,19 @@ const DropdownContent: FC<DropdownProps> = () => {
   return (
     <ul className='dropdown-content'>
       <li>
-        <a href='#'>Status - Created</a>
+        <a href='#'>Created</a>
       </li>
       <li>
-        <a href='#'>Status - In Progress</a>
+        <a href='#'>In Progress</a>
       </li>
       <li>
-        <a href='#'>Status - Completed</a>
+        <a href='#'>Completed</a>
       </li>
       <li>
-        <a href='#'>EXPIRED</a>
+        <a href='#'>Expired</a>
       </li>
       <li>
-        <a href='#'>DIRECT BOUNTY</a>
+        <a href='#'>Direct Bounty</a>
       </li>
     </ul>
   );
