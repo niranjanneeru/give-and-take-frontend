@@ -5,9 +5,15 @@ import './taskDetails.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
-import { useAddCommentsMutation, useGetTaskByIDQuery, useUploadFileMutation } from './api';
+import {
+  useAddAssigneeMutation,
+  useAddCommentsMutation,
+  useGetTaskByIDQuery,
+  useUploadFileMutation
+} from './api';
 import CommentInput from '../../components/commentInput/commentInput';
 import Comment from '../../components/comment/Comment';
+import { useGetUserQuery } from '../employee/api';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
@@ -17,12 +23,24 @@ const TaskDetails = () => {
 
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
 
+  const { data: user } = useGetUserQuery();
+  const userId = user?.data?.id;
+
+  const [addAssignee] = useAddAssigneeMutation();
+
+  function handleJoin() {
+    console.log('inside join', user.data.id);
+    addAssignee({ taskId: id, assigneeId: userId });
+  }
+
   const [addComments] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
   const subheaderProps = {
     heading: 'Task Details',
     isTaskPage: true,
     handleAccordian,
+    handleJoin,
+    taskStatus: 'CREATED',
     onClick: () => navigate(`/employees/edit/${id}`)
   };
 

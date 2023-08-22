@@ -8,6 +8,8 @@ type subheaderProps = {
   iconText?: string;
   iconImg?: string;
   onClick?: (e) => void;
+  handleJoin?: (e) => void;
+  taskStatus?: string;
   handleAccordian?;
   isTaskPage?: boolean;
   userRole?: string;
@@ -19,6 +21,7 @@ const Subheader: FC<subheaderProps> = ({
   iconText,
   iconImg,
   onClick,
+  handleJoin,
   userRole,
   handleAccordian = null,
   isTask,
@@ -56,7 +59,7 @@ const Subheader: FC<subheaderProps> = ({
       )}
       {isTaskPage && (
         <div className='editTask-button'>
-          <Button value='  Join   ' onClick={() => {}} />
+          {<Button value='  Join   ' onClick={handleJoin} />}
           <Button value='Approve' />
           <Button value='  Edit   ' />
           <Button value='Delete ' />

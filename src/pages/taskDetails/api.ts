@@ -23,6 +23,14 @@ const taskDetailsApi = baseApi.injectEndpoints({
         method: 'post',
         body
       })
+    }),
+    addAssignee: builder.mutation({
+      query: ({ taskId, assigneeId }) => ({
+        url: `/tasks/${taskId}/assignees/${assigneeId}`,
+        method: 'patch',
+        body:{}
+      }),
+      invalidatesTags: ['task.detail']
     })
   })
 });
@@ -33,5 +41,6 @@ export const {
   useGetTaskByIDQuery,
   useAddCommentsMutation,
   useUploadFileMutation,
-  useLazyGetTaskByIDQuery
+  useLazyGetTaskByIDQuery,
+  useAddAssigneeMutation
 } = taskDetailsApi;
