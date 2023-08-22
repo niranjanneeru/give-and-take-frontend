@@ -63,6 +63,16 @@ function FileSelector({ setVisible, handleFileUpload }) {
             <p>Drag and drop a file here</p>
           )}
         </div>
+        {!selectedFile && (
+          <input
+            type='file'
+            onChange={(e) => {
+              const file = e.target.files[0];
+
+              setSelectedFile(file);
+            }}
+          />
+        )}
       </div>
     </div>
   );
