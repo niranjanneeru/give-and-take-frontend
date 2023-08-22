@@ -21,7 +21,7 @@ const TableHeader = ({ userRole, isTask }) => {
     'Assignees'
   ];
 
-  if (userRole == 'HR') empHeaderData.push('Action');
+  if (userRole == 'LEAD') empHeaderData.push('Action');
   const headerData = isTask ? taskHeaderData : empHeaderData;
 
   return (
