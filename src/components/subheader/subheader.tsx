@@ -44,7 +44,7 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {(isTask || userRole === 'HR') && iconText ? (
+      {(isTask || userRole === 'LEAD') && iconText ? (
         <a className='subheader-right' onClick={onClick}>
           <div className='icon-edit'>
             <img src={`assets/icons/${iconImg}.svg`} />
@@ -56,7 +56,7 @@ const Subheader: FC<subheaderProps> = ({
       )}
       {isTaskPage && (
         <div className='editTask-button'>
-          <Button value='  Join   ' />
+          <Button value='  Join   ' onClick={() => {}} />
           <Button value='Approve' />
           <Button value='  Edit   ' />
           <Button value='Delete ' />

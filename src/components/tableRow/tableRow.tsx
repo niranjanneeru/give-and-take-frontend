@@ -36,12 +36,14 @@ const TableRow: FC<tableRowProps> = ({
             `${row['employees'].length}/${row['maxParticipants']}`
           ) : key === 'skills' ? (
             <SkillBlock value={row['skills']} />
+          ) : key === 'role' ? (
+            row[key].name
           ) : (
             row[key]
           )}
         </td>
       ))}
-      {userRole == 'HR' && !isTask && (
+      {userRole == 'LEAD' && !isTask && (
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />

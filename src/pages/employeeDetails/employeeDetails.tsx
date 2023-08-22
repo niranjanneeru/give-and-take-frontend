@@ -31,7 +31,7 @@ const EmployeeDetails = () => {
             <DetailsItem label='Employee Name' value={employee.data.name} type='text' />
             <DetailsItem label='Joining Date' value={employee.data.joiningDate} type='text' />
             <DetailsItem label='Experience' value={String(employee.data.experience)} type='text' />
-            <DetailsItem label='Role' value={employee.data.role} type='text' />
+            <DetailsItem label='Role' value={employee.data.role.name} type='text' />
             <DetailsItem label='Status' value={employee.data.status} type='status' />
             <DetailsItem label='Department' value={employee.data.department.name} type='text' />
             <DetailsItem label='Employee ID' value={String(employee.data.id)} type='text' />
