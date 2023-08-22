@@ -78,7 +78,7 @@ const CreateEmployee = () => {
   };
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
       <div className='form'>
         <div className='input-flex'>
           {departments && roles && (
@@ -123,7 +123,7 @@ const CreateEmployee = () => {
                 type='select'
                 placeholder={isEditing ? details.role : 'Choose Role'}
                 value={details.role}
-                options={roles.data}
+                options={roles.data.map((role) => role.name)}
                 onChange={handleChange}
               ></FormInput>
               <FormInput

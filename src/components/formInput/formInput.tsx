@@ -8,7 +8,7 @@ type FormInputPropTypes = {
   placeholder: string;
   value: string;
   onChange?(key: string, value: string): void;
-  options?: string[];
+  options?: any;
 };
 
 const FormInput: FC<FormInputPropTypes> = ({

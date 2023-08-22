@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FileSelector from '../fileSelector/fileSelector';
+import './commentInput.css';
 
 export default function CommentInput({ sendComment, uploadFile }) {
   const [markdownText, setMarkdownText] = useState('');
@@ -36,13 +37,17 @@ export default function CommentInput({ sendComment, uploadFile }) {
             setFileSelectionPopUp(true);
           }}
         >
-          <img src='assets/img/add.png' />
+          <img className='comment-box-icons' src='assets/img/add.png' />
         </button>
         <button className='preview-button' onClick={togglePreview}>
-          {showPreview ? <img src='assets/img/view.png' /> : <img src='assets/img/hide.png' />}
+          {showPreview ? (
+            <img className='comment-box-icons' src='assets/img/view.png' />
+          ) : (
+            <img className='comment-box-icons' src='assets/img/hide.png' />
+          )}
         </button>
         <button className='send-button' onClick={handleSend}>
-          <img src='assets/img/send.png' />
+          <img className='comment-box-icons' src='assets/img/send.png' />
         </button>
       </div>
       {fileSelection && (
