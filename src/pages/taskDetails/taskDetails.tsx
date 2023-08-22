@@ -160,19 +160,6 @@ const TaskDetails = () => {
                 />
               );
             })}
-          {/* {taskData &&
-            taskData?.data?.comments.map((comment) => {
-              return (
-                <Comment
-                  key={comment.id}
-                  author={comment?.postedBy?.name}
-                  date={comment?.createdAt}
-                  comment={comment?.comment}
-                  attachment={comment?.url}
-                  isCurrentUserComment={false}
-                />
-              );
-            })} */}
         </div>
         {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
       </div>
