@@ -21,7 +21,7 @@ const Sidebar = ({
           </a>
           <a onClick={handleNavigateToTaskList}>
             <div className='icon-li'>
-              <img src='assets/icons/employees.svg' />
+              <img src='assets/img/to-do-list.png' />
             </div>
             <span>Task List</span>
           </a>

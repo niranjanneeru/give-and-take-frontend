@@ -23,7 +23,7 @@ const Comment: React.FC<CommentPropsType> = ({ author, date, comment, attachment
         <MarkDownRenderer content={comment} />
       </div>
       {attachment && (
-        <div className='comment-attachment' style={{ color: 'red' }}>
+        <div className='comment-attachment' style={{ color: '#535778' }}>
           <a href={attachment} target='blank'>
             Attachment
           </a>

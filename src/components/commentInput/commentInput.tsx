@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FileSelector from '../fileSelector/fileSelector';
 
 export default function CommentInput({ sendComment, uploadFile }) {
   const [markdownText, setMarkdownText] = useState('');
   const [fileSelection, setFileSelectionPopUp] = useState(false);
 
+  const [showPreview, setShowPreview] = useState(true);
+
+  const togglePreview = () => {
+    setShowPreview(!showPreview);
+
+  
   const handleSend = () => {
     if (markdownText.trim() === '') return;
     sendComment(markdownText);
@@ -31,6 +37,9 @@ export default function CommentInput({ sendComment, uploadFile }) {
           }}
         >
           <img src='assets/img/add.png' />
+        </button>
+        <button className='preview-button' onClick={togglePreview}>
+          {showPreview ? <img src='assets/img/view.png' /> : <img src='assets/img/hide.png' />}
         </button>
         <button className='send-button' onClick={handleSend}>
           <img src='assets/img/send.png' />

@@ -3,7 +3,7 @@
   /* height: 400px; */
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #f8eae2;
   border-radius: 7px;
   margin-left: 20px;
   /* margin: 20px 20px; */
@@ -32,10 +32,11 @@
 
 .commentBox {
   position: sticky;
-  bottom: px;
+  bottom: 0px;
   border-radius: 5px;
   border: 1px solid #000;
-  background: #ecebeb;
+  background-color: #f8eae2;
+
   display: flex;
   flex-direction: column;
   margin: 0px 20px 0px 20px;
@@ -70,11 +71,23 @@
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
-  background-color: #ecebeb;
+  background-color: #f8eae2;
   cursor: pointer;
-  width: 50px;
-  height: 50px;
-  margin-top: 17px;
+  width: 55px;
+  height: 55px;
+  margin-top: 12px;
+  gap: 5px;
+}
+.preview-button{
+padding: 8px 16px;
+border: none;
+border-radius: 5px;
+background-color: #f8eae2;
+cursor: pointer;
+width: 55px;
+height: 55px;
+margin-top: 12px;
+margin-left:-10px;
 }
 img {
   max-width: 100%;
@@ -83,17 +96,18 @@ img {
 .send-button {
   padding: 8px 16px;
   border: none;
-  background-color: #ecebeb;
+  background-color: #f8eae2;
   border-radius: 5px;
   cursor: pointer;
-  width: 50px;
-  height: 50px;
-  margin-top: 17px;
+  width: 55px;
+  height: 55px;
+  margin-top: 12px;
+  margin-left: auto;
 }
 .progress {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #535778;
   border-radius: 7px;
   margin: 20px 20px;
   padding-left: 15px;
@@ -112,8 +126,10 @@ img {
   font-weight: bold;
   align-self: flex-start;
   margin-left: 16px;
+  color: #ffff;
   margin-top: 16px;
   width: 100%;
+  padding-bottom: 10px;
 }
 
 .progress-content {

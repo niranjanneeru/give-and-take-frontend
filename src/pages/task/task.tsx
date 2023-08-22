@@ -31,16 +31,18 @@ const TaskListPage = () => {
       <div className='taskList-container'>
         <table className='table'>
           <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
-          {taskData &&
-            taskData.data.map((task) => (
-              <TableRow
-                key={task['id']}
-                row={task}
-                onClick={() => onClick(task['id'])}
-                isTask={true}
-                userRole={user?.data.role}
-              />
-            ))}
+          <div className='scroll-tr'>
+            {taskData &&
+              taskData.data.map((task) => (
+                <TableRow
+                  key={task['id']}
+                  row={task}
+                  onClick={() => onClick(task['id'])}
+                  isTask={true}
+                  userRole={user?.data.role}
+                />
+              ))}
+          </div>
         </table>
       </div>
     </Layout>

@@ -37,13 +37,8 @@ const EmployeeDetails = () => {
             <DetailsItem label='Employee ID' value={String(employee.data.id)} type='text' />
             <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
             <DetailsItem label='Tier' value={getTier(employee.data.bounty)} type='text' />
+            <DetailsItem label='Badge' type='badge' value={getTier(employee.data.bounty)} />
           </>
-        )}
-        {employee && (
-          <img
-            className='tier-img'
-            src={`/assets/img/tiers/${getTier(employee.data.bounty)}.png`}
-          />
         )}
       </div>
     </Layout>
