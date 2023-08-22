@@ -18,7 +18,7 @@ const taskDetailsApi = baseApi.injectEndpoints({
       invalidatesTags: ['task.detail']
     }),
     uploadFile: builder.mutation({
-      query:(body) => ({
+      query: (body) => ({
         url: 'uploads',
         method: 'post',
         body
@@ -29,6 +29,9 @@ const taskDetailsApi = baseApi.injectEndpoints({
 
 export default taskDetailsApi;
 
-export const { useGetTaskByIDQuery, useAddCommentsMutation, useUploadFileMutation } = taskDetailApi;
-
-
+export const {
+  useGetTaskByIDQuery,
+  useAddCommentsMutation,
+  useUploadFileMutation,
+  useLazyGetTaskByIDQuery
+} = taskDetailsApi;

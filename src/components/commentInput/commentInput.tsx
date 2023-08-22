@@ -9,8 +9,8 @@ export default function CommentInput({ sendComment, uploadFile }) {
 
   const togglePreview = () => {
     setShowPreview(!showPreview);
+  };
 
-  
   const handleSend = () => {
     if (markdownText.trim() === '') return;
     sendComment(markdownText);
