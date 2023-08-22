@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FileSelector from '../fileSelector/fileSelector';
 import './commentInput.css';
+import PreviewComponent from '../previewComponent/previewComponent';
 
 export default function CommentInput({ sendComment, uploadFile }) {
   const [markdownText, setMarkdownText] = useState('');
@@ -12,6 +13,10 @@ export default function CommentInput({ sendComment, uploadFile }) {
     setShowPreview(!showPreview);
   };
 
+  const receiveMarkdown = (text) => {
+    setMarkdownText(text);
+  };
+
   const handleSend = () => {
     if (markdownText.trim() === '') return;
     sendComment(markdownText);
@@ -20,7 +25,7 @@ export default function CommentInput({ sendComment, uploadFile }) {
 
   return (
     <div className='commentBox'>
-      <div className='comment-text' contentEditable='true'>
+      <div className='comment-text'>
         <textarea
           className='comment-textbox'
           placeholder='Type your message...'
@@ -56,6 +61,15 @@ export default function CommentInput({ sendComment, uploadFile }) {
           setVisible={() => {
             setFileSelectionPopUp(false);
           }}
+        />
+      )}
+      {!showPreview && (
+        <PreviewComponent
+          value={markdownText}
+          setVisible={() => {
+            togglePreview();
+          }}
+          sendMarkdown={receiveMarkdown}
         />
       )}
     </div>
