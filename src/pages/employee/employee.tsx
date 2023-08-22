@@ -78,10 +78,10 @@ const EmployeePage = () => {
                 setOpen(true);
                 setId(employee.id);
               }}
-              onAward={() => {
-                setopenDirectBounty(true);
-                setId(employee.id);
-              }}
+              // onAward={() => {
+              //   setopenDirectBounty(true);
+              //   setId(employee.id);
+              // }}
               userRole={user?.data.role.name}
               isTask={false}
             />
