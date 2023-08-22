@@ -34,7 +34,7 @@ const Subheader: FC<subheaderProps> = ({
   handleDelete = null,
   handleEdit = null
 }) => {
-  const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
+  const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);
 
   return (
     <div className='subheader'>
@@ -45,9 +45,9 @@ const Subheader: FC<subheaderProps> = ({
             className='accordion'
             onClick={() => {
               handleAccordian();
-              if (icon === 'assets/img/accordion-logo.png')
-                setIcon('assets/img/accordion-logo-opp.png');
-              else setIcon('assets/img/accordion-logo.png');
+              if (icon === 'assets/img/icons8-expand-arrow-50.png')
+                setIcon('assets/img/icons8-collapse-arrow-50.png');
+              else setIcon('assets/img/icons8-expand-arrow-50.png');
             }}
           >
             <img src={icon} />
