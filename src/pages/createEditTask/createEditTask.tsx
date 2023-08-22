@@ -2,41 +2,80 @@ import Layout from '../../components/layout/layout';
 import { useEffect, useState } from 'react';
 import './createEditTask.css';
 import FormInput from '../../components/formInput/formInput';
-import { useNavigate, useParams } from 'react-router-dom';
 import MultiValueInput from '../../components/multiValueInput/multiValueInput';
+import { useCreateTaskMutation, useUpdateTaskMutation } from './api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useLazyGetTaskByIDQuery } from '../taskDetails/api';
 
 const CreateEditTask = () => {
   const [details, setDetails] = useState({
-    title: 'implement auth',
-    deadline: '2020-12-12',
-    maxParticipants: 0,
-    bounty: 10,
-    skillsRequired: 'java,c,cloud',
-    description: 'hello'
+    title: '',
+    deadline: '',
+    maxParticipants: null,
+    bounty: null,
+    skills: '',
+    description: ''
   });
+  const navigate = useNavigate();
+  const [createTask, { data: createData, isSuccess: isSuccessOnCreate }] = useCreateTaskMutation();
+  const [editTask, { data: editData, isSuccess: isSuccessOnEdit }] = useUpdateTaskMutation();
+  const [getTask, { data: taskData, isSuccess: isSuccessOnGetLazy }] = useLazyGetTaskByIDQuery();
 
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
 
-    key == 'maxParticipants' || key == 'bounty' ? (temp[key] = Number(value)) : (temp[key] = value);
+    key == 'maxParticipants' || key == 'bounty' ? (temp[key] = Number(value)) : (temp[key] = value); // type correcting
     setDetails(temp);
   };
   const { id } = useParams();
   const isEditing = !!id;
 
-  const navigate = useNavigate();
   const handleSubmit = () => {
-    if (!isEditing) navigate('/tasks');
-    else navigate('/tasks');
+    if (!isEditing) createTask(details);
+    else editTask({ id, ...details });
   };
 
-  useEffect(() => {}, [id]); // get task using id
+  useEffect(() => {
+    if (id) getTask(id);
+  }, [id]);
+
+  useEffect(() => {
+    if ((createData && isSuccessOnCreate) || (editData && isSuccessOnEdit)) navigate('/tasks');
+  }, [createData, isSuccessOnCreate, editData, isSuccessOnEdit]);
+
+  useEffect(() => {
+    if (taskData && isSuccessOnGetLazy) {
+      const updateDetails = taskData?.data;
+
+      // List of properties to update
+      const propertiesToUpdate = [
+        'title',
+        'deadline',
+        'maxParticipants',
+        'bounty',
+        'skills',
+        'description'
+      ];
+
+      // Update only specific properties of the `details` object
+      setDetails((prevDetails) => {
+        const updatedDetails = { ...prevDetails }; // Copy the existing details
+
+        propertiesToUpdate.forEach((property) => {
+          if (updateDetails[property] !== undefined && updateDetails[property] !== null)
+            updatedDetails[property] = updateDetails[property];
+        });
+
+        return updatedDetails;
+      });
+    }
+  }, [taskData, isSuccessOnGetLazy]);
 
   const subheaderProps = {
     heading: isEditing ? 'Edit Task' : 'Create Task'
   };
 
-  console.log('de', details);
+  console.log('details', details);
 
   return (
     <Layout subheaderProps={subheaderProps}>
@@ -79,10 +118,10 @@ const CreateEditTask = () => {
               onChange={handleChange}
             ></FormInput>
             <MultiValueInput
-              name='skillsRequired'
+              name='skills'
               label='Skills Required'
               placeholder='Enter Skills'
-              value={details.skillsRequired}
+              value={details.skills}
               onChange={handleChange}
             ></MultiValueInput>
           </div>

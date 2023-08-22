@@ -6,7 +6,8 @@ const taskApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/tasks',
         method: 'get'
-      })
+      }),
+      providesTags: ['task.list']
     })
   })
 });
