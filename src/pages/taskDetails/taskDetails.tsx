@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DetailsItem from '../../components/empDetailsItem/empDetailsItem';
 import Layout from '../../components/layout/layout';
 import './taskDetails.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
-import { useGetTaskByIDQuery } from './api';
+import { useAddCommentsMutation, useGetTaskByIDQuery, useUploadFileMutation } from './api';
 import CommentInput from '../../components/commentInput/commentInput';
 import Comment from '../../components/comment/Comment';
 
@@ -13,9 +13,12 @@ const TaskDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accordian, setAccordian] = useState(true);
+  const [fileUrl, setFileUrl] = useState(null);
 
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
 
+  const [addComments] = useAddCommentsMutation();
+  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
   const subheaderProps = {
     heading: 'Task Details',
     isTaskPage: true,
@@ -26,6 +29,28 @@ const TaskDetails = () => {
   function handleAccordian(): void {
     setAccordian(!accordian);
   }
+
+
+  function sendComment(comment) {
+    addComments({
+      id,
+      body: {
+        comment,
+        url: fileUrl
+      }
+    });
+  }
+
+  function uploadFile(file) {
+    const formData = new FormData();
+
+    formData.append('file', file);
+    addFiles(formData);
+  }
+
+  useEffect(() => {
+    if (isFileUploadSuccess) setFileUrl(fileData.data.url);
+  }, [isFileUploadSuccess]);
 
   return (
     <Layout subheaderProps={subheaderProps}>
@@ -57,16 +82,21 @@ const TaskDetails = () => {
       <div className='progress'>
         <div className='progress-header'>Comments</div>
         <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-          <Comment author='author6' date='12/12/12' comment='comment1' attachment='attachment0' />
-          <Comment author='author5' date='12/12/12' comment='comment1' attachment='attachment0' />
-          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment1' />
-          <Comment author='author4' date='12/12/12' comment='comment1' attachment='attachment2' />
-          <Comment author='author2' date='12/12/12' comment='comment1' attachment='attachment3' />
-          <Comment author='author1' date='12/12/12' comment='comment1' attachment='attachment4' />
-          <Comment author='author0' date='12/12/12' comment='comment1' attachment='attachment5' />
+          {taskData &&
+            taskData?.data?.comments.map((comment) => {
+              return (
+                <Comment
+                  key={comment.id}
+                  author={comment?.postedBy?.name}
+                  date={comment?.createdAt}
+                  comment={comment?.comment}
+                  attachment={comment?.url}
+                />
+              );
+            })}
         </div>
       </div>
-      <CommentInput></CommentInput>
+      <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
     </Layout>
   );
 };
