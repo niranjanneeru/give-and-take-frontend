@@ -4,12 +4,12 @@ const TableHeader = ({ userRole, isTask }) => {
   console.log(userRole);
   const empHeaderData = [
     'Employee Name',
-    'Employee ID',
     'Joining Date',
     'Role',
     'Status',
     'Experience',
-    'Bounty Points'
+    'Bounty Points',
+    'Tier'
   ];
 
   const taskHeaderData = [
@@ -21,7 +21,7 @@ const TableHeader = ({ userRole, isTask }) => {
     'Assignees'
   ];
 
-  if (userRole == 'HR') empHeaderData.push('Action');
+  if (userRole == 'LEAD') empHeaderData.push('Action');
   const headerData = isTask ? taskHeaderData : empHeaderData;
 
   return (

@@ -29,13 +29,17 @@ const TaskDetails = () => {
   }
 
   function sendComment(comment) {
-    addComments({
+    const data = {
       id,
       body: {
-        comment,
-        url: fileUrl
+        comment
       }
-    });
+    };
+
+    if (fileUrl) data.body['url'] = fileUrl;
+
+    addComments(data);
+    setFileUrl(null);
   }
 
   const handleApprove = () => {
@@ -73,7 +77,7 @@ const TaskDetails = () => {
   }, [approveData, approveSuccess]);
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
       <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
         {isSuccess && (
           <>
