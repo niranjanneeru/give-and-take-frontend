@@ -8,11 +8,18 @@ type CommentPropsType = {
   date: string;
   comment: string;
   attachment: string;
+  isCurrentUserComment: boolean;
 };
 
-const Comment: React.FC<CommentPropsType> = ({ author, date, comment, attachment }) => {
+const Comment: React.FC<CommentPropsType> = ({
+  author,
+  date,
+  comment,
+  attachment,
+  isCurrentUserComment
+}) => {
   return (
-    <div className='comment-div'>
+    <div className={isCurrentUserComment ? 'sent-comment' : 'received-comment'}>
       <div className='comment-creator'>
         <div>
           <span style={{ fontWeight: 600 }}>{`${author}  `} </span>

@@ -90,12 +90,26 @@ const TaskDetails = () => {
                   date={comment?.createdAt}
                   comment={comment?.comment}
                   attachment={comment?.url}
+                  isCurrentUserComment={true}
+                />
+              );
+            })}
+             {taskData &&
+            taskData?.data?.comments.map((comment) => {
+              return (
+                <Comment
+                  key={comment.id}
+                  author={comment?.postedBy?.name}
+                  date={comment?.createdAt}
+                  comment={comment?.comment}
+                  attachment={comment?.url}
+                  isCurrentUserComment={false}
                 />
               );
             })}
         </div>
+        <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
       </div>
-      <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
     </Layout>
   );
 };
