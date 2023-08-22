@@ -1,6 +1,6 @@
 import baseApi from '../../services';
 
-const taskDetailApi = baseApi.injectEndpoints({
+const taskDetailsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getTaskByID: builder.query<any, string>({
       query: (id) => ({
@@ -27,6 +27,8 @@ const taskDetailApi = baseApi.injectEndpoints({
   })
 });
 
-export default taskDetailApi;
+export default taskDetailsApi;
 
 export const { useGetTaskByIDQuery, useAddCommentsMutation, useUploadFileMutation } = taskDetailApi;
+
+
