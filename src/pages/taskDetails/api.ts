@@ -30,6 +30,13 @@ const taskDetailsApi = baseApi.injectEndpoints({
         method: 'PATCH'
       }),
       invalidatesTags: ['task.detail']
+    }),
+    deleteTask: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/tasks/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['task.list']
     })
   })
 });
@@ -41,5 +48,6 @@ export const {
   useAddCommentsMutation,
   useUploadFileMutation,
   useLazyGetTaskByIDQuery,
-  useAddAssigneeMutation
+  useAddAssigneeMutation,
+  useDeleteTaskMutation
 } = taskDetailsApi;

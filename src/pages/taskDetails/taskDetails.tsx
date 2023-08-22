@@ -8,12 +8,14 @@ import ParticipantList from '../../components/participants/participants';
 import {
   useAddAssigneeMutation,
   useAddCommentsMutation,
+  useDeleteTaskMutation,
   useGetTaskByIDQuery,
   useUploadFileMutation
 } from './api';
 import CommentInput from '../../components/commentInput/commentInput';
 import Comment from '../../components/comment/Comment';
 import { useGetUserQuery } from '../employee/api';
+import { useUpdateTaskMutation } from '../createEditTask/api';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
@@ -22,8 +24,6 @@ const TaskDetails = () => {
   const [fileUrl, setFileUrl] = useState(null);
 
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
-
-  console.log(taskData?.data);
 
   const { data: user } = useGetUserQuery();
   const userId = user?.data?.id;
@@ -37,19 +37,8 @@ const TaskDetails = () => {
   const [addComments] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
 
-  const subheaderProps = {
-    heading: 'Task Details',
-    isTaskPage: true,
-    handleAccordian,
-    handleJoin,
-    taskStatus:
-      taskData?.data.status !== 'COMPLETED' &&
-      taskData?.data.assignees.length < taskData?.data.maxParticipants &&
-      !taskData?.data.assignees.find((assignee) => assignee.id === userId)
-        ? true
-        : false,
-    onClick: () => navigate(`/employees/edit/${id}`)
-  };
+  const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
 
   function handleAccordian(): void {
     setAccordian(!accordian);
@@ -69,6 +58,25 @@ const TaskDetails = () => {
     setFileUrl(null);
   }
 
+  const handleApprove = () => {
+    console.log('Approve clicked');
+    console.log(taskData?.data);
+    approveTask({
+      id: taskData?.data.id,
+      status: 'COMPLETED'
+    });
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/tasks/edit/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Delete ${id}`);
+    deleteTask(id);
+    navigate('/tasks');
+  };
+
   function uploadFile(file) {
     const formData = new FormData();
 
@@ -76,12 +84,39 @@ const TaskDetails = () => {
     addFiles(formData);
   }
 
+  const isApproved = taskData?.data.status === 'COMPLETED';
+
+  const subheaderProps = {
+    heading: 'Task Details',
+    isTaskPage: isApproved ? false : true,
+    handleAccordian,
+    handleJoin,
+    taskStatus:
+      taskData?.data.status !== 'COMPLETED' &&
+      taskData?.data.assignees.length < taskData?.data.maxParticipants &&
+      !taskData?.data.assignees.find((assignee) => assignee.id === userId)
+        ? true
+        : false,
+    onClick: () => navigate(`/employees/edit/${id}`),
+    handleApprove: handleApprove,
+    handleEdit: () => {
+      handleEdit(id);
+    },
+    handleDelete: () => {
+      handleDelete(id);
+    }
+  };
+
   useEffect(() => {
     if (isFileUploadSuccess) setFileUrl(fileData.data.url);
   }, [isFileUploadSuccess]);
 
+  useEffect(() => {
+    if (approveData && approveSuccess) navigate(`/tasks/${id}`);
+  }, [approveData, approveSuccess]);
+
   return (
-    <Layout subheaderProps={subheaderProps}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
         {isSuccess && (
           <>
@@ -124,7 +159,7 @@ const TaskDetails = () => {
             })}
         </div>
       </div>
-      <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
+      {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
     </Layout>
   );
 };
