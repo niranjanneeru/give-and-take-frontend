@@ -60,7 +60,7 @@ const Subheader: FC<subheaderProps> = ({
           <Button value='Filter task' iconImg={'filter'}></Button>
         </a>
       )}
-      {!isTask && userRole === 'LEAD' && (
+      {!isTask && userRole === 'LEAD' && iconText && (
         <a className='editTask-button' onClick={onClick}>
           <Button value={iconText} iconImg={iconImg}></Button>
         </a>
