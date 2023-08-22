@@ -31,13 +31,17 @@ const TaskDetails = () => {
   }
 
   function sendComment(comment) {
-    addComments({
+    const data = {
       id,
       body: {
-        comment,
-        url: fileUrl
+        comment
       }
-    });
+    };
+
+    if (fileUrl) data.body['url'] = fileUrl;
+
+    addComments(data);
+    setFileUrl(null);
   }
 
   function uploadFile(file) {
