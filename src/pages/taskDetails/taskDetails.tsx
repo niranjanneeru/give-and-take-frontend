@@ -141,8 +141,8 @@ const TaskDetails = () => {
               );
             })}
         </div>
+        {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
       </div>
-      {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
     </Layout>
   );
 };
