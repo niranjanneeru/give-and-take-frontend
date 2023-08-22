@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
 import {
+  useAddAssigneeMutation,
   useAddCommentsMutation,
   useDeleteTaskMutation,
   useGetTaskByIDQuery,
@@ -23,10 +24,19 @@ const TaskDetails = () => {
   const [fileUrl, setFileUrl] = useState(null);
 
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
+
   const { data: user } = useGetUserQuery();
+  const userId = user?.data?.id;
+
+  const [addAssignee] = useAddAssigneeMutation();
+
+  function handleJoin() {
+    addAssignee({ taskId: id, assigneeId: userId });
+  }
 
   const [addComments] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
+
   const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
@@ -80,6 +90,13 @@ const TaskDetails = () => {
     heading: 'Task Details',
     isTaskPage: isApproved ? false : true,
     handleAccordian,
+    handleJoin,
+    taskStatus:
+      taskData?.data.status !== 'COMPLETED' &&
+      taskData?.data.assignees.length < taskData?.data.maxParticipants &&
+      !taskData?.data.assignees.find((assignee) => assignee.id === userId)
+        ? true
+        : false,
     onClick: () => navigate(`/employees/edit/${id}`),
     handleApprove: handleApprove,
     handleEdit: () => {
