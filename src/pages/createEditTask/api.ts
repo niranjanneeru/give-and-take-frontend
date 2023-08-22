@@ -16,7 +16,7 @@ const createTaskApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: patch
       }),
-      invalidatesTags: ['task.list']
+      invalidatesTags: ['task.list', 'task.detail']
     })
   })
 });

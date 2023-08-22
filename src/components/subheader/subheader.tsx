@@ -12,6 +12,7 @@ type subheaderProps = {
   isTaskPage?: boolean;
   userRole?: string;
   isTask: boolean;
+  handleApprove?: (e) => void;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -22,7 +23,8 @@ const Subheader: FC<subheaderProps> = ({
   userRole,
   handleAccordian = null,
   isTask,
-  isTaskPage = false // clean code
+  isTaskPage = false, // clean code
+  handleApprove = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
 
@@ -57,9 +59,9 @@ const Subheader: FC<subheaderProps> = ({
       {isTaskPage && (
         <div className='editTask-button'>
           <Button value='  Join   ' />
-          <Button value='Approve' />
-          <Button value='  Edit   ' />
-          <Button value='Delete ' />
+          {userRole === 'HR' && <Button value='Approve' onClick={handleApprove} />}
+          {userRole === 'HR' && <Button value='  Edit   ' />}
+          {userRole === 'HR' && <Button value='Delete ' />}
         </div>
       )}
     </div>
