@@ -9,16 +9,10 @@ export type ButtonProps = {
 
 const Button: FC<ButtonProps> = ({ value, onClick, iconImg }) => {
   return (
-    <div className='button-relative'>
-      {iconImg && <img src={`assets/icons/${iconImg}.svg`} />}
+    <div className='button-relative' onClick={onClick}>
+      {iconImg && <img className='subheader-img' src={`assets/icons/${iconImg}.svg`} />}
 
-      <input
-        type='submit'
-        value={value}
-        className='form-login'
-        onClick={onClick}
-        data-testid='button-test'
-      ></input>
+      <input type='submit' value={value} className='form-login' data-testid='button-test'></input>
     </div>
   );
 };

@@ -16,8 +16,6 @@ type subheaderProps = {
 
 const Subheader: FC<subheaderProps> = ({
   heading,
-  iconText,
-  iconImg,
   onClick,
   userRole,
   handleAccordian = null,
@@ -25,8 +23,6 @@ const Subheader: FC<subheaderProps> = ({
   isTaskPage = false // clean code
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
-
-  console.log(iconImg);
 
   return (
     <div className='subheader'>
@@ -46,22 +42,21 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {(isTask || userRole === 'LEAD') && iconText ? (
+      {isTask && userRole === 'LEAD' ? (
         <a className='editTask-button' onClick={onClick}>
-          {/* <div className='icon-edit'>
-          </div>
-          <span>{iconText}</span> */}
-          <Button value={iconText} iconImg={iconImg}></Button>
-          <Button value='Filter task' iconImg={iconImg}></Button>
+          <Button value='Create Task' iconImg={'plus'}></Button>
+          <Button value='Filter task' iconImg={'filter'}></Button>
         </a>
       ) : (
-        <div></div>
+        <a className='editTask-button' onClick={onClick}>
+          <Button value='Create Employee' iconImg={'plus'}></Button>
+        </a>
       )}
       {isTaskPage && (
         <div className='editTask-button'>
-          <Button value='  Join   ' onClick={() => {}} />
+          <Button value='Join' onClick={() => {}} />
           <Button value='Approve' />
-          <Button value='  Edit   ' />
+          <Button value='Edit' />
           <Button value='Delete ' />
         </div>
       )}
