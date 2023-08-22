@@ -4,12 +4,12 @@ const TableHeader = ({ userRole, isTask }) => {
   console.log(userRole);
   const empHeaderData = [
     'Employee Name',
-    'Employee ID',
     'Joining Date',
     'Role',
     'Status',
     'Experience',
-    'Bounty Points'
+    'Bounty Points',
+    'Tier'
   ];
 
   const taskHeaderData = [

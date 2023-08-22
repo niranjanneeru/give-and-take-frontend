@@ -34,7 +34,6 @@ const EmployeeDetails = () => {
             <DetailsItem label='Role' value={employee.data.role} type='text' />
             <DetailsItem label='Status' value={employee.data.status} type='status' />
             <DetailsItem label='Department' value={employee.data.department.name} type='text' />
-            <DetailsItem label='Employee ID' value={String(employee.data.id)} type='text' />
             <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
             <DetailsItem label='Tier' value={getTier(employee.data.bounty)} type='text' />
             <DetailsItem label='Badge' type='badge' value={getTier(employee.data.bounty)} />
