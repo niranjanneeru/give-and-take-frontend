@@ -5,7 +5,12 @@ import './taskDetails.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import ParticipantList from '../../components/participants/participants';
-import { useAddCommentsMutation, useGetTaskByIDQuery, useUploadFileMutation } from './api';
+import {
+  useAddCommentsMutation,
+  useDeleteTaskMutation,
+  useGetTaskByIDQuery,
+  useUploadFileMutation
+} from './api';
 import CommentInput from '../../components/commentInput/commentInput';
 import Comment from '../../components/comment/Comment';
 import { useGetUserQuery } from '../employee/api';
@@ -23,6 +28,7 @@ const TaskDetails = () => {
   const [addComments] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
   const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
 
   function handleAccordian(): void {
     setAccordian(!accordian);
@@ -51,6 +57,16 @@ const TaskDetails = () => {
     });
   };
 
+  const handleEdit = (id) => {
+    navigate(`/tasks/edit/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Delete ${id}`);
+    deleteTask(id);
+    navigate('/tasks');
+  };
+
   function uploadFile(file) {
     const formData = new FormData();
 
@@ -65,7 +81,13 @@ const TaskDetails = () => {
     isTaskPage: isApproved ? false : true,
     handleAccordian,
     onClick: () => navigate(`/employees/edit/${id}`),
-    handleApprove: handleApprove
+    handleApprove: handleApprove,
+    handleEdit: () => {
+      handleEdit(id);
+    },
+    handleDelete: () => {
+      handleDelete(id);
+    }
   };
 
   useEffect(() => {
