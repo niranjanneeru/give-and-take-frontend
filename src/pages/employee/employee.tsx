@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './styles.css';
 import Layout from '../../components/layout/layout';
 import TableHeader from '../../components/tableHeader/tableHeader';
@@ -7,16 +7,21 @@ import { useNavigate } from 'react-router-dom';
 import DeletePopup from '../../components/deletePopup/deletePopup';
 import { useDeleteEmployeesMutation, useGetEmployeesQuery, useGetUserQuery } from './api';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
+import { useCreateTaskMutation } from '../createEditTask/api';
 
 const EmployeePage = () => {
   const [icon] = useState('pencil');
   const [id, setId] = useState('');
   const [open, setOpen] = useState(false);
   const [openDirectBounty, setopenDirectBounty] = useState(false);
+  const [bounty, setBounty] = useState(0);
+  const [reason, setReason] = useState('');
 
   const { data: employeesData } = useGetEmployeesQuery();
   const [deleteEmp] = useDeleteEmployeesMutation();
   const { data: user } = useGetUserQuery();
+  const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
+    useCreateTaskMutation();
 
   const navigate = useNavigate();
   const onClick = (id) => navigate(`/employees/${id}`);
@@ -33,8 +38,17 @@ const EmployeePage = () => {
 
   const handleDirectBountyAward = (id: string) => {
     console.log('id', id);
+    createDirectBounty({
+      title: reason,
+      description: reason,
+      bounty: +bounty,
+      isDirectBounty: true,
+      recipientId: id,
+      deadline: new Date(),
+      skills: ' ',
+      maxParticipants: 1
+    });
     setopenDirectBounty(false);
-    navigate('/employees');
   };
 
   const subheaderProps = {
@@ -45,10 +59,14 @@ const EmployeePage = () => {
     isTask: false
   };
 
+  useEffect(() => {
+    if (directBountyData && directBountySuccess) navigate('/employees');
+  }, [directBountyData, directBountySuccess]);
+
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
       <table className='table'>
-        <TableHeader userRole={user?.data.role} isTask={false}></TableHeader>
+        <TableHeader userRole={user?.data.role.name} isTask={false}></TableHeader>
         {employeesData &&
           employeesData.data.map((employee) => (
             <TableRow
@@ -64,7 +82,7 @@ const EmployeePage = () => {
                 setopenDirectBounty(true);
                 setId(employee.id);
               }}
-              userRole={user?.data.role}
+              userRole={user?.data.role.name}
               isTask={false}
             />
           ))}
@@ -78,6 +96,10 @@ const EmployeePage = () => {
           <DirectBountyPopup
             onConfirm={() => handleDirectBountyAward(id)}
             onClose={() => setopenDirectBounty(false)}
+            bounty={bounty}
+            setBounty={setBounty}
+            reason={reason}
+            setReason={setReason}
           ></DirectBountyPopup>
         ) : null}
       </table>

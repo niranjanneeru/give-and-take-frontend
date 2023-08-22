@@ -1,6 +1,10 @@
 import './sidebar.css';
 
-const Sidebar = ({ handleNavigateToEmployeeList, handleNavigateToTaskList }) => {
+const Sidebar = ({
+  handleNavigateToEmployeeList,
+  handleNavigateToTaskList,
+  handleNavigateToLogout
+}) => {
   return (
     <aside className='sidebar'>
       <div className='logo-employee'>
@@ -17,9 +21,15 @@ const Sidebar = ({ handleNavigateToEmployeeList, handleNavigateToTaskList }) => 
           </a>
           <a onClick={handleNavigateToTaskList}>
             <div className='icon-li'>
-              <img src='assets/icons/employees.svg' />
+              <img src='assets/img/to-do-list.png' />
             </div>
             <span>Task List</span>
+          </a>
+          <a onClick={handleNavigateToLogout}>
+            <div className='icon-li'>
+              <img src='assets/icons/logout.svg' />
+            </div>
+            <span>Logout</span>
           </a>
         </li>
       </ul>

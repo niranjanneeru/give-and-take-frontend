@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import './DirectBountyPopup.css';
 import PopupInput from '../popupInput/PopupInput';
 import TextArea from '../textArea/TextArea';
@@ -6,19 +6,27 @@ import TextArea from '../textArea/TextArea';
 type DirectBountyPopupType = {
   onClose: () => void;
   onConfirm: () => void;
+  bounty: number;
+  reason: string;
+  setBounty: (number) => void;
+  setReason: (string) => void;
 };
 
-const DirectBountyPopup: FC<DirectBountyPopupType> = ({ onClose, onConfirm }) => {
-  const [bountyPoints, setBountyPoints] = useState('');
-  const [reason, setReason] = useState('');
-
+const DirectBountyPopup: FC<DirectBountyPopupType> = ({
+  onClose,
+  onConfirm,
+  bounty,
+  reason,
+  setBounty,
+  setReason
+}) => {
   const handleBountyChange = (e: any) => {
     if (+e.target.value < 0) {
-      setBountyPoints('0');
+      setBounty(0);
 
       return;
     }
-    setBountyPoints(e.target.value);
+    setBounty(e.target.value);
   };
 
   const handleReasonChange = (e: any) => {
@@ -36,7 +44,7 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({ onClose, onConfirm }) =>
               placeholder='Bounty points'
               label='Bounty points'
               type='number'
-              value={bountyPoints}
+              value={bounty}
               onChange={handleBountyChange}
             />
           </div>
@@ -57,7 +65,7 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({ onClose, onConfirm }) =>
             value='Award'
             className='pop-confirm'
             onClick={() => {
-              console.log(bountyPoints, reason);
+              console.log(bounty, reason);
               onConfirm();
             }}
           />

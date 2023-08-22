@@ -1,3 +1,4 @@
+import SkillBlock from '../skillBlock/skillBlock';
 import Status from '../status/status';
 import './empDetailsItem.css';
 import type { FC } from 'react';
@@ -16,6 +17,8 @@ const DetailsItem: FC<ItemPropTypes> = ({ label, type, value }) => {
         <Status status={value} />
       ) : type === 'badge' ? (
         <img className='tier-img' src={`/assets/img/tiers/${value}.png`} />
+      ) : label === 'Skills' ? (
+        <SkillBlock value={value} />
       ) : (
         <div className='item-value'>{value}</div>
       )}
