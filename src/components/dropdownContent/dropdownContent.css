@@ -18,6 +18,6 @@
   text-decoration: none;
 }
 
-input:focus+ .dropdown-content {
+input:focus + .dropdown-content {
   display:block;
 }
