@@ -19,7 +19,7 @@ const Comment: React.FC<CommentPropsType> = ({
   isCurrentUserComment
 }) => {
   return (
-    <div className={isCurrentUserComment ? 'sent-comment' : 'received-comment'}>
+    <div className={isCurrentUserComment ? 'send-comment' : 'received-comment'}>
       <div className='comment-creator'>
         <div>
           <span style={{ fontWeight: 600 }}>{`${author}  `} </span>

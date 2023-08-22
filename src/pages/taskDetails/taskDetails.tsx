@@ -94,7 +94,7 @@ const TaskDetails = () => {
                 />
               );
             })}
-             {taskData &&
+          {taskData &&
             taskData?.data?.comments.map((comment) => {
               return (
                 <Comment
