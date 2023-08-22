@@ -154,11 +154,11 @@ const TaskDetails = () => {
                   date={comment?.createdAt}
                   comment={comment?.comment}
                   attachment={comment?.url}
-                  isCurrentUserComment={true}
+                  isCurrentUserComment={userId === comment?.postedBy?.id}
                 />
               );
             })}
-          {taskData &&
+          {/* {taskData &&
             taskData?.data?.comments.map((comment) => {
               return (
                 <Comment
@@ -170,7 +170,7 @@ const TaskDetails = () => {
                   isCurrentUserComment={false}
                 />
               );
-            })}
+            })} */}
         </div>
         {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
       </div>
