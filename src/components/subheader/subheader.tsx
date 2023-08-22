@@ -26,6 +26,8 @@ const Subheader: FC<subheaderProps> = ({
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
 
+  console.log(iconImg);
+
   return (
     <div className='subheader'>
       <div className='header-div'>
@@ -45,11 +47,12 @@ const Subheader: FC<subheaderProps> = ({
         )}
       </div>
       {(isTask || userRole === 'LEAD') && iconText ? (
-        <a className='subheader-right' onClick={onClick}>
-          <div className='icon-edit'>
-            <img src={`assets/icons/${iconImg}.svg`} />
+        <a className='editTask-button' onClick={onClick}>
+          {/* <div className='icon-edit'>
           </div>
-          <span>{iconText}</span>
+          <span>{iconText}</span> */}
+          <Button value={iconText} iconImg={iconImg}></Button>
+          <Button value='Filter task' iconImg={iconImg}></Button>
         </a>
       ) : (
         <div></div>

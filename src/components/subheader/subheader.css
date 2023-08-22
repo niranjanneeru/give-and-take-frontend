@@ -20,11 +20,6 @@
 .subheader-right {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  background-color: #eaf9ff;
-  border-radius: 50px;
-  width: fit-content;
-  min-width: 10%;
 }
 
 .icon-edit {

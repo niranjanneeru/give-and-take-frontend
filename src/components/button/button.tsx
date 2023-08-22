@@ -3,12 +3,15 @@ import './styles.css';
 
 export type ButtonProps = {
   value: string;
+  iconImg?: string;
   onClick?: (e) => void;
 };
 
-const Button: FC<ButtonProps> = ({ value, onClick }) => {
+const Button: FC<ButtonProps> = ({ value, onClick, iconImg }) => {
   return (
-    <div className='relative'>
+    <div className='button-relative'>
+      {iconImg && <img src={`assets/icons/${iconImg}.svg`} />}
+
       <input
         type='submit'
         value={value}
