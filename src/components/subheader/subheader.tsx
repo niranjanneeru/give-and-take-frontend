@@ -14,9 +14,11 @@ type subheaderProps = {
   isTaskPage?: boolean;
   userRole?: string;
   isTask: boolean;
+  isEmployeeDetail?: boolean;
   handleApprove?: (e) => void;
   handleDelete?: (e) => void;
   handleEdit?: (e) => void;
+  handleAward?: (e) => void;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -30,9 +32,11 @@ const Subheader: FC<subheaderProps> = ({
   handleAccordian = null,
   isTask,
   isTaskPage = false, // clean code
+  isEmployeeDetail = false,
   handleApprove = null,
   handleDelete = null,
-  handleEdit = null
+  handleEdit = null,
+  handleAward = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
 
@@ -61,8 +65,11 @@ const Subheader: FC<subheaderProps> = ({
         </a>
       )}
       {!isTask && userRole === 'LEAD' && iconText && (
-        <a className='editTask-button' onClick={onClick}>
-          <Button value={iconText} iconImg={iconImg}></Button>
+        <a className='editTask-button'>
+          <Button value={iconText} iconImg={iconImg} onClick={onClick}></Button>
+          {isEmployeeDetail && (
+            <Button value='Award Bounty' iconImg='dollar1' onClick={handleAward} />
+          )}
         </a>
       )}
       {isTaskPage && (
