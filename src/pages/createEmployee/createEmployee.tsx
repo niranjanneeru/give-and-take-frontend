@@ -35,6 +35,10 @@ const CreateEmployee = () => {
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
 
+    console.log('Details address', temp);
+
+    //console.log('Temp: ', temp);
+
     key == 'address'
       ? (temp.address['line1'] = value)
       : key == 'experience'

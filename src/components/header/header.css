@@ -3,3 +3,12 @@
   min-height: 84px;
   background-color: #252540;
 }
+.search-button{
+  border-radius: 50px;
+  padding: 10px 150px 16px 30px;
+  margin-top: 20px;
+  /* justify-content: center; */
+  margin-left: 585px;
+  opacity: 80%;
+  background-color: #ffff;
+}

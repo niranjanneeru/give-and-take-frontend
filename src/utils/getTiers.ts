@@ -1,25 +1,25 @@
 const getTiers = (bounty) => {
   const TierValues = {
-    platinum: 0,
-    gold: 0,
-    silver: 0,
-    bronze: 0
+    PLATINUM: 0,
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0
   };
 
   if (bounty > 100) {
-    TierValues.platinum = bounty / 100;
+    TierValues.PLATINUM = Math.floor(bounty / 100);
     bounty %= 100;
   }
   if (bounty > 75) {
-    TierValues.gold = bounty / 75;
+    TierValues.GOLD = Math.floor(bounty / 75);
     bounty %= 75;
   }
   if (bounty > 50) {
-    TierValues.silver = bounty / 50;
+    TierValues.SILVER = Math.floor(bounty / 50);
     bounty %= 50;
   }
 
-  TierValues.bronze = bounty / 25;
+  TierValues.BRONZE = Math.floor(bounty / 25);
   bounty %= 25;
 
   return TierValues;

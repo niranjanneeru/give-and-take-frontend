@@ -14,10 +14,12 @@ type subheaderProps = {
   isTaskPage?: boolean;
   userRole?: string;
   isTask: boolean;
+  isEmployeeDetail?: boolean;
   handleApprove?: (e) => void;
   handleDelete?: (e) => void;
   handleEdit?: (e) => void;
   handleFilter?: (e) => void;
+  handleAward?: (e) => void;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -31,12 +33,14 @@ const Subheader: FC<subheaderProps> = ({
   handleAccordian = null,
   isTask,
   isTaskPage = false, // clean code
+  isEmployeeDetail = false,
   handleApprove = null,
   handleDelete = null,
   handleEdit = null,
   handleFilter
+  handleAward = null
 }) => {
-  const [icon, setIcon] = useState(`assets/img/accordion-logo.png`);
+  const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);
 
   return (
     <div className='subheader'>
@@ -47,9 +51,9 @@ const Subheader: FC<subheaderProps> = ({
             className='accordion'
             onClick={() => {
               handleAccordian();
-              if (icon === 'assets/img/accordion-logo.png')
-                setIcon('assets/img/accordion-logo-opp.png');
-              else setIcon('assets/img/accordion-logo.png');
+              if (icon === 'assets/img/icons8-expand-arrow-50.png')
+                setIcon('assets/img/icons8-collapse-arrow-50.png');
+              else setIcon('assets/img/icons8-expand-arrow-50.png');
             }}
           >
             <img src={icon} />
@@ -63,8 +67,11 @@ const Subheader: FC<subheaderProps> = ({
         </a>
       )}
       {!isTask && userRole === 'LEAD' && iconText && (
-        <a className='editTask-button' onClick={onClick}>
-          <Button value={iconText} iconImg={iconImg}></Button>
+        <a className='editTask-button'>
+          <Button value={iconText} iconImg={iconImg} onClick={onClick}></Button>
+          {isEmployeeDetail && (
+            <Button value='Award Bounty' iconImg='dollar1' onClick={handleAward} />
+          )}
         </a>
       )}
       {isTaskPage && (

@@ -12,7 +12,7 @@ const Status: FC<statusProps> = ({ status }) => {
     PROBATION: { label: 'Terminated', color: '#f5ecb8' },
     CREATED: { label: 'Created', color: '#e3dc8f' },
     IN_PROGRESS: { label: 'In Progress', color: '#cae386' },
-    COMPLETED: { label: 'Completed', color: '#37e640' },
+    COMPLETED: { label: 'Completed', color: '#d8b6af' },
     REQUEST_CHANGE: { label: 'Change Required', color: '#c4877e' }
   };
 

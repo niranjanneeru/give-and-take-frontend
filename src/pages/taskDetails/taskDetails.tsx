@@ -147,6 +147,8 @@ const TaskDetails = () => {
         <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
           {taskData &&
             taskData?.data?.comments.map((comment) => {
+              console.log(userId, taskData);
+
               return (
                 <Comment
                   key={comment.id}
@@ -154,6 +156,7 @@ const TaskDetails = () => {
                   date={comment?.createdAt}
                   comment={comment?.comment}
                   attachment={comment?.url}
+                  isCurrentUserComment={userId === comment?.postedBy?.id}
                 />
               );
             })}

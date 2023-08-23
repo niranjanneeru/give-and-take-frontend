@@ -36,6 +36,11 @@ function FileSelector({ setVisible, handleFileUpload }) {
   return (
     <div className='outer-dropzone'>
       <div className='mid-dropzone'>
+        <img
+          className='close-button-drag-nd-drop'
+          src='/assets/icons/close.svg'
+          onClick={setVisible}
+        />
         <div
           className={`dropzone ${isDragging ? 'dragging' : ''}`}
           onDragEnter={handleDragEnter}

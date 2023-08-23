@@ -13,6 +13,7 @@
 
 .mid-dropzone {
     background-color: white;
+    position: relative;
 }
 
 .dropzone {
@@ -28,4 +29,13 @@
 
 .dragging {
     border-color: #00bcd4;
+}
+
+.close-button-drag-nd-drop{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
 }
