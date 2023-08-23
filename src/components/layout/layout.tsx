@@ -9,9 +9,10 @@ type LayoutProps = {
   userRole?: string;
   children: any;
   subheaderProps: any;
+  searchBarProps?: any;
 };
 
-const Layout: FC<LayoutProps> = ({ userRole, subheaderProps, children }) => {
+const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps, children }) => {
   const navigate = useNavigate();
 
   const handleNavigateToEmployeeList = () => {
@@ -35,7 +36,7 @@ const Layout: FC<LayoutProps> = ({ userRole, subheaderProps, children }) => {
         handleNavigateToLogout={handleNavigateToLogout}
       ></Sidebar>
       <div className='sectionRight'>
-        <Header></Header>
+        <Header {...searchBarProps}></Header>
         <div className='feed'>
           <Subheader userRole={userRole} {...subheaderProps}></Subheader>
           {children}

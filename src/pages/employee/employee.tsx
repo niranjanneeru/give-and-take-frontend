@@ -62,12 +62,10 @@ const EmployeePage = () => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
 
-  console.log(user);
-
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
-        <TableHeader userRole={user?.data.role.name} isTask={false}></TableHeader>
+        <TableHeader userRole={user?.data.role} isTask={false}></TableHeader>
         {employeesData &&
           employeesData.data.map((employee) => (
             <TableRow
@@ -79,11 +77,7 @@ const EmployeePage = () => {
                 setOpen(true);
                 setId(employee.id);
               }}
-              // onAward={() => {
-              //   setopenDirectBounty(true);
-              //   setId(employee.id);
-              // }}
-              userRole={user?.data.role.name}
+              userRole={user?.data.role}
               isTask={false}
             />
           ))}

@@ -5,21 +5,52 @@ import DetailsItem from '../../components/empDetailsItem/empDetailsItem';
 import { useGetEmployeeByIDQuery } from './api';
 import { useGetUserQuery } from '../employee/api';
 import { getTier } from '../../utils/tiers';
+import { useEffect, useState } from 'react';
+import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
+import { useCreateTaskMutation } from '../createEditTask/api';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
 
   const { data: employee } = useGetEmployeeByIDQuery(id);
   const { data: user } = useGetUserQuery();
+  const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
+    useCreateTaskMutation();
+  const [openDirectBounty, setopenDirectBounty] = useState(false);
+  const [bounty, setBounty] = useState(0);
+  const [reason, setReason] = useState('');
 
   console.log('employee', employee);
   const navigate = useNavigate();
+  const handleDirectBountyAward = (id: string) => {
+    console.log('id', id);
+    createDirectBounty({
+      title: reason,
+      description: reason,
+      bounty: +bounty,
+      isDirectBounty: true,
+      recipientId: id,
+      deadline: new Date(),
+      skills: ' ',
+      maxParticipants: 1
+    });
+    setopenDirectBounty(false);
+  };
+
   const subheaderProps = {
     heading: 'Employee Details',
     iconText: 'Edit Employee',
     iconImg: 'pencil',
-    onClick: () => navigate(`/employees/edit/${id}`)
+    onClick: () => navigate(`/employees/edit/${id}`),
+    handleAward: () => {
+      setopenDirectBounty(true);
+    },
+    isEmployeeDetail: true
   };
+
+  useEffect(() => {
+    if (directBountyData && directBountySuccess) navigate('/employees');
+  }, [directBountyData, directBountySuccess]);
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
@@ -34,10 +65,25 @@ const EmployeeDetails = () => {
             <DetailsItem label='Department' value={employee.data.department.name} type='text' />
             <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
             <DetailsItem label='Tier' value={getTier(employee.data.bounty)} type='text' />
-            <DetailsItem label='Badge' type='badge' value={getTier(employee.data.bounty)} />
+            <DetailsItem
+              label='Badge'
+              type='badge'
+              value={employee.data.bounty}
+              bounty={employee.data.bounty}
+            />
           </>
         )}
       </div>
+      {openDirectBounty ? (
+        <DirectBountyPopup
+          onConfirm={() => handleDirectBountyAward(id)}
+          onClose={() => setopenDirectBounty(false)}
+          bounty={bounty}
+          setBounty={setBounty}
+          reason={reason}
+          setReason={setReason}
+        ></DirectBountyPopup>
+      ) : null}
     </Layout>
   );
 };

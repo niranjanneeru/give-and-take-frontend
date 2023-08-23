@@ -1,37 +1,96 @@
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
-import { useGetTasksQuery } from './api';
+import { useGetTasksQuery, useLazyGetFilteredTasksQuery } from './api';
+
 import Layout from '../../components/layout/layout';
 import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
+import { useEffect, useState } from 'react';
 
 const TaskListPage = () => {
   const navigate = useNavigate();
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentTaskData, setTaskDataState] = useState(null);
 
   // add use effect
-  const { data: taskData } = useGetTasksQuery();
+  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
-  const { data: user } = useGetUserQuery();
+  const { data: user, refetch } = useGetUserQuery();
+
+  useEffect(() => {
+    // Refetch task data when the component mounts (user navigates back)
+    refetch();
+  }, [refetch]);
+  const [getFilteredTasks, { data: filteredTaskData, isSuccess: isFilterSuccess }] =
+    useLazyGetFilteredTasksQuery();
+
+  const handleFilter = (filterValue) => {
+    console.log('Filter value changed to:', filterValue);
+    setSelectedFilter(filterValue);
+  };
+
+  useEffect(() => {
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    getFilteredTasks(params);
+  }, [selectedFilter]);
 
   const subheaderProps = {
     heading: 'TASKS',
     iconText: 'Create Task',
     iconImg: 'plus',
     onClick: () => navigate('/tasks/create'),
-    isTask: true
+    isTask: true,
+    handleFilter: handleFilter
+  };
+
+  const [searchText, setSearchText] = useState('');
+
+  const [searchTrigger, { data: searchData, isSuccess: isSearchSuccess }] =
+    useLazyGetFilteredTasksQuery();
+
+  useEffect(() => {
+    if (searchText.trim() === '') return;
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    params['search'] = searchText;
+    searchTrigger(params);
+  }, [searchText]);
+
+  useEffect(() => {
+    if (isSearchSuccess) setTaskDataState(searchData);
+  }, [searchData]);
+
+  useEffect(() => {
+    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+  }, [filteredTaskData]);
+
+  useEffect(() => {
+    if (isTaskFetchSuccess) setTaskDataState(taskData);
+  }, [taskData]);
+
+  const searchBarProps = {
+    setSearchText
   };
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+    <Layout
+      searchBarProps={searchBarProps}
+      subheaderProps={subheaderProps}
+      userRole={user?.data.role}
+    >
       <div className='taskList-container'>
         <table className='table'>
           <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
           <div className='scroll-tr'>
-            {taskData &&
-              taskData.data.map((task) => (
+            {currentTaskData &&
+              currentTaskData.data.map((task) => (
                 <TableRow
                   key={task['id']}
                   row={task}
