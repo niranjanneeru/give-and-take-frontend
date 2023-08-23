@@ -62,8 +62,6 @@ const EmployeePage = () => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
 
-  console.log(user);
-
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
