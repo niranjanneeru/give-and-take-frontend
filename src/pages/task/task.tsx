@@ -80,7 +80,11 @@ const TaskListPage = () => {
   };
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+    <Layout
+      searchBarProps={searchBarProps}
+      subheaderProps={subheaderProps}
+      userRole={user?.data.role}
+    >
       {!taskData && <TableShimmer />}
       {taskData && (
         <div className='taskList-container'>
