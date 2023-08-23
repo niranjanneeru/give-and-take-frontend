@@ -84,6 +84,9 @@ const EmployeeDetails = () => {
           taskInProgress={employee.data['tasks'].filter(
             (task) => !task.isDirectBounty && task.status === 'IN_PROGRESS' // Clean Code
           )}
+          navigateToTaskDetail={(id) => {
+            navigate(`/tasks/${id}`);
+          }}
         />
       )}
       {openDirectBounty ? (

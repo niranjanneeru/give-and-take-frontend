@@ -1,9 +1,14 @@
 import React from 'react';
 import './taskcard.css';
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, navigateToTaskDetail }) => {
   return (
-    <div className='task-card'>
+    <div
+      className='task-card'
+      onClick={() => {
+        navigateToTaskDetail(task.id);
+      }}
+    >
       <div className='task-header'>
         <div className='task-title'>{task.title}</div>
         <div className='task-bounty'>{task.bounty}</div>
