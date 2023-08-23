@@ -18,6 +18,7 @@ type subheaderProps = {
   handleApprove?: (e) => void;
   handleDelete?: (e) => void;
   handleEdit?: (e) => void;
+  handleFilter?: (e) => void;
   handleAward?: (e) => void;
 };
 
@@ -36,6 +37,7 @@ const Subheader: FC<subheaderProps> = ({
   handleApprove = null,
   handleDelete = null,
   handleEdit = null,
+  handleFilter
   handleAward = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);
@@ -60,8 +62,8 @@ const Subheader: FC<subheaderProps> = ({
       </div>
       {isTask && userRole === 'LEAD' && (
         <a className='editTask-button'>
-          <Button value='Create Task' iconImg={'plus'} onClick={onClick}></Button>
-          <Button value='Filter task' iconImg={'filter'}></Button>
+          <Button value='Create task' iconImg={'plus'} onClick={onClick}></Button>
+          <Button value='Filter task' iconImg={'filter'} handleFilter={handleFilter}></Button>
         </a>
       )}
       {!isTask && userRole === 'LEAD' && iconText && (
