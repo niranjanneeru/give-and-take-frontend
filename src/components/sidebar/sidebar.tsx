@@ -25,6 +25,12 @@ const Sidebar = ({
             </div>
             <span>Task List</span>
           </a>
+          <a>
+            <div className='icon-li'>
+              <img src='assets/img/to-receive-points-svgrepo-com.svg' />
+            </div>
+            <span>Redeem Requests</span>
+          </a>
           <div className='logout'>
             <a onClick={handleNavigateToLogout}>
               <div className='icon-li'>
