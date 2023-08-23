@@ -4,6 +4,7 @@ import './layout.css';
 import Subheader from '../subheader/subheader';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '../../pages/employee/api';
 
 type LayoutProps = {
   userRole?: string;
@@ -13,6 +14,9 @@ type LayoutProps = {
 
 const Layout: FC<LayoutProps> = ({ userRole, subheaderProps, children }) => {
   const navigate = useNavigate();
+
+  const { data: userData } = useGetUserQuery();
+  const user = userData?.data;
 
   const handleNavigateToEmployeeList = () => {
     navigate('/employees');
@@ -27,12 +31,17 @@ const Layout: FC<LayoutProps> = ({ userRole, subheaderProps, children }) => {
     navigate('/login');
   };
 
+  const hanndleNavigateToProfile = () => {
+    navigate(`/employees/${user.id}`);
+  };
+
   return (
     <section>
       <Sidebar
         handleNavigateToEmployeeList={handleNavigateToEmployeeList}
         handleNavigateToTaskList={handleNavigateToTaskList}
         handleNavigateToLogout={handleNavigateToLogout}
+        hanndleNavigateToProfile={hanndleNavigateToProfile}
       ></Sidebar>
       <div className='sectionRight'>
         <Header></Header>
