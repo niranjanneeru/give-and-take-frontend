@@ -14,4 +14,5 @@ section {
   flex-direction: column;
   background-color: #fafafa;
   block-size: 100%;
+  overflow: hidden;
 }

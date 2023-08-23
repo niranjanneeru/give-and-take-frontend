@@ -22,6 +22,7 @@ const App: FC = () => {
         <Route path='/tasks/edit/:id' element={<CreateEditTask />} />
         <Route path='/tasks/:id' element={<TaskDetails />} />
         <Route path='/tasks' element={<TaskListPage />} />
+
       </Routes>
     </BrowserRouter>
   );
