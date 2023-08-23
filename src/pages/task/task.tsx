@@ -1,7 +1,6 @@
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useGetTasksQuery, useLazyGetFilteredTasksQuery } from './api';
-
 import Layout from '../../components/layout/layout';
 import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
@@ -78,6 +77,8 @@ const TaskListPage = () => {
   const searchBarProps = {
     setSearchText
   };
+
+  const currentTaskData = selectedFilter ? filteredTaskData : taskData;
 
   return (
     <Layout

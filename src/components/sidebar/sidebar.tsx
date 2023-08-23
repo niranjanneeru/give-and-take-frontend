@@ -3,7 +3,8 @@ import './sidebar.css';
 const Sidebar = ({
   handleNavigateToEmployeeList,
   handleNavigateToTaskList,
-  handleNavigateToLogout
+  handleNavigateToLogout,
+  hanndleNavigateToProfile
 }) => {
   return (
     <aside className='sidebar'>
@@ -30,6 +31,18 @@ const Sidebar = ({
               <img src='assets/img/to-receive-points-svgrepo-com.svg' />
             </div>
             <span>Redeem Requests</span>
+          </a>
+          <a onClick={hanndleNavigateToProfile}>
+            <div className='icon-li'>
+              <img src='assets/icons/profile.svg' />
+            </div>
+            <span>Profile</span>
+          </a>
+          <a onClick={() => {}}>
+            <div className='icon-li'>
+              <img src='assets/icons/about.svg' />
+            </div>
+            <span>About</span>
           </a>
           <div className='logout'>
             <a onClick={handleNavigateToLogout}>
