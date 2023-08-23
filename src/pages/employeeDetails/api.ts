@@ -7,10 +7,21 @@ const employeeDetailsApi = baseApi.injectEndpoints({
         url: `/employees/${id}`,
         method: 'get'
       })
+    }),
+    createRedeemRequest: builder.mutation<any, number>({
+      query: (bounty) => ({
+        url: `/redeem-requests/`,
+        method: 'POST',
+        body: { bounty }
+      })
     })
   })
 });
 
 export default employeeDetailsApi;
 
-export const { useGetEmployeeByIDQuery, useLazyGetEmployeeByIDQuery } = employeeDetailsApi;
+export const {
+  useGetEmployeeByIDQuery,
+  useLazyGetEmployeeByIDQuery,
+  useCreateRedeemRequestMutation
+} = employeeDetailsApi;

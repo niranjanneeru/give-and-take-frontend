@@ -2,14 +2,16 @@ import { FC } from 'react';
 import './DirectBountyPopup.css';
 import PopupInput from '../popupInput/PopupInput';
 import TextArea from '../textArea/TextArea';
+import Button from '../button/button';
 
 type DirectBountyPopupType = {
   onClose: () => void;
   onConfirm: () => void;
   bounty: number;
-  reason: string;
+  reason?: string;
   setBounty: (number) => void;
-  setReason: (string) => void;
+  setReason?: (string) => void;
+  isDirectBounty?: boolean;
 };
 
 const DirectBountyPopup: FC<DirectBountyPopupType> = ({
@@ -18,7 +20,8 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({
   bounty,
   reason,
   setBounty,
-  setReason
+  setReason,
+  isDirectBounty = true
 }) => {
   const handleBountyChange = (e: any) => {
     if (+e.target.value < 0) {
@@ -48,24 +51,23 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({
               onChange={handleBountyChange}
             />
           </div>
-          <div className='reason-div'>
-            <TextArea
-              rows={5}
-              cols={60}
-              placeholder='Reason'
-              label='Reason'
-              value={reason}
-              onChange={handleReasonChange}
-            />
-          </div>
+          {isDirectBounty && (
+            <div className='reason-div'>
+              <TextArea
+                rows={5}
+                cols={60}
+                placeholder='Reason'
+                label='Reason'
+                value={reason}
+                onChange={handleReasonChange}
+              />
+            </div>
+          )}
         </div>
         <div className='popupButton1'>
-          <input
-            type='submit'
-            value='Award'
-            className='pop-confirm'
+          <Button
+            value='Confirm'
             onClick={() => {
-              console.log(bounty, reason);
               onConfirm();
             }}
           />
