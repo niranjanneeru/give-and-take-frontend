@@ -41,7 +41,6 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, isTask, onClick, onDelete,
         </td>
       )}
       {userRole == 'LEAD' && !isTask && (
-
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />
