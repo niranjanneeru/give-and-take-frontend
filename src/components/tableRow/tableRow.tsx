@@ -2,7 +2,7 @@ import { FC } from 'react';
 import './tableRow.css';
 import Status from '../status/status';
 import SkillBlock from '../skillBlock/skillBlock';
-import { getTier } from '../../utils/tiers';
+import TierLogos from '../tierLogos/tierLogos';
 type tableRowProps = {
   row: Object;
   onClick: (e) => void;
@@ -37,11 +37,10 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, isTask, onClick, onDelete,
       ))}
       {!isTask && (
         <td>
-          <img className='tier' src={`/assets/img/tiers/${getTier(row['bounty'])}.png`} />
+          <TierLogos bounty={row['bounty']} />
         </td>
       )}
       {userRole == 'LEAD' && !isTask && (
-
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />
