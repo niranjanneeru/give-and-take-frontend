@@ -37,7 +37,7 @@ const Subheader: FC<subheaderProps> = ({
   handleApprove = null,
   handleDelete = null,
   handleEdit = null,
-  handleFilter
+  handleFilter,
   handleAward = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);

@@ -1,10 +1,7 @@
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { useGetTasksQuery, useLazyGetTasksQuery } from './api';
-=======
 import { useGetTasksQuery, useLazyGetFilteredTasksQuery } from './api';
->>>>>>> dev
+
 import Layout from '../../components/layout/layout';
 import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
@@ -14,9 +11,10 @@ import { useEffect, useState } from 'react';
 const TaskListPage = () => {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentTaskData, setTaskDataState] = useState(null);
 
   // add use effect
-  const { data: taskData } = useGetTasksQuery();
+  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
@@ -26,7 +24,8 @@ const TaskListPage = () => {
     // Refetch task data when the component mounts (user navigates back)
     refetch();
   }, [refetch]);
-  const [getFilteredTasks, { data: filteredTaskData }] = useLazyGetFilteredTasksQuery();
+  const [getFilteredTasks, { data: filteredTaskData, isSuccess: isFilterSuccess }] =
+    useLazyGetFilteredTasksQuery();
 
   const handleFilter = (filterValue) => {
     console.log('Filter value changed to:', filterValue);
@@ -34,7 +33,11 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    if (selectedFilter) getFilteredTasks({ status: selectedFilter });
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    getFilteredTasks(params);
   }, [selectedFilter]);
 
   const subheaderProps = {
@@ -48,21 +51,33 @@ const TaskListPage = () => {
 
   const [searchText, setSearchText] = useState('');
 
-  const [searchTrigger, { data: searchData, isSuccess: isSearchSuccess }] = useLazyGetTasksQuery();
+  const [searchTrigger, { data: searchData, isSuccess: isSearchSuccess }] =
+    useLazyGetFilteredTasksQuery();
 
   useEffect(() => {
-    searchTrigger(searchText);
+    if (searchText.trim() === '') return;
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    params['search'] = searchText;
+    searchTrigger(params);
   }, [searchText]);
 
   useEffect(() => {
-    if (isSearchSuccess) console.log(searchData);
-  }, [isSearchSuccess]);
+    if (isSearchSuccess) setTaskDataState(searchData);
+  }, [searchData]);
+
+  useEffect(() => {
+    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+  }, [filteredTaskData]);
+
+  useEffect(() => {
+    if (isTaskFetchSuccess) setTaskDataState(taskData);
+  }, [taskData]);
 
   const searchBarProps = {
     setSearchText
   };
-
-  const currentTaskData = selectedFilter ? filteredTaskData : taskData;
 
   return (
     <Layout
