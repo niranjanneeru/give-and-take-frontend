@@ -8,6 +8,7 @@ import { getTier } from '../../utils/tiers';
 import { useEffect, useState } from 'react';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 import { useCreateTaskMutation } from '../createEditTask/api';
+import Board from '../../components/board/board';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -74,6 +75,17 @@ const EmployeeDetails = () => {
           </>
         )}
       </div>
+      {employee && (
+        <Board
+          taskCompleted={employee.data['tasks'].filter(
+            (task) => !task.isDirectBounty && task.status === 'COMPLETED' // Clean Code
+          )}
+          taskCreated={employee.data['tasksCreated'].filter((task) => !task.isDirectBounty)}
+          taskInProgress={employee.data['tasks'].filter(
+            (task) => !task.isDirectBounty && task.status === 'IN_PROGRESS' // Clean Code
+          )}
+        />
+      )}
       {openDirectBounty ? (
         <DirectBountyPopup
           onConfirm={() => handleDirectBountyAward(id)}

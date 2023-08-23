@@ -1,0 +1,86 @@
+.task-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .task-title {
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .task-bounty {
+    font-size: 16px;
+    color: #f58634;
+    font-weight: 500;
+  }
+  
+  .task-skills {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .skills-label {
+    font-weight: 600;
+  }
+  
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  
+  .skill {
+    background-color: #f2f2f2;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  
+  .task-status {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 6px 10px;
+    display: inline-block;
+    transition: background-color 0.2s;
+  }
+  
+  .in progress {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .to do {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .done {
+    background-color: #2196f3;
+    color: white;
+  }
+  
