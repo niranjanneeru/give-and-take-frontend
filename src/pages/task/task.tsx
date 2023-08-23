@@ -78,8 +78,6 @@ const TaskListPage = () => {
     setSearchText
   };
 
-  const currentTaskData = selectedFilter ? filteredTaskData : taskData;
-
   return (
     <Layout
       searchBarProps={searchBarProps}
