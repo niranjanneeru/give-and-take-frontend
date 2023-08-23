@@ -8,10 +8,17 @@ const taskApi = baseApi.injectEndpoints({
         method: 'get'
       }),
       providesTags: ['task.list']
+    }),
+    getFilteredTasks: builder.query<any, { status: string }>({
+      query: (params) => ({
+        url: '/tasks',
+        method: 'get',
+        params: { status: params.status }
+      })
     })
   })
 });
 
-export const { useGetTasksQuery, useLazyGetTasksQuery } = taskApi;
+export const { useGetTasksQuery, useLazyGetTasksQuery, useLazyGetFilteredTasksQuery } = taskApi;
 
 export default taskApi;

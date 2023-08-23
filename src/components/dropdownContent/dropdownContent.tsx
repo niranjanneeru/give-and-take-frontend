@@ -3,25 +3,26 @@ import './dropdownContent.css';
 
 export type DropdownProps = {
   onClick?: (e) => void;
+  handleFilter: any;
 };
 
-const DropdownContent: FC<DropdownProps> = () => {
+const DropdownContent: FC<DropdownProps> = ({ handleFilter }) => {
   return (
     <ul className='dropdown-content'>
       <li>
-        <a>Created</a>
+        <a onClick={() => handleFilter('CREATED')}>Created</a>
       </li>
       <li>
-        <a href='#'>In Progress</a>
+        <a onClick={() => handleFilter('IN_PROGRESS')}>In Progress</a>
       </li>
       <li>
-        <a href='#'>Completed</a>
+        <a onClick={() => handleFilter('COMPLETED')}>Completed</a>
       </li>
       <li>
-        <a href='#'>Expired</a>
+        <a onClick={() => handleFilter('IS_EXPIRED')}>Expired</a>
       </li>
       <li>
-        <a href='#'>Direct Bounty</a>
+        <a onClick={() => handleFilter('IS_DIRECT_BOUNTY')}>Direct Bounty</a>
       </li>
     </ul>
   );
