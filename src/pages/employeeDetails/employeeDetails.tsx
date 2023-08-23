@@ -8,6 +8,7 @@ import { getTier } from '../../utils/tiers';
 import { useEffect, useState } from 'react';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 import { useCreateTaskMutation } from '../createEditTask/api';
+import Board from '../../components/board/board';
 import ContentBoxShimmer from '../../components/shimmer/ContentBoxShimmer';
 
 const EmployeeDetails = () => {
@@ -76,6 +77,20 @@ const EmployeeDetails = () => {
           </>
         )}
       </div>
+      {employee && (
+        <Board
+          taskCompleted={employee.data['tasks'].filter(
+            (task) => !task.isDirectBounty && task.status === 'COMPLETED' // Clean Code
+          )}
+          taskCreated={employee.data['tasksCreated'].filter((task) => !task.isDirectBounty)}
+          taskInProgress={employee.data['tasks'].filter(
+            (task) => !task.isDirectBounty && task.status === 'IN_PROGRESS' // Clean Code
+          )}
+          navigateToTaskDetail={(id) => {
+            navigate(`/tasks/${id}`);
+          }}
+        />
+      )}
       {openDirectBounty ? (
         <DirectBountyPopup
           onConfirm={() => handleDirectBountyAward(id)}

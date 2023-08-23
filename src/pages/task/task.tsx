@@ -79,8 +79,6 @@ const TaskListPage = () => {
     setSearchText
   };
 
-  const currentTaskData = selectedFilter ? filteredTaskData : taskData;
-
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       {!taskData && <TableShimmer />}
