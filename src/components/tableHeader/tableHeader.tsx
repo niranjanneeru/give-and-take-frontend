@@ -1,7 +1,6 @@
 import './tableHeader.css';
 
 const TableHeader = ({ userRole, isTask }) => {
-  console.log(userRole);
   const empHeaderData = [
     'Employee Name',
     'Joining Date',

@@ -11,9 +11,10 @@ import TableShimmer from '../../components/shimmer/TableShimmer';
 const TaskListPage = () => {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentTaskData, setTaskDataState] = useState(null);
 
   // add use effect
-  const { data: taskData } = useGetTasksQuery();
+  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
@@ -23,7 +24,8 @@ const TaskListPage = () => {
     // Refetch task data when the component mounts (user navigates back)
     refetch();
   }, [refetch]);
-  const [getFilteredTasks, { data: filteredTaskData }] = useLazyGetFilteredTasksQuery();
+  const [getFilteredTasks, { data: filteredTaskData, isSuccess: isFilterSuccess }] =
+    useLazyGetFilteredTasksQuery();
 
   const handleFilter = (filterValue) => {
     console.log('Filter value changed to:', filterValue);
@@ -31,7 +33,11 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    if (selectedFilter) getFilteredTasks({ status: selectedFilter });
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    getFilteredTasks(params);
   }, [selectedFilter]);
 
   const subheaderProps = {
@@ -41,6 +47,36 @@ const TaskListPage = () => {
     onClick: () => navigate('/tasks/create'),
     isTask: true,
     handleFilter: handleFilter
+  };
+
+  const [searchText, setSearchText] = useState('');
+
+  const [searchTrigger, { data: searchData, isSuccess: isSearchSuccess }] =
+    useLazyGetFilteredTasksQuery();
+
+  useEffect(() => {
+    if (searchText.trim() === '') return;
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    params['search'] = searchText;
+    searchTrigger(params);
+  }, [searchText]);
+
+  useEffect(() => {
+    if (isSearchSuccess) setTaskDataState(searchData);
+  }, [searchData]);
+
+  useEffect(() => {
+    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+  }, [filteredTaskData]);
+
+  useEffect(() => {
+    if (isTaskFetchSuccess) setTaskDataState(taskData);
+  }, [taskData]);
+
+  const searchBarProps = {
+    setSearchText
   };
 
   const currentTaskData = selectedFilter ? filteredTaskData : taskData;
