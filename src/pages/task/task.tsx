@@ -6,6 +6,7 @@ import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useEffect, useState } from 'react';
+import TableShimmer from '../../components/shimmer/TableShimmer';
 
 const TaskListPage = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const TaskListPage = () => {
   }, [selectedFilter]);
 
   const subheaderProps = {
-    heading: 'TASKS',
+    heading: 'Tasks',
     iconText: 'Create Task',
     iconImg: 'plus',
     onClick: () => navigate('/tasks/create'),
@@ -46,23 +47,26 @@ const TaskListPage = () => {
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      <div className='taskList-container'>
-        <table className='table'>
-          <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
-          <div className='scroll-tr'>
-            {currentTaskData &&
-              currentTaskData.data.map((task) => (
-                <TableRow
-                  key={task['id']}
-                  row={task}
-                  onClick={() => onClick(task['id'])}
-                  isTask={true}
-                  userRole={user?.data.role}
-                />
-              ))}
-          </div>
-        </table>
-      </div>
+      {!taskData && <TableShimmer />}
+      {taskData && (
+        <div className='taskList-container'>
+          <table className='table'>
+            <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
+            <div className='scroll-tr'>
+              {currentTaskData &&
+                currentTaskData.data.map((task) => (
+                  <TableRow
+                    key={task['id']}
+                    row={task}
+                    onClick={() => onClick(task['id'])}
+                    isTask={true}
+                    userRole={user?.data.role}
+                  />
+                ))}
+            </div>
+          </table>
+        </div>
+      )}
     </Layout>
   );
 };

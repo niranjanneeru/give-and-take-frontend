@@ -8,6 +8,7 @@ import { getTier } from '../../utils/tiers';
 import { useEffect, useState } from 'react';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 import { useCreateTaskMutation } from '../createEditTask/api';
+import ContentBoxShimmer from '../../components/shimmer/ContentBoxShimmer';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -55,6 +56,7 @@ const EmployeeDetails = () => {
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <div className='detailsCard'>
+        {!employee && <ContentBoxShimmer />}
         {employee && (
           <>
             <DetailsItem label='Employee Name' value={employee.data.name} type='text' />
