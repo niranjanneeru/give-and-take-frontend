@@ -67,7 +67,7 @@ const EmployeePage = () => {
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
-        <TableHeader userRole={user?.data.role} isTask={false}></TableHeader>
+        <TableHeader userRole={user?.data.role} page={'employee'}></TableHeader>
         {employeesData &&
           employeesData.data.map((employee) => (
             <TableRow
@@ -80,13 +80,14 @@ const EmployeePage = () => {
                 setId(employee.id);
               }}
               userRole={user?.data.role}
-              isTask={false}
+              pageType='employeeList'
             />
           ))}
         {open ? (
           <DeletePopup
             onConfirm={() => handleDelete(id)}
             onClose={() => setOpen(false)}
+            value='delete employee'
           ></DeletePopup>
         ) : null}
         {openDirectBounty ? (
