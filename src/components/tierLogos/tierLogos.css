@@ -1,0 +1,25 @@
+.tiers-parent
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding:10px 0px;
+}
+
+.tier-container
+{
+    display: flex;
+    justify-content: center;
+}
+
+.tier-img
+{
+    height:20px;
+    width:25px;
+}
+
+.tier-notation
+{
+    font-size: smaller;
+}
