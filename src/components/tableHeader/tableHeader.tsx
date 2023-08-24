@@ -1,4 +1,6 @@
+import React from 'react';
 import './tableHeader.css';
+import Table from '../table/Table';
 import type { FC } from 'react';
 
 type tableHeaderProps = {
@@ -7,7 +9,6 @@ type tableHeaderProps = {
 };
 
 const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
-  console.log(userRole);
   const empHeaderData = [
     'Employee Name',
     'Joining Date',
@@ -27,6 +28,15 @@ const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
     'Assignees'
   ];
 
+  const tiersHeaderData = ['Tier', 'Points', 'Rewards'];
+
+  const tiersContentData = [
+    { tier: 'Bronze', points: '25', rewards: 'Rs 2000' },
+    { tier: 'Silver', points: '50', rewards: 'Rs 3000' },
+    { tier: 'Gold', points: '75', rewards: 'Rs 5000' },
+    { tier: 'Platinum', points: '100', rewards: 'Rs 8000' }
+  ];
+
   let headerData = [];
 
   const redeemHeaderData = ['Employee Name', 'Requested Bounty'];
@@ -37,12 +47,30 @@ const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
   else if (page == 'employee') headerData = empHeaderData;
   else if (page == 'redeemRequestsList') headerData = redeemHeaderData;
 
+
   return (
-    <th className='tableHeader'>
-      {headerData.map((item) => (
-        <td key={item}>{item}</td>
-      ))}
-    </th>
+    <div>
+      <th className='tableHeader'>
+        {headerData.map((item) => (
+          <td key={item}>
+            {item === 'Tier' ? (
+              <div className='tier-header-div'>
+                Tier
+                <img src='assets/icons/info.svg' alt='info logo' />
+                <div className='tier-content-div'>
+                  <h3 style={{ marginTop: '8px', marginBottom: '-8px' }}>
+                    Bounty Tiers and Rewards
+                  </h3>
+                  <Table headerData={tiersHeaderData} contentData={tiersContentData} />
+                </div>
+              </div>
+            ) : (
+              item
+            )}
+          </td>
+        ))}
+      </th>
+    </div>
   );
 };
 

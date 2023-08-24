@@ -6,7 +6,8 @@ const Sidebar = ({
   handleNavigateToEmployeeList,
   handleNavigateToTaskList,
   handleNavigateToLogout,
-  handleNavigateToProfile,
+  hanndleNavigateToProfile,
+  handleNavigateAbout
   handleNavigateToRedeemRequests
 }) => {
   const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
@@ -46,7 +47,8 @@ const Sidebar = ({
             </div>
             <span>Profile</span>
           </a>
-          <a onClick={() => { }}>
+
+          <a onClick={handleNavigateAbout}>
             <div className='icon-li'>
               <img src='assets/icons/about.svg' />
             </div>
