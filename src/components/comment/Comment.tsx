@@ -18,6 +18,8 @@ const Comment: React.FC<CommentPropsType> = ({
   attachment,
   isCurrentUserComment
 }) => {
+  console.log(attachment);
+
   return (
     <div className={isCurrentUserComment ? 'send-comment' : 'received-comment'}>
       <div className='comment-creator'>
@@ -30,10 +32,14 @@ const Comment: React.FC<CommentPropsType> = ({
         <MarkDownRenderer content={comment} />
       </div>
       {attachment && (
-        <div className='comment-attachment' style={{ color: '#535778' }}>
-          <a href={attachment} target='blank'>
-            Attachment
-          </a>
+        <div
+          className='comment-attachment'
+          style={{ color: '#535778' }}
+          onClick={() => {
+            window.open(`http://localhost:8000${attachment}`, '_blank');
+          }}
+        >
+          Attachment
         </div>
       )}
     </div>
