@@ -38,3 +38,12 @@
 .comment-content {
   margin-bottom: 12px;
 }
+
+.comment-attachment{
+  color: '#535778';
+  cursor: 'pointer';
+}
+
+.comment-attachment:hover{
+  color: #808080;
+}

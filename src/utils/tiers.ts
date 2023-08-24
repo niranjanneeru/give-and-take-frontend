@@ -1,5 +1,5 @@
 export enum Tier {
-  AMATEUR='AMATEUR',
+  AMATEUR = 'AMATEUR',
   BRONZE = 'BRONZE',
   SILVER = 'SILVER',
   GOLD = 'GOLD',
