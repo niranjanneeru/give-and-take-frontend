@@ -7,7 +7,8 @@ const Sidebar = ({
   handleNavigateToTaskList,
   handleNavigateToLogout,
   handleNavigateToProfile,
-  handleNavigateToRedeemRequests
+  handleNavigateToRedeemRequests,
+  userRole
 }) => {
   const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
 
@@ -34,19 +35,21 @@ const Sidebar = ({
             </div>
             <span>Task List</span>
           </a>
-          <a onClick={handleNavigateToRedeemRequests}>
-            <div className='icon-li'>
-              <img src='assets/img/to-receive-points-svgrepo-com.svg' />
-            </div>
-            <span>Redeem Requests</span>
-          </a>
+          {userRole === 'HR' && (
+            <a onClick={handleNavigateToRedeemRequests}>
+              <div className='icon-li'>
+                <img src='assets/img/to-receive-points-svgrepo-com.svg' />
+              </div>
+              <span>Redeem Requests</span>
+            </a>
+          )}
           <a onClick={handleNavigateToProfile}>
             <div className='icon-li'>
               <img src='assets/icons/profile.svg' />
             </div>
             <span>Profile</span>
           </a>
-          <a onClick={() => { }}>
+          <a onClick={() => {}}>
             <div className='icon-li'>
               <img src='assets/icons/about.svg' />
             </div>

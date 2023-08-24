@@ -17,7 +17,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
   const navigate = useNavigate();
 
   const { data: userData } = useGetUserQuery();
-  const user = userData?.data;
+  const user = userData?.data.role;
 
   const handleNavigateToEmployeeList = () => {
     navigate('/employees');
@@ -47,6 +47,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         handleNavigateToLogout={handleNavigateToLogout}
         handleNavigateToProfile={hanndleNavigateToProfile}
         handleNavigateToRedeemRequests={handleNavigateToRedeemRequests}
+        userRole={userRole}
       ></Sidebar>
       <div className='sectionRight'>
         <Header {...searchBarProps}></Header>
