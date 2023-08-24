@@ -32,7 +32,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
     navigate('/login');
   };
 
-  const hanndleNavigateToProfile = () => {
+  const handleNavigateToProfile = () => {
     navigate(`/employees/${user.id}`);
   };
   const handleNavigateToRedeemRequests = () => {
@@ -49,7 +49,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         handleNavigateToEmployeeList={handleNavigateToEmployeeList}
         handleNavigateToTaskList={handleNavigateToTaskList}
         handleNavigateToLogout={handleNavigateToLogout}
-        hanndleNavigateToProfile={hanndleNavigateToProfile}
+        handleNavigateToProfile={handleNavigateToProfile}
         handleNavigateAbout={handleNavigateAbout}
         handleNavigateToRedeemRequests={handleNavigateToRedeemRequests}
         userRole={userRole}

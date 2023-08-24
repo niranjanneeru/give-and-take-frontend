@@ -86,7 +86,7 @@ const Subheader: FC<subheaderProps> = ({
             <input className='search-button' placeholder='Search' onChange={searchDebounce}></input>
           </div>
         )}
-        {isTask && userRole === 'LEAD' && (
+        {isTask && (
           <>
             <Button value='Create task' iconImg={'plus'} onClick={onClick}></Button>
             <Button value='Filter task' iconImg={'filter'} handleFilter={handleFilter}></Button>
@@ -95,7 +95,7 @@ const Subheader: FC<subheaderProps> = ({
       </a>
       {!isTask && iconText && (
         <a className='editTask-button'>
-          {userRole === 'LEAD' && (
+          {userRole === 'HR' && (
             <Button value={iconText} iconImg={iconImg} onClick={onClick}></Button>
           )}
           {isEmployeeDetail && userRole === 'LEAD' && (

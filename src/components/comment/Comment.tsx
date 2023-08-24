@@ -34,7 +34,6 @@ const Comment: React.FC<CommentPropsType> = ({
       {attachment && (
         <div
           className='comment-attachment'
-          style={{ color: '#535778' }}
           onClick={() => {
             window.open(`http://localhost:8000${attachment}`, '_blank');
           }}

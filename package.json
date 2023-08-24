@@ -23,7 +23,9 @@
     "react-scripts": "^5.0.0",
     "react-select": "^5.7.4",
     "react-shimmer-effects": "^1.0.2",
+    "react-spinners": "^0.13.8",
     "redux": "^4.2.1",
+    "remark-gfm": "^3.0.1",
     "save-dev": "^0.0.1-security",
     "ts-jest": "^29.1.1",
     "web-vitals": "^1.1.1"

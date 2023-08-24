@@ -46,6 +46,7 @@ align-items: center;
 .accordion{
   padding: 5px;
   margin-left: 5px;
+  cursor: pointer;
   
 }
 .accordion img {
