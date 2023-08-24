@@ -17,35 +17,105 @@ import Comment from '../../components/comment/Comment';
 import { useGetUserQuery } from '../employee/api';
 import { useUpdateTaskMutation } from '../createEditTask/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accordian, setAccordian] = useState(true);
-  const [fileUrl, setFileUrl] = useState(null);
 
+  function handleAccordian(): void {
+    setAccordian(!accordian);
+  }
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
 
   const { data: user } = useGetUserQuery();
   const userId = user?.data?.id;
 
-  const [addAssignee] = useAddAssigneeMutation();
+  const [fileUrl, setFileUrl] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState('');
+  const [severitySnackbar, setSeveritySnackbar] = useState('');
+
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
+
+  const [addAssignee, { isSuccess: isSuccessOnAddAssignee, isError: isErrorOnAddAssignee }] =
+    useAddAssigneeMutation();
 
   function handleJoin() {
+    if (taskData?.data.assignees.length == taskData?.data.maxParticipants) {
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+      setMessageSnackbar('Cannot join task! Participant limit exceeds');
+
+      return;
+    }
     addAssignee({ taskId: id, assigneeId: userId });
   }
+  useEffect(() => {
+    if (isSuccessOnAddAssignee) {
+      setMessageSnackbar('You have successfully joined the task');
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    } else if (isErrorOnAddAssignee) {
+      setMessageSnackbar('Error joining task');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isSuccessOnAddAssignee, isErrorOnAddAssignee]);
+
+  const [approveTask, { isSuccess: approveSuccess, isError: isErrorOnApprove }] =
+    useUpdateTaskMutation();
+  const [deleteTask, { isError: isErrorOnDelete }] = useDeleteTaskMutation();
+
+  useEffect(() => {
+    if (approveSuccess) {
+      setMessageSnackbar('Task approved successfully.');
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    } else if (isErrorOnApprove) {
+      setMessageSnackbar('Error approving task.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [approveSuccess, isErrorOnApprove]);
+
+  useEffect(() => {
+    if (isErrorOnDelete) {
+      setMessageSnackbar('Error deleting task.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isErrorOnDelete]);
 
   const [addComments] = useAddCommentsMutation();
-  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
+  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess, isError: fileUploadError }] =
+    useUploadFileMutation();
 
-  const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
-
-  function handleAccordian(): void {
-    setAccordian(!accordian);
-  }
+  useEffect(() => {
+    if (isFileUploadSuccess) {
+      setFileUrl(fileData.data.url);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('success');
+      setMessageSnackbar('File uploaded successfully.');
+    } else if (fileUploadError) {
+      setMessageSnackbar('Error uploading file');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isFileUploadSuccess, fileUploadError]);
 
   function sendComment(comment) {
+    if (comment.trim().length === 0) {
+      setMessageSnackbar('Comment cannot be empty.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+
+      return;
+    }
     const data = {
       id,
       body: {
@@ -60,8 +130,6 @@ const TaskDetails = () => {
   }
 
   const handleApprove = () => {
-    console.log('Approve clicked');
-    console.log(taskData?.data);
     approveTask({
       id: taskData?.data.id,
       status: 'COMPLETED'
@@ -73,7 +141,6 @@ const TaskDetails = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(`Delete ${id}`);
     deleteTask(id);
     navigate('/tasks');
   };
@@ -107,14 +174,6 @@ const TaskDetails = () => {
       handleDelete(id);
     }
   };
-
-  useEffect(() => {
-    if (isFileUploadSuccess) setFileUrl(fileData.data.url);
-  }, [isFileUploadSuccess]);
-
-  useEffect(() => {
-    if (approveData && approveSuccess) navigate(`/tasks/${id}`);
-  }, [approveData, approveSuccess]);
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
@@ -175,6 +234,12 @@ const TaskDetails = () => {
           </div>
         </>
       )}
+      <CustomSnackbar
+        open={openSnackbar}
+        message={messageSnackbar}
+        severity={severitySnackbar}
+        handleClose={handleSnackbarClose}
+      />
     </Layout>
   );
 };
