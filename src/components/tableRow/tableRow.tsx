@@ -3,6 +3,8 @@ import './tableRow.css';
 import Status from '../status/status';
 import SkillBlock from '../skillBlock/skillBlock';
 import TierLogos from '../tierLogos/tierLogos';
+import Tooltip from '@material-ui/core/Tooltip';
+
 type tableRowProps = {
   row: Object;
   onClick: (e) => void;
@@ -59,13 +61,15 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, pageType, onClick, onDelet
               e.stopPropagation();
             }}
           />
-          <img
-            src={`assets/icons/pencil-edit.svg`}
-            onClick={(e) => {
-              onEdit();
-              e.stopPropagation();
-            }}
-          />
+          <Tooltip title={'Edit Employee'}>
+            <img
+              src={`assets/icons/pencil-edit.svg`}
+              onClick={(e) => {
+                onEdit();
+                e.stopPropagation();
+              }}
+            />
+          </Tooltip>
         </td>
       )}
       {/* render actions on redeem requests list page */}
