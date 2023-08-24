@@ -29,7 +29,7 @@ const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
 
   let headerData = [];
 
-  const redeemHeaderData = ['Employee Name', 'Bounty'];
+  const redeemHeaderData = ['Employee Name', 'Requested Bounty'];
 
   if (userRole == 'LEAD') empHeaderData.push('Action') && redeemHeaderData.push('Action');
 

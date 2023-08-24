@@ -13,7 +13,8 @@ import DeletePopup from '../../components/deletePopup/deletePopup';
 
 const RedeemRequestPage = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openApprove, setOpenApprove] = useState(false);
   const [id, setId] = useState('');
 
   // add use effect
@@ -26,7 +27,7 @@ const RedeemRequestPage = () => {
 
   const handleReject = (id) => {
     deleteRequest(id);
-    setOpen(false);
+    setOpenDelete(false);
     navigate('/redeem-requests');
   };
   const approveBody = {
@@ -35,6 +36,7 @@ const RedeemRequestPage = () => {
 
   const handleApprove = (id: string) => {
     aprroveRequest({ id, ...approveBody });
+    setOpenApprove(false);
     navigate('/redeem-requests');
   };
 
@@ -58,19 +60,29 @@ const RedeemRequestPage = () => {
                   row={request}
                   onClick={() => onClick(request['employee'].id)}
                   userRole={user?.data.role}
-                  onEdit={() => handleApprove(request['id'])}
+                  onEdit={() => {
+                    setOpenApprove(true);
+                    setId(request['id']);
+                  }}
                   onDelete={() => {
-                    setOpen(true);
+                    setOpenDelete(true);
                     setId(request['id']);
                   }}
                   pageType='redeemRequestsList'
                 />
               ))}
-            {open ? (
+            {openDelete ? (
               <DeletePopup
-                value={'reject the request'}
+                desc={'Do you really want to reject the request'}
                 onConfirm={() => handleReject(id)}
-                onClose={() => setOpen(false)}
+                onClose={() => setOpenDelete(false)}
+              ></DeletePopup>
+            ) : null}
+            {openApprove ? (
+              <DeletePopup
+                desc={'Do you really want to approve the request'}
+                onConfirm={() => handleApprove(id)}
+                onClose={() => setOpenApprove(false)}
               ></DeletePopup>
             ) : null}
           </div>

@@ -24,6 +24,7 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, pageType, onClick, onDelet
   };
 
   const keys = pageTypeToKeysMap[pageType];
+  //  clean code
 
   return (
     <tr className='tabled'>
