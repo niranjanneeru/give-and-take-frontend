@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import './sidebar.css';
+import Popup from '../deletePopup/deletePopup';
 
 const Sidebar = ({
   handleNavigateToEmployeeList,
@@ -6,6 +8,11 @@ const Sidebar = ({
   handleNavigateToLogout,
   hanndleNavigateToProfile
 }) => {
+  const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
+
+  console.log(isLogOutPopUpVisible);
+  console.log(handleNavigateToLogout);
+
   return (
     <aside className='sidebar'>
       <div className='logo-employee'>
@@ -45,7 +52,11 @@ const Sidebar = ({
             <span>About</span>
           </a>
           <div className='logout'>
-            <a onClick={handleNavigateToLogout}>
+            <a
+              onClick={() => {
+                setPopUpVisible(true);
+              }}
+            >
               <div className='icon-li'>
                 <img src='assets/img/icons8-logout-48.png' />
               </div>
@@ -54,6 +65,17 @@ const Sidebar = ({
           </div>
         </li>
       </ul>
+      {isLogOutPopUpVisible && (
+        <Popup
+          onClose={() => {
+            setPopUpVisible(false);
+          }}
+          desc='Do you want to logout?'
+          onConfirm={() => {
+            handleNavigateToLogout();
+          }}
+        />
+      )}
     </aside>
   );
 };

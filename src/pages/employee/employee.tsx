@@ -4,11 +4,11 @@ import Layout from '../../components/layout/layout';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useNavigate } from 'react-router-dom';
-import DeletePopup from '../../components/deletePopup/deletePopup';
 import { useDeleteEmployeesMutation, useGetEmployeesQuery, useGetUserQuery } from './api';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 import { useCreateTaskMutation } from '../createEditTask/api';
 import TableShimmer from '../../components/shimmer/TableShimmer';
+import Popup from '../../components/deletePopup/deletePopup';
 
 const EmployeePage = () => {
   const [id, setId] = useState('');
@@ -86,10 +86,11 @@ const EmployeePage = () => {
           </>
         )}
         {open ? (
-          <DeletePopup
+          <Popup
             onConfirm={() => handleDelete(id)}
             onClose={() => setOpen(false)}
-          ></DeletePopup>
+            desc={'Do you really want to delete employee ?'}
+          ></Popup>
         ) : null}
         {openDirectBounty ? (
           <DirectBountyPopup
