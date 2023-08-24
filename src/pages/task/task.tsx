@@ -89,7 +89,7 @@ const TaskListPage = () => {
       {taskData && (
         <div className='taskList-container'>
           <table className='table'>
-            <TableHeader userRole={user?.data.role} isTask={true}></TableHeader>
+            <TableHeader userRole={user?.data.role} page={'task'}></TableHeader>
             <div className='scroll-tr'>
               {currentTaskData &&
                 currentTaskData.data.map((task) => (
@@ -97,8 +97,8 @@ const TaskListPage = () => {
                     key={task['id']}
                     row={task}
                     onClick={() => onClick(task['id'])}
-                    isTask={true}
                     userRole={user?.data.role}
+                    pageType='taskList'
                   />
                 ))}
             </div>
