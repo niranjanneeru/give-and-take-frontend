@@ -2,6 +2,8 @@ import Button from '../button/button';
 import './subheader.css';
 import type { FC } from 'react';
 import { useState } from 'react';
+import { useMemo } from 'react';
+import _ from 'lodash';
 
 type subheaderProps = {
   heading: string;
@@ -22,6 +24,7 @@ type subheaderProps = {
   handleEdit?: (e) => void;
   handleFilter?: (e) => void;
   handleAward?: (e) => void;
+  setSearchText?: (e) => void;
 };
 
 const Subheader: FC<subheaderProps> = ({
@@ -42,9 +45,21 @@ const Subheader: FC<subheaderProps> = ({
   handleEdit = null,
   handleFilter,
   handleAward = null,
-  handleRedeemRequest = null
+  handleRedeemRequest = null,
+  setSearchText = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);
+  const searchDebounce = useMemo(
+    () =>
+      _.debounce(
+        (e) => {
+          setSearchText(e.target.value);
+        },
+        250,
+        { maxWait: 1000 }
+      ),
+    []
+  );
 
   return (
     <div className='subheader'>
@@ -64,12 +79,20 @@ const Subheader: FC<subheaderProps> = ({
           </div>
         )}
       </div>
-      {isTask && userRole === 'LEAD' && (
-        <a className='editTask-button'>
-          <Button value='Create task' iconImg={'plus'} onClick={onClick}></Button>
-          <Button value='Filter task' iconImg={'filter'} handleFilter={handleFilter}></Button>
-        </a>
-      )}
+
+      <a className='editTask-button'>
+        {setSearchText && (
+          <div className='search-input'>
+            <input className='search-button' placeholder='Search' onChange={searchDebounce}></input>
+          </div>
+        )}
+        {isTask && userRole === 'LEAD' && (
+          <>
+            <Button value='Create task' iconImg={'plus'} onClick={onClick}></Button>
+            <Button value='Filter task' iconImg={'filter'} handleFilter={handleFilter}></Button>
+          </>
+        )}
+      </a>
       {!isTask && iconText && (
         <a className='editTask-button'>
           {userRole === 'LEAD' && (
