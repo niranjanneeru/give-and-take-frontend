@@ -8,7 +8,12 @@ import CreateEmployee from './pages/createEmployee/createEmployee';
 import CreateEditTask from './pages/createEditTask/createEditTask';
 import TaskDetails from './pages/taskDetails/taskDetails';
 import TaskListPage from './pages/task/task';
+import HomePage from './pages/homepage/homepage';
+import AboutPage from './pages/about/About';
 import RedeemRequestPage from './pages/redeemRequests/redeemRequests';
+import Page404 from './pages/404/page404';
+
+
 
 const App: FC = () => {
   return (
@@ -23,7 +28,10 @@ const App: FC = () => {
         <Route path='/tasks/edit/:id' element={<CreateEditTask />} />
         <Route path='/tasks/:id' element={<TaskDetails />} />
         <Route path='/tasks' element={<TaskListPage />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<AboutPage />} />
         <Route path='/redeem-requests' element={<RedeemRequestPage />} />
+        <Route path='/404' element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );
