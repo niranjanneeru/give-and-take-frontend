@@ -1,27 +1,27 @@
 import './Table.css';
 
-const Table = ({ data }) => {
+const Table = ({ headerData, contentData }) => {
   return (
-    <div className='table-container'>
-      <table className='table-main-div'>
-        <thead>
-          <tr className='tabled1'>
-            <th>Tier</th>
-            <th>Points</th>
-            <th>Reward</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr className='tabled1' key={item.tier}>
-              <td>{item.tier}</td>
-              <td>{item.points}</td>
-              <td>{item.rewards}</td>
-            </tr>
+    <table className='table-main-div'>
+      <thead>
+        <tr className='table-row'>
+          {headerData.map((item) => (
+            <td key={item} style={{ fontWeight: 'bold' }}>
+              {item}
+            </td>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        {contentData.map((item) => (
+          <tr className='table-row' key={item.tier}>
+            <td>{item.tier}</td>
+            <td>{item.points}</td>
+            <td>{item.rewards}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
