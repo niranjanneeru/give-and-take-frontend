@@ -15,6 +15,8 @@ type subheaderProps = {
   userRole?: string;
   isTask: boolean;
   isEmployeeDetail?: boolean;
+  isUser?: boolean;
+  handleRedeemRequest?: (e) => void;
   handleApprove?: (e) => void;
   handleDelete?: (e) => void;
   handleEdit?: (e) => void;
@@ -34,11 +36,13 @@ const Subheader: FC<subheaderProps> = ({
   isTask,
   isTaskPage = false, // clean code
   isEmployeeDetail = false,
+  isUser = false,
   handleApprove = null,
   handleDelete = null,
   handleEdit = null,
   handleFilter,
-  handleAward = null
+  handleAward = null,
+  handleRedeemRequest = null
 }) => {
   const [icon, setIcon] = useState(`assets/img/icons8-expand-arrow-50.png`);
 
@@ -66,11 +70,16 @@ const Subheader: FC<subheaderProps> = ({
           <Button value='Filter task' iconImg={'filter'} handleFilter={handleFilter}></Button>
         </a>
       )}
-      {!isTask && userRole === 'LEAD' && iconText && (
+      {!isTask && iconText && (
         <a className='editTask-button'>
-          <Button value={iconText} iconImg={iconImg} onClick={onClick}></Button>
-          {isEmployeeDetail && (
+          {userRole === 'LEAD' && (
+            <Button value={iconText} iconImg={iconImg} onClick={onClick}></Button>
+          )}
+          {isEmployeeDetail && userRole === 'LEAD' && (
             <Button value='Award Bounty' iconImg='dollar1' onClick={handleAward} />
+          )}
+          {isEmployeeDetail && isUser && (
+            <Button value='Redeem Bounty' iconImg='dollar1' onClick={handleRedeemRequest} />
           )}
         </a>
       )}

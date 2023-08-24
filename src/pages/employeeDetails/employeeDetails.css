@@ -1,5 +1,6 @@
 .detailsCard {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   background-color: #f8eae2;
   border-radius: 7px;

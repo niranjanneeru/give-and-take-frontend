@@ -6,15 +6,15 @@ const getTiers = (bounty) => {
     BRONZE: 0
   };
 
-  if (bounty > 100) {
+  if (bounty >= 100) {
     TierValues.PLATINUM = Math.floor(bounty / 100);
     bounty %= 100;
   }
-  if (bounty > 75) {
+  if (bounty >= 75) {
     TierValues.GOLD = Math.floor(bounty / 75);
     bounty %= 75;
   }
-  if (bounty > 50) {
+  if (bounty >= 50) {
     TierValues.SILVER = Math.floor(bounty / 50);
     bounty %= 50;
   }
