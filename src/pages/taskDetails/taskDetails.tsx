@@ -29,13 +29,13 @@ const TaskDetails = () => {
   const { data: user } = useGetUserQuery();
   const userId = user?.data?.id;
 
-  const [addAssignee] = useAddAssigneeMutation();
+  const [addAssignee, { isLoading: addAssigneeLoading }] = useAddAssigneeMutation();
 
   function handleJoin() {
     addAssignee({ taskId: id, assigneeId: userId });
   }
 
-  const [addComments] = useAddCommentsMutation();
+  const [addComments, { isLoading: commentsIsLoading }] = useAddCommentsMutation();
   const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
 
   const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
@@ -118,8 +118,9 @@ const TaskDetails = () => {
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      {!taskData && <DetailShimmer />}
-      {taskData && (
+      {!taskData || addAssigneeLoading ? (
+        <DetailShimmer />
+      ) : (
         <>
           <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
             {isSuccess && (
@@ -152,27 +153,31 @@ const TaskDetails = () => {
               </>
             )}
           </div>
-          <div className='progress'>
-            <div className='progress-header'>Comments</div>
-            <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-              {taskData &&
-                taskData?.data?.comments.map((comment) => {
-                  console.log(userId, taskData);
+          {commentsIsLoading ? (
+            <DetailShimmer />
+          ) : (
+            <div className='progress'>
+              <div className='progress-header'>Comments</div>
+              <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+                {taskData &&
+                  taskData?.data?.comments.map((comment) => {
+                    console.log(userId, taskData);
 
-                  return (
-                    <Comment
-                      key={comment.id}
-                      author={comment?.postedBy?.name}
-                      date={comment?.createdAt}
-                      comment={comment?.comment}
-                      attachment={comment?.url}
-                      isCurrentUserComment={userId === comment?.postedBy?.id}
-                    />
-                  );
-                })}
+                    return (
+                      <Comment
+                        key={comment.id}
+                        author={comment?.postedBy?.name}
+                        date={comment?.createdAt}
+                        comment={comment?.comment}
+                        attachment={comment?.url}
+                        isCurrentUserComment={userId === comment?.postedBy?.id}
+                      />
+                    );
+                  })}
+              </div>
+              {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
             </div>
-            {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
-          </div>
+          )}
         </>
       )}
     </Layout>
