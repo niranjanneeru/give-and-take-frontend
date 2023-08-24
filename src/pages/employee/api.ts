@@ -16,7 +16,7 @@ const employeeApi = baseApi.injectEndpoints({
     getEmployees: builder.query<any, void>({
       query: () => ({
         url: '/employees',
-        method: 'get'
+        method: 'GET'
       }),
       providesTags: ['employee.list']
     }),
@@ -30,7 +30,7 @@ const employeeApi = baseApi.injectEndpoints({
     getUser: builder.query<any, void>({
       query: () => ({
         url: '/employees/me',
-        method: 'get'
+        method: 'GET'
       })
     })
   })
