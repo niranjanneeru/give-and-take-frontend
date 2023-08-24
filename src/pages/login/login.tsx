@@ -21,19 +21,21 @@ const Login = () => {
   const navigate = useNavigate();
   const submit = (e) => {
     e.preventDefault();
-    if (email.length == 0 || password.length == 0) setError(true);
-    else
+    if (email.length == 0 || password.length == 0) {
+      setMessage('Empty Fields');
+      setError(true);
+    } else {
       login({
         email: email,
         password: password
       });
+    }
   };
 
   useEffect(() => {
     if (isError) {
-      console.log(errLogin);
       if (errLogin['status'] === 400) {
-        setMessage('Invalid Email');
+        setMessage('Invalid Email or Password');
         setError(true);
 
         return;
