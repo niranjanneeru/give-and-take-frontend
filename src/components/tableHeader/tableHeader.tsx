@@ -1,15 +1,14 @@
 import React from 'react';
 import './tableHeader.css';
 import Table from '../table/Table';
+import type { FC } from 'react';
 
-type tableHeaderPropsType = {
-  userRole: string;
-  isTask: boolean;
-  showPopup?: () => void;
-  hidePopup?: () => void;
+type tableHeaderProps = {
+  userRole?: string;
+  page: string;
 };
 
-const TableHeader: React.FC<tableHeaderPropsType> = ({ userRole, isTask }) => {
+const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
   const empHeaderData = [
     'Employee Name',
     'Joining Date',
@@ -38,8 +37,16 @@ const TableHeader: React.FC<tableHeaderPropsType> = ({ userRole, isTask }) => {
     { tier: 'Platinum', points: '100', rewards: 'Rs 8000' }
   ];
 
-  if (userRole == 'LEAD') empHeaderData.push('Action');
-  const headerData = isTask ? taskHeaderData : empHeaderData;
+  let headerData = [];
+
+  const redeemHeaderData = ['Employee Name', 'Requested Bounty'];
+
+  if (userRole == 'LEAD') empHeaderData.push('Action') && redeemHeaderData.push('Action');
+
+  if (page == 'task') headerData = taskHeaderData;
+  else if (page == 'employee') headerData = empHeaderData;
+  else if (page == 'redeemRequestsList') headerData = redeemHeaderData;
+
 
   return (
     <div>

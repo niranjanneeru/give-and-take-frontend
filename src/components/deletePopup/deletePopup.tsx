@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import './deletePopup.css';
+import Button from '../button/button';
 
 type deletePopupTypes = {
   onClose: () => void;
@@ -15,8 +16,8 @@ const Popup: FC<deletePopupTypes> = ({ onClose, onConfirm, desc }) => {
         <div className='popHeading'>Are you sure ?</div>
         <div className='popSubheading'>{desc}</div>
         <div className='popupButton'>
-          <input type='submit' value='Confirm' className='pop-confirm' onClick={onConfirm} />
-          <input type='submit' value='Cancel' className='pop-cancel' onClick={onClose} />
+          <Button value='Confirm' onClick={onConfirm} className='pop-confirm'></Button>
+          <Button value='Cancel' onClick={onClose} className='pop-cancel'></Button>
         </div>
       </div>
     </div>

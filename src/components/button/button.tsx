@@ -7,14 +7,17 @@ export type ButtonProps = {
   iconImg?: string;
   onClick?: (e) => void;
   handleFilter?: (e) => void;
+  className?: string;
 };
 
-const Button: FC<ButtonProps> = ({ value, onClick, iconImg, handleFilter }) => {
+const Button: FC<ButtonProps> = ({ value, onClick, iconImg, handleFilter, className }) => {
   return (
-    <button onClick={onClick} className='button-relative'>
+    <button onClick={onClick} className={className ? className : 'button-relative'}>
       {iconImg && <img className='subheader-img' src={`assets/icons/${iconImg}.svg`} />}
 
-      <input type='submit' value={value} className='form-login' data-testid='button-test'></input>
+      <div className={!className ? 'form-login' : null} data-testid='button-test'>
+        {value}
+      </div>
       {value === 'Filter task' && <DropdownContent handleFilter={handleFilter}></DropdownContent>}
     </button>
   );

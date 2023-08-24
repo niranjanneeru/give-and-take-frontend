@@ -9,6 +9,8 @@ import CreateEditTask from './pages/createEditTask/createEditTask';
 import TaskDetails from './pages/taskDetails/taskDetails';
 import TaskListPage from './pages/task/task';
 import AboutPage from './pages/about/About';
+import RedeemRequestPage from './pages/redeemRequests/redeemRequests';
+
 
 const App: FC = () => {
   return (
@@ -24,6 +26,7 @@ const App: FC = () => {
         <Route path='/tasks/:id' element={<TaskDetails />} />
         <Route path='/tasks' element={<TaskListPage />} />
         <Route path='/about' element={<AboutPage />} />
+        <Route path='/redeem-requests' element={<RedeemRequestPage />} />
       </Routes>
     </BrowserRouter>
   );
