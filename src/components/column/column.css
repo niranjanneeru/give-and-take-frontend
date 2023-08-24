@@ -1,18 +1,16 @@
 .task-list {
-    max-height: 480px;
+    max-height: 420px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
 
-
-/* Column.css */
 .column {
     width: 33%;
     background-color: #f5f5f5;
     border-radius: 8px;
     padding: 12px;
-    margin: 0 8px;
+    margin: 0 8px auto;
     overflow: hidden;
 }
 
