@@ -6,6 +6,7 @@ import MultiValueInput from '../../components/multiValueInput/multiValueInput';
 import { useCreateTaskMutation, useUpdateTaskMutation } from './api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLazyGetTaskByIDQuery } from '../taskDetails/api';
+import Button from '../../components/button/button';
 
 const CreateEditTask = () => {
   const [details, setDetails] = useState({
@@ -33,6 +34,10 @@ const CreateEditTask = () => {
   const handleSubmit = () => {
     if (!isEditing) createTask(details);
     else editTask({ id, ...details });
+  };
+
+  const handleCancel = () => {
+    navigate('/tasks');
   };
 
   useEffect(() => {
@@ -136,14 +141,16 @@ const CreateEditTask = () => {
             ></FormInput>
           </div>
         </div>
-        <div className='end'>
-          <input
-            type='submit'
+        <div className='end' style={{ width: '25%' }}>
+          <Button
             value={isEditing ? 'Save' : 'Create'}
-            className='form-create'
             onClick={handleSubmit}
-          />
-          <input type='submit' value='Cancel' className='form-cancel' />
+            className='pop-confirm'
+          ></Button>
+          <Button value='Cancel' className='pop-cancel' onClick={handleCancel}>
+            {' '}
+            Cancel{' '}
+          </Button>
         </div>
       </div>
     </Layout>
