@@ -2,7 +2,7 @@ import './employeeDetails.css';
 import Layout from '../../components/layout/layout';
 import { useNavigate, useParams } from 'react-router-dom';
 import DetailsItem from '../../components/empDetailsItem/empDetailsItem';
-import { useGetEmployeeByIDQuery } from './api';
+import { useCreateRedeemRequestMutation, useGetEmployeeByIDQuery } from './api';
 import { useGetUserQuery } from '../employee/api';
 import { getTier } from '../../utils/tiers';
 import { useEffect, useState } from 'react';
@@ -18,9 +18,13 @@ const EmployeeDetails = () => {
   const { data: user } = useGetUserQuery();
   const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
     useCreateTaskMutation();
+  const [createRedeemRequest, { data: redeemRequestData, isSuccess: redeemRequestSuccess }] =
+    useCreateRedeemRequestMutation();
   const [openDirectBounty, setopenDirectBounty] = useState(false);
   const [bounty, setBounty] = useState(0);
   const [reason, setReason] = useState('');
+  const [redeemBounty, setRedeemBounty] = useState(0);
+  const [openRedeemRequest, setOpenRedeemRequest] = useState(false);
 
   console.log('employee', employee);
   const navigate = useNavigate();
@@ -39,6 +43,12 @@ const EmployeeDetails = () => {
     setopenDirectBounty(false);
   };
 
+  const handleRedeemRequest = (bounty: number) => {
+    console.log('bounty', bounty);
+    createRedeemRequest(+bounty);
+    setOpenRedeemRequest(false);
+  };
+
   const subheaderProps = {
     heading: 'Employee Details',
     iconText: 'Edit Employee',
@@ -47,12 +57,22 @@ const EmployeeDetails = () => {
     handleAward: () => {
       setopenDirectBounty(true);
     },
-    isEmployeeDetail: true
+    isEmployeeDetail: true,
+    isUser: user?.data.id === id,
+    handleRedeemRequest: () => {
+      setOpenRedeemRequest(true);
+    }
   };
 
   useEffect(() => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
+
+  useEffect(() => {
+    if (redeemRequestData && redeemRequestSuccess) navigate('/employees');
+  }, [redeemRequestData, redeemRequestSuccess]);
+
+  console.log('Employee ', employee?.data);
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
@@ -67,6 +87,11 @@ const EmployeeDetails = () => {
             <DetailsItem label='Status' value={employee.data.status} type='status' />
             <DetailsItem label='Department' value={employee.data.department.name} type='text' />
             <DetailsItem label='Bounty Points' value={String(employee.data.bounty)} type='text' />
+            <DetailsItem
+              label='Redeemed Points'
+              value={String(employee.data.redeemed_bounty)}
+              type='text'
+            />
             <DetailsItem label='Tier' value={getTier(employee.data.bounty)} type='text' />
             <DetailsItem
               label='Badge'
@@ -99,6 +124,15 @@ const EmployeeDetails = () => {
           setBounty={setBounty}
           reason={reason}
           setReason={setReason}
+        ></DirectBountyPopup>
+      ) : null}
+      {openRedeemRequest ? (
+        <DirectBountyPopup
+          onConfirm={() => handleRedeemRequest(redeemBounty)}
+          onClose={() => setOpenRedeemRequest(false)}
+          bounty={redeemBounty}
+          setBounty={setRedeemBounty}
+          isDirectBounty={false}
         ></DirectBountyPopup>
       ) : null}
     </Layout>
