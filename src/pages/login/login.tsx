@@ -6,14 +6,17 @@ import './styles.css';
 import { useLoginMutation } from './api';
 import { useDispatch } from 'react-redux';
 import { setRole } from '../../actions/employeeActions';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  const [login, { data, isSuccess }] = useLoginMutation();
+  const [login, { data, isSuccess, isError, error: errLogin }] = useLoginMutation();
 
   const navigate = useNavigate();
   const submit = (e) => {
@@ -27,12 +30,32 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (isError) {
+      console.log(errLogin);
+      if (errLogin['status'] === 400) {
+        setMessage('Invalid Email');
+        setError(true);
+
+        return;
+      }
+      setMessage(errLogin['data']['message']);
+      setError(true);
+    }
+  }, [isError]);
+
+  useEffect(() => {
     if (data && isSuccess) {
       localStorage.setItem('token', data.data.token);
       dispatch(setRole(data.data.role));
       navigate('/employees');
     }
   }, [data, isSuccess]);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setError(false);
+  };
 
   return (
     <section>
@@ -49,11 +72,11 @@ const Login = () => {
           <div className='login-form'>
             <Input label='Email' type='text' value={email} onChange={setEmail}></Input>
             <Input label='Password' type='password' value={password} onChange={setPassword}></Input>
-            {error && <div>Provide username and Password</div>}
             <Button value='Login' onClick={submit}></Button>
           </div>
         </div>
       </div>
+      <CustomSnackbar open={error} handleClose={handleClose} message={message} severity='error' />
     </section>
   );
 };
