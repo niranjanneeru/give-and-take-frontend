@@ -66,25 +66,22 @@ const EmployeePage = () => {
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
-        {employeesData && (
-          <>
-            <TableHeader userRole={user?.data.role} isTask={false}></TableHeader>
-            {employeesData.data.map((employee) => (
-              <TableRow
-                key={employee.id}
-                row={employee}
-                onClick={() => onClick(employee.id)}
-                onEdit={() => handleEdit(String(employee.id))}
-                onDelete={() => {
-                  setOpen(true);
-                  setId(employee.id);
-                }}
-                userRole={user?.data.role}
-                isTask={false}
-              />
-            ))}
-          </>
-        )}
+        <TableHeader userRole={user?.data.role} page={'employee'}></TableHeader>
+        {employeesData &&
+          employeesData.data.map((employee) => (
+            <TableRow
+              key={employee.id}
+              row={employee}
+              onClick={() => onClick(employee.id)}
+              onEdit={() => handleEdit(String(employee.id))}
+              onDelete={() => {
+                setOpen(true);
+                setId(employee.id);
+              }}
+              userRole={user?.data.role}
+              pageType='employeeList'
+            />
+          ))}
         {open ? (
           <Popup
             onConfirm={() => handleDelete(id)}

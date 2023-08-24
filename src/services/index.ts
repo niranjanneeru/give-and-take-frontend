@@ -14,7 +14,7 @@ const baseApi = createApi({
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
   endpoints: () => ({}),
-  tagTypes: ['employee.list', 'task.list', 'task.detail']
+  tagTypes: ['employee.list', 'task.list', 'task.detail', 'redeemRequest.list']
 });
 
 export default baseApi;
