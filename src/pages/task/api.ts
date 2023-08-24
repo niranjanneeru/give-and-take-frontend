@@ -9,7 +9,10 @@ const taskApi = baseApi.injectEndpoints({
       }),
       providesTags: ['task.list']
     }),
-    getFilteredTasks: builder.query<any, { status?: string; search?: string }>({
+    getFilteredTasks: builder.query<
+      any,
+      { status?: string; search?: string; page?: number; pageSize?: number }
+    >({
       query: (params) => ({
         url: '/tasks',
         method: 'get',
