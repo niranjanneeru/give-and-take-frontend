@@ -35,6 +35,9 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
   const hanndleNavigateToProfile = () => {
     navigate(`/employees/${user.id}`);
   };
+  const handleNavigateToRedeemRequests = () => {
+    navigate(`/redeem-requests`);
+  };
 
   return (
     <section>
@@ -42,7 +45,8 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         handleNavigateToEmployeeList={handleNavigateToEmployeeList}
         handleNavigateToTaskList={handleNavigateToTaskList}
         handleNavigateToLogout={handleNavigateToLogout}
-        hanndleNavigateToProfile={hanndleNavigateToProfile}
+        handleNavigateToProfile={hanndleNavigateToProfile}
+        handleNavigateToRedeemRequests={handleNavigateToRedeemRequests}
       ></Sidebar>
       <div className='sectionRight'>
         <Header {...searchBarProps}></Header>

@@ -1,6 +1,13 @@
 import './tableHeader.css';
+import type { FC } from 'react';
 
-const TableHeader = ({ userRole, isTask }) => {
+type tableHeaderProps = {
+  userRole?: string;
+  page: string;
+};
+
+const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
+  console.log(userRole);
   const empHeaderData = [
     'Employee Name',
     'Joining Date',
@@ -20,8 +27,15 @@ const TableHeader = ({ userRole, isTask }) => {
     'Assignees'
   ];
 
-  if (userRole == 'LEAD') empHeaderData.push('Action');
-  const headerData = isTask ? taskHeaderData : empHeaderData;
+  let headerData = [];
+
+  const redeemHeaderData = ['Employee Name', 'Requested Bounty'];
+
+  if (userRole == 'LEAD') empHeaderData.push('Action') && redeemHeaderData.push('Action');
+
+  if (page == 'task') headerData = taskHeaderData;
+  else if (page == 'employee') headerData = empHeaderData;
+  else if (page == 'redeemRequestsList') headerData = redeemHeaderData;
 
   return (
     <th className='tableHeader'>
