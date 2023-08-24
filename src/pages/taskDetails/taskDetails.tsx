@@ -16,6 +16,7 @@ import CommentInput from '../../components/commentInput/commentInput';
 import Comment from '../../components/comment/Comment';
 import { useGetUserQuery } from '../employee/api';
 import { useUpdateTaskMutation } from '../createEditTask/api';
+import DetailShimmer from '../../components/shimmer/DetailShimmer';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
@@ -117,52 +118,61 @@ const TaskDetails = () => {
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
-        {isSuccess && (
-          <>
-            <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
-            <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
-            <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
-            <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
-            <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
-            <DetailsItem label='Created By' value={taskData?.data?.createdBy?.name} type='text' />
-            <div className='description'>
-              <div className='description-heading'>Description</div>
-              <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
-            </div>
-            <ParticipantList
-              participants={taskData?.data?.assignees}
-              maxParticipants={taskData?.data?.maxParticipants}
-            ></ParticipantList>
-            <div className='description-dummy'>
-              <div>Description</div>
-              <div className='description-heading'>Description</div>
-              <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
-            </div>
-          </>
-        )}
-      </div>
-      <div className='progress'>
-        <div className='progress-header'>Comments</div>
-        <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-          {taskData &&
-            taskData?.data?.comments.map((comment) => {
-              console.log(userId, taskData);
-
-              return (
-                <Comment
-                  key={comment.id}
-                  author={comment?.postedBy?.name}
-                  date={comment?.createdAt}
-                  comment={comment?.comment}
-                  attachment={comment?.url}
-                  isCurrentUserComment={userId === comment?.postedBy?.id}
+      {!taskData && <DetailShimmer />}
+      {taskData && (
+        <>
+          <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
+            {isSuccess && (
+              <>
+                <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
+                <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
+                <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
+                <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
+                <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
+                <DetailsItem
+                  label='Created By'
+                  value={taskData?.data?.createdBy?.name}
+                  type='text'
                 />
-              );
-            })}
-        </div>
-        {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
-      </div>
+                <div className='description'>
+                  <div className='description-heading'>Description</div>
+                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                </div>
+                <ParticipantList
+                  participants={taskData?.data?.assignees}
+                  maxParticipants={taskData?.data?.maxParticipants}
+                ></ParticipantList>
+                <div className='description-dummy'>
+                  <div>Description</div>
+                  <div className='description-heading'>Description</div>
+                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                </div>
+              </>
+            )}
+          </div>
+          <div className='progress'>
+            <div className='progress-header'>Comments</div>
+            <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+              {taskData &&
+                taskData?.data?.comments.map((comment) => {
+                  console.log(userId, taskData);
+
+                  return (
+                    <Comment
+                      key={comment.id}
+                      author={comment?.postedBy?.name}
+                      date={comment?.createdAt}
+                      comment={comment?.comment}
+                      attachment={comment?.url}
+                      isCurrentUserComment={userId === comment?.postedBy?.id}
+                    />
+                  );
+                })}
+            </div>
+            {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
+          </div>
+        </>
+      )}
     </Layout>
   );
 };

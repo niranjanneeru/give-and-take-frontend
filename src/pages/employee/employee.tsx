@@ -4,10 +4,11 @@ import Layout from '../../components/layout/layout';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useNavigate } from 'react-router-dom';
-import DeletePopup from '../../components/deletePopup/deletePopup';
 import { useDeleteEmployeesMutation, useGetEmployeesQuery, useGetUserQuery } from './api';
 import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPopup';
 import { useCreateTaskMutation } from '../createEditTask/api';
+import TableShimmer from '../../components/shimmer/TableShimmer';
+import Popup from '../../components/deletePopup/deletePopup';
 
 const EmployeePage = () => {
   const [id, setId] = useState('');
@@ -62,8 +63,6 @@ const EmployeePage = () => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
 
-  console.log(user);
-
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
       <table className='table'>
@@ -84,11 +83,11 @@ const EmployeePage = () => {
             />
           ))}
         {open ? (
-          <DeletePopup
+          <Popup
             onConfirm={() => handleDelete(id)}
             onClose={() => setOpen(false)}
-            value='delete employee'
-          ></DeletePopup>
+            desc={'Do you really want to delete employee ?'}
+          ></Popup>
         ) : null}
         {openDirectBounty ? (
           <DirectBountyPopup
@@ -101,6 +100,7 @@ const EmployeePage = () => {
           ></DirectBountyPopup>
         ) : null}
       </table>
+      <div className='loading-div'>{!employeesData && <TableShimmer />}</div>
     </Layout>
   );
 };

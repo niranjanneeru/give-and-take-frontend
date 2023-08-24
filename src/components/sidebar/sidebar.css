@@ -55,7 +55,7 @@
   margin-left: -15px;
 }
 .logout{
-  margin-top: 650px;
+  margin-top:auto;
 }
 .logout > a {
   display: flex;

@@ -1,10 +1,18 @@
+import { useState } from 'react';
 import './sidebar.css';
+import Popup from '../deletePopup/deletePopup';
 
 const Sidebar = ({
   handleNavigateToEmployeeList,
   handleNavigateToTaskList,
-  handleNavigateToLogout
+  handleNavigateToLogout,
+  hanndleNavigateToProfile
 }) => {
+  const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
+
+  console.log(isLogOutPopUpVisible);
+  console.log(handleNavigateToLogout);
+
   return (
     <aside className='sidebar'>
       <div className='logo-employee'>
@@ -25,8 +33,30 @@ const Sidebar = ({
             </div>
             <span>Task List</span>
           </a>
+          <a>
+            <div className='icon-li'>
+              <img src='assets/img/to-receive-points-svgrepo-com.svg' />
+            </div>
+            <span>Redeem Requests</span>
+          </a>
+          <a onClick={hanndleNavigateToProfile}>
+            <div className='icon-li'>
+              <img src='assets/icons/profile.svg' />
+            </div>
+            <span>Profile</span>
+          </a>
+          <a onClick={() => {}}>
+            <div className='icon-li'>
+              <img src='assets/icons/about.svg' />
+            </div>
+            <span>About</span>
+          </a>
           <div className='logout'>
-            <a onClick={handleNavigateToLogout}>
+            <a
+              onClick={() => {
+                setPopUpVisible(true);
+              }}
+            >
               <div className='icon-li'>
                 <img src='assets/img/icons8-logout-48.png' />
               </div>
@@ -35,6 +65,17 @@ const Sidebar = ({
           </div>
         </li>
       </ul>
+      {isLogOutPopUpVisible && (
+        <Popup
+          onClose={() => {
+            setPopUpVisible(false);
+          }}
+          desc='Do you want to logout?'
+          onConfirm={() => {
+            handleNavigateToLogout();
+          }}
+        />
+      )}
     </aside>
   );
 };

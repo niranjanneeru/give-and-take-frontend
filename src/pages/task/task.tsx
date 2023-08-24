@@ -6,13 +6,15 @@ import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useEffect, useState } from 'react';
+import TableShimmer from '../../components/shimmer/TableShimmer';
 
 const TaskListPage = () => {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentTaskData, setTaskDataState] = useState(null);
 
   // add use effect
-  const { data: taskData } = useGetTasksQuery();
+  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
@@ -22,7 +24,8 @@ const TaskListPage = () => {
     // Refetch task data when the component mounts (user navigates back)
     refetch();
   }, [refetch]);
-  const [getFilteredTasks, { data: filteredTaskData }] = useLazyGetFilteredTasksQuery();
+  const [getFilteredTasks, { data: filteredTaskData, isSuccess: isFilterSuccess }] =
+    useLazyGetFilteredTasksQuery();
 
   const handleFilter = (filterValue) => {
     console.log('Filter value changed to:', filterValue);
@@ -30,11 +33,15 @@ const TaskListPage = () => {
   };
 
   useEffect(() => {
-    if (selectedFilter) getFilteredTasks({ status: selectedFilter });
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    getFilteredTasks(params);
   }, [selectedFilter]);
 
   const subheaderProps = {
-    heading: 'TASKS',
+    heading: 'Tasks',
     iconText: 'Create Task',
     iconImg: 'plus',
     onClick: () => navigate('/tasks/create'),
@@ -42,27 +49,62 @@ const TaskListPage = () => {
     handleFilter: handleFilter
   };
 
-  const currentTaskData = selectedFilter ? filteredTaskData : taskData;
+  const [searchText, setSearchText] = useState('');
+
+  const [searchTrigger, { data: searchData, isSuccess: isSearchSuccess }] =
+    useLazyGetFilteredTasksQuery();
+
+  useEffect(() => {
+    if (searchText.trim() === '') return;
+    const params = {};
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    params['search'] = searchText;
+    searchTrigger(params);
+  }, [searchText]);
+
+  useEffect(() => {
+    if (isSearchSuccess) setTaskDataState(searchData);
+  }, [searchData]);
+
+  useEffect(() => {
+    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+  }, [filteredTaskData]);
+
+  useEffect(() => {
+    if (isTaskFetchSuccess) setTaskDataState(taskData);
+  }, [taskData]);
+
+  const searchBarProps = {
+    setSearchText
+  };
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      <div className='taskList-container'>
-        <table className='table'>
-          <TableHeader userRole={user?.data.role} page={'task'}></TableHeader>
-          <div className='scroll-tr'>
-            {currentTaskData &&
-              currentTaskData.data.map((task) => (
-                <TableRow
-                  key={task['id']}
-                  row={task}
-                  onClick={() => onClick(task['id'])}
-                  userRole={user?.data.role}
-                  pageType='taskList'
-                />
-              ))}
-          </div>
-        </table>
-      </div>
+    <Layout
+      searchBarProps={searchBarProps}
+      subheaderProps={subheaderProps}
+      userRole={user?.data.role}
+    >
+      {!taskData && <TableShimmer />}
+      {taskData && (
+        <div className='taskList-container'>
+          <table className='table'>
+            <TableHeader userRole={user?.data.role} page={'task'}></TableHeader>
+            <div className='scroll-tr'>
+              {currentTaskData &&
+                currentTaskData.data.map((task) => (
+                  <TableRow
+                    key={task['id']}
+                    row={task}
+                    onClick={() => onClick(task['id'])}
+                    userRole={user?.data.role}
+                    pageType='taskList'
+                  />
+                ))}
+            </div>
+          </table>
+        </div>
+      )}
     </Layout>
   );
 };

@@ -4,6 +4,7 @@
   padding: 10px;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 20%;
 }
 .emp-item span {
   padding-bottom: 10px;
