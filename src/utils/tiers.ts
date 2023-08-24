@@ -1,4 +1,5 @@
 export enum Tier {
+  AMATEUR='AMATEUR',
   BRONZE = 'BRONZE',
   SILVER = 'SILVER',
   GOLD = 'GOLD',
@@ -10,13 +11,10 @@ export enum Tier {
 }
 
 export const getTier = (bountyPoints: number) => {
-  if (bountyPoints < 100) return Tier.BRONZE;
-  if (bountyPoints < 500) return Tier.SILVER;
-  if (bountyPoints < 1000) return Tier.GOLD;
-  if (bountyPoints < 2000) return Tier.PLATINUM;
-  if (bountyPoints < 5000) return Tier.DIAMOND;
-  if (bountyPoints < 10000) return Tier.ASCENDANT;
-  if (bountyPoints < 20000) return Tier.IMMORTAL;
+  if (bountyPoints >= 100) return Tier.PLATINUM;
+  if (bountyPoints >= 75) return Tier.GOLD;
+  if (bountyPoints <= 50) return Tier.SILVER;
+  if (bountyPoints <= 25) return Tier.BRONZE;
 
-  return Tier.RADIANT;
+  return Tier.AMATEUR;
 };
