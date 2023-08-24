@@ -10,7 +10,7 @@ const HomePage = () => {
 
   return (
     <div className='container'>
-      <h1 className='project-name'>Give and Take</h1>
+      <h1 className='project-name'>GIVE AND TAKE</h1>
       <button className='login-button' onClick={handleLogin}>
         Login
       </button>

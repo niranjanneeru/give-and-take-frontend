@@ -45,9 +45,9 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         hanndleNavigateToProfile={hanndleNavigateToProfile}
       ></Sidebar>
       <div className='sectionRight'>
-        <Header {...searchBarProps}></Header>
+        <Header></Header>
         <div className='feed'>
-          <Subheader userRole={userRole} {...subheaderProps}></Subheader>
+          <Subheader userRole={userRole} {...subheaderProps} {...searchBarProps}></Subheader>
           {children}
         </div>
       </div>
