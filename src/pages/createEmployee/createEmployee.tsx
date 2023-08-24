@@ -38,8 +38,6 @@ const CreateEmployee = () => {
 
     console.log('Details address', temp);
 
-    //console.log('Temp: ', temp);
-
     key == 'address'
       ? (temp.address['line1'] = value)
       : key == 'experience'

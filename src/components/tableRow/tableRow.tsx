@@ -50,14 +50,14 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, pageType, onClick, onDelet
         </td>
       )}
       {/* render actions on employee list page */}
-      {userRole == 'LEAD' && pageType == 'employeeList' && (
+      {userRole == 'HR' && pageType == 'employeeList' && (
         <td className='img-td'>
           <img src={`assets/icons/delete.svg`} onClick={onDelete} />
           <img src={`assets/icons/pencil-edit.svg`} onClick={onEdit} />
         </td>
       )}
       {/* render actions on redeem requests list page */}
-      {userRole == 'LEAD' && pageType == 'redeemRequestsList' && (
+      {userRole == 'HR' && pageType == 'redeemRequestsList' && (
         <td className='img-td'>
           <img src={`assets/icons/check.svg`} onClick={onEdit} />
           <img src={`assets/icons/cross.svg`} onClick={onDelete} />

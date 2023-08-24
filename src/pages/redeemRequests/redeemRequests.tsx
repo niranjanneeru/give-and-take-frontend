@@ -8,7 +8,7 @@ import {
   useGetRedeemRequestsQuery,
   useUpdateRequestMutation
 } from './api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DeletePopup from '../../components/deletePopup/deletePopup';
 
 const RedeemRequestPage = () => {
@@ -44,51 +44,58 @@ const RedeemRequestPage = () => {
     heading: 'REDEEM REQUESTS'
   };
 
-  console.log('data', redeemRequests);
-  console.log('id', id);
+  useEffect(() => {
+    if (user?.data.role != 'HR') navigate('/404');
+  }, [user]);
+
+  const isAuthorised = () => (user?.data.role === 'HR' ? true : false);
 
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      <div className='taskList-container'>
-        <table className='table'>
-          <TableHeader userRole={user?.data.role} page={'redeemRequestsList'}></TableHeader>
-          <div className='scroll-tr'>
-            {redeemRequests &&
-              redeemRequests.data.map((request) => (
-                <TableRow
-                  key={request['id']}
-                  row={request}
-                  onClick={() => onClick(request['employee'].id)}
-                  userRole={user?.data.role}
-                  onEdit={() => {
-                    setOpenApprove(true);
-                    setId(request['id']);
-                  }}
-                  onDelete={() => {
-                    setOpenDelete(true);
-                    setId(request['id']);
-                  }}
-                  pageType='redeemRequestsList'
-                />
-              ))}
-            {openDelete ? (
-              <DeletePopup
-                desc={'Do you really want to reject the request'}
-                onConfirm={() => handleReject(id)}
-                onClose={() => setOpenDelete(false)}
-              ></DeletePopup>
-            ) : null}
-            {openApprove ? (
-              <DeletePopup
-                desc={'Do you really want to approve the request'}
-                onConfirm={() => handleApprove(id)}
-                onClose={() => setOpenApprove(false)}
-              ></DeletePopup>
-            ) : null}
+    <>
+      {isAuthorised && (
+        <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
+          <div className='taskList-container'>
+            <table className='table'>
+              <TableHeader userRole={user?.data.role} page={'redeemRequestsList'}></TableHeader>
+              <div className='scroll-tr'>
+                {redeemRequests &&
+                  redeemRequests.data.map((request) => (
+                    <TableRow
+                      key={request['id']}
+                      row={request}
+                      onClick={() => onClick(request['employee'].id)}
+                      userRole={user?.data.role}
+                      onEdit={() => {
+                        setOpenApprove(true);
+                        setId(request['id']);
+                      }}
+                      onDelete={() => {
+                        setOpenDelete(true);
+                        setId(request['id']);
+                      }}
+                      pageType='redeemRequestsList'
+                    />
+                  ))}
+                {openDelete ? (
+                  <DeletePopup
+                    desc={'Do you really want to reject the request'}
+                    onConfirm={() => handleReject(id)}
+                    onClose={() => setOpenDelete(false)}
+                  ></DeletePopup>
+                ) : null}
+                {openApprove ? (
+                  <DeletePopup
+                    desc={'Do you really want to approve the request'}
+                    onConfirm={() => handleApprove(id)}
+                    onClose={() => setOpenApprove(false)}
+                  ></DeletePopup>
+                ) : null}
+              </div>
+            </table>
           </div>
-        </table>
-      </div>
-    </Layout>
+        </Layout>
+      )}
+    </>
   );
 };
 
