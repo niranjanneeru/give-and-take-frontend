@@ -17,7 +17,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
   const navigate = useNavigate();
 
   const { data: userData } = useGetUserQuery();
-  const user = userData?.data.role;
+  const user = userData?.data;
 
   const handleNavigateToEmployeeList = () => {
     navigate('/employees');
