@@ -49,7 +49,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         handleNavigateToEmployeeList={handleNavigateToEmployeeList}
         handleNavigateToTaskList={handleNavigateToTaskList}
         handleNavigateToLogout={handleNavigateToLogout}
-        hanndleNavigateToProfile={hanndleNavigateToProfile}
+        handleNavigateToProfile={hanndleNavigateToProfile}
         handleNavigateAbout={handleNavigateAbout}
         handleNavigateToRedeemRequests={handleNavigateToRedeemRequests}
         userRole={userRole}
