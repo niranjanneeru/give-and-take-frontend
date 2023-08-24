@@ -47,6 +47,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         handleNavigateToLogout={handleNavigateToLogout}
         handleNavigateToProfile={hanndleNavigateToProfile}
         handleNavigateToRedeemRequests={handleNavigateToRedeemRequests}
+        userRole={userRole}
       ></Sidebar>
       <div className='sectionRight'>
         <Header {...searchBarProps}></Header>
