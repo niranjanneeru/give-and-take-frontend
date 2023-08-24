@@ -43,12 +43,12 @@ const RedeemRequestPage = () => {
     heading: 'REDEEM REQUESTS'
   };
 
+  const isAuthorised = () => (user?.data.role === 'HR' ? true : false);
+
   useEffect(() => {
     console.log(user);
-    if (user?.data.role != 'HR' && isSuccess) navigate('/404');
+    if (isSuccess && !isAuthorised) navigate('/404');
   }, [user, isSuccess]);
-
-  const isAuthorised = () => (user?.data.role === 'HR' ? true : false);
 
   return (
     <>
