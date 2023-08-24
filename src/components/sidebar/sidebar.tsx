@@ -13,9 +13,6 @@ const Sidebar = ({
 }) => {
   const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
 
-  console.log(isLogOutPopUpVisible);
-  console.log(handleNavigateToLogout);
-
   return (
     <aside className='sidebar'>
       <div className='logo-employee'>

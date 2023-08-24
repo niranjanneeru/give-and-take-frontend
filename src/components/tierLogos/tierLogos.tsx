@@ -9,11 +9,7 @@ type TierPropTypes = {
 const TierLogos: FC<TierPropTypes> = ({ bounty }) => {
   const tierValues = getTiers(bounty);
 
-  console.log('Tier valuess are', tierValues);
-
   const getTier = (tier) => {
-    console.log('In Tier');
-
     return (
       <div className='tier-container'>
         <img src={`/assets/img/tiers/${tier}.png`} className='tier-img' />

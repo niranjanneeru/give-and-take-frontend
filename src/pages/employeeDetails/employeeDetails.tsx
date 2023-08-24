@@ -10,14 +10,22 @@ import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPo
 import { useCreateTaskMutation } from '../createEditTask/api';
 import Board from '../../components/board/board';
 import ContentBoxShimmer from '../../components/shimmer/ContentBoxShimmer';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
 
   const { data: employee } = useGetEmployeeByIDQuery(id);
   const { data: user } = useGetUserQuery();
-  const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
-    useCreateTaskMutation();
+  const [
+    createDirectBounty,
+    {
+      data: directBountyData,
+      isSuccess: directBountySuccess,
+      isError: isErrorDirectBountyCreation,
+      error: errorDirectBountyCreation
+    }
+  ] = useCreateTaskMutation();
   const [createRedeemRequest, { data: redeemRequestData, isSuccess: redeemRequestSuccess }] =
     useCreateRedeemRequestMutation();
   const [openDirectBounty, setopenDirectBounty] = useState(false);
@@ -25,11 +33,33 @@ const EmployeeDetails = () => {
   const [reason, setReason] = useState('');
   const [redeemBounty, setRedeemBounty] = useState(0);
   const [openRedeemRequest, setOpenRedeemRequest] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState('');
+  const [severitySnackbar, setSeveritySnackbar] = useState('');
 
-  console.log('employee', employee);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setOpenSnackbar(false);
+  };
+
   const navigate = useNavigate();
   const handleDirectBountyAward = (id: string) => {
-    console.log('id', id);
+    if (bounty === 0) {
+      setMessageSnackbar('Bounty should be a positive number');
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+
+      return;
+    }
+
+    if (reason.length === 0) {
+      setMessageSnackbar("Reason can't be empty");
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+
+      return;
+    }
     createDirectBounty({
       title: reason,
       description: reason,
@@ -65,14 +95,25 @@ const EmployeeDetails = () => {
   };
 
   useEffect(() => {
-    if (directBountyData && directBountySuccess) navigate('/employees');
+    if (isErrorDirectBountyCreation) {
+      setMessageSnackbar(errorDirectBountyCreation['data']['message']);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+    }
+  }, [isErrorDirectBountyCreation]);
+
+  useEffect(() => {
+    if (directBountyData && directBountySuccess) {
+      setopenDirectBounty(false);
+      setMessageSnackbar(`${bounty} bounty point awarded`);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('success');
+    }
   }, [directBountyData, directBountySuccess]);
 
   useEffect(() => {
     if (redeemRequestData && redeemRequestSuccess) navigate('/employees');
   }, [redeemRequestData, redeemRequestSuccess]);
-
-  console.log('Employee ', employee?.data);
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
@@ -135,6 +176,12 @@ const EmployeeDetails = () => {
           isDirectBounty={false}
         ></DirectBountyPopup>
       ) : null}
+      <CustomSnackbar
+        open={openSnackbar}
+        message={messageSnackbar}
+        severity={severitySnackbar}
+        handleClose={handleClose}
+      />
     </Layout>
   );
 };
