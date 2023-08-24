@@ -47,7 +47,6 @@ const TableHeader: FC<tableHeaderProps> = ({ userRole, page }) => {
   else if (page == 'employee') headerData = empHeaderData;
   else if (page == 'redeemRequestsList') headerData = redeemHeaderData;
 
-
   return (
     <div>
       <th className='tableHeader'>

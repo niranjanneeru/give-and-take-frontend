@@ -13,8 +13,6 @@ import AboutPage from './pages/about/About';
 import RedeemRequestPage from './pages/redeemRequests/redeemRequests';
 import Page404 from './pages/404/page404';
 
-
-
 const App: FC = () => {
   return (
     <BrowserRouter>
