@@ -18,7 +18,7 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
   });
   const handleSelect = (data) => {
     console.log(data);
-    setSelectedParticipants(data);
+    if (data.length <= maxParticipants) setSelectedParticipants(data);
   };
   const handleAddParticipant = () => {
     console.log('Plus clicked');
