@@ -17,7 +17,7 @@
   display: none;
 }
 .description {
-  width: 698px;
+  width: 80%;
   height: 107px;
   padding: 15px;
   flex-direction: column;

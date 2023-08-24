@@ -5,14 +5,14 @@ const taskDetailsApi = baseApi.injectEndpoints({
     getTaskByID: builder.query<any, string>({
       query: (id) => ({
         url: `/tasks/${id}`,
-        method: 'get'
+        method: 'GET'
       }),
       providesTags: ['task.detail']
     }),
     addComments: builder.mutation({
       query: ({ id, body }) => ({
         url: `/tasks/${id}/comments`,
-        method: 'post',
+        method: 'POST',
         body
       }),
       invalidatesTags: ['task.detail']
@@ -20,7 +20,7 @@ const taskDetailsApi = baseApi.injectEndpoints({
     uploadFile: builder.mutation({
       query: (body) => ({
         url: 'uploads',
-        method: 'post',
+        method: 'POST',
         body
       })
     }),
@@ -37,6 +37,13 @@ const taskDetailsApi = baseApi.injectEndpoints({
         method: 'DELETE'
       }),
       invalidatesTags: ['task.list']
+    }),
+    deleteAssignee: builder.mutation({
+      query: ({ taskId, assigneeId }) => ({
+        url: `/tasks/${taskId}/assignees/${assigneeId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['task.detail']
     })
   })
 });
@@ -49,5 +56,6 @@ export const {
   useUploadFileMutation,
   useLazyGetTaskByIDQuery,
   useAddAssigneeMutation,
-  useDeleteTaskMutation
+  useDeleteTaskMutation,
+  useDeleteAssigneeMutation
 } = taskDetailsApi;
