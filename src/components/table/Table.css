@@ -1,0 +1,17 @@
+.table-main-div {
+  padding: 8px;
+}
+
+.table-row {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}
+
+.table-row td {
+  flex: 33%;
+}
+
+.table-row td {
+  flex: 33%;
+}

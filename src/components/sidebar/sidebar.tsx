@@ -6,7 +6,9 @@ const Sidebar = ({
   handleNavigateToEmployeeList,
   handleNavigateToTaskList,
   handleNavigateToLogout,
-  hanndleNavigateToProfile
+  hanndleNavigateToProfile,
+  handleNavigateAbout
+  handleNavigateToRedeemRequests
 }) => {
   const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
 
@@ -33,19 +35,20 @@ const Sidebar = ({
             </div>
             <span>Task List</span>
           </a>
-          <a>
+          <a onClick={handleNavigateToRedeemRequests}>
             <div className='icon-li'>
               <img src='assets/img/to-receive-points-svgrepo-com.svg' />
             </div>
             <span>Redeem Requests</span>
           </a>
-          <a onClick={hanndleNavigateToProfile}>
+          <a onClick={handleNavigateToProfile}>
             <div className='icon-li'>
               <img src='assets/icons/profile.svg' />
             </div>
             <span>Profile</span>
           </a>
-          <a onClick={() => {}}>
+
+          <a onClick={handleNavigateAbout}>
             <div className='icon-li'>
               <img src='assets/icons/about.svg' />
             </div>
