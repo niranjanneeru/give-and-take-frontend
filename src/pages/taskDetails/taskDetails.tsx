@@ -42,8 +42,14 @@ const TaskDetails = () => {
     setOpenSnackbar(false);
   };
 
-  const [addAssignee, { isSuccess: isSuccessOnAddAssignee, isError: isErrorOnAddAssignee }] =
-    useAddAssigneeMutation();
+  const [
+    addAssignee,
+    {
+      isSuccess: isSuccessOnAddAssignee,
+      isError: isErrorOnAddAssignee,
+      isLoading: addAssigneeLoading
+    }
+  ] = useAddAssigneeMutation();
 
   function handleJoin() {
     if (taskData?.data.assignees.length == taskData?.data.maxParticipants) {
@@ -91,22 +97,22 @@ const TaskDetails = () => {
     }
   }, [isErrorOnDelete]);
 
-  const [addComments] = useAddCommentsMutation();
-  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess, isError: fileUploadError }] =
-    useUploadFileMutation();
+  const [
+    addComments,
+    { isLoading: commentsIsLoading, isSuccess: isAddCommentSuccess, isError: addCommentError }
+  ] = useAddCommentsMutation();
 
   useEffect(() => {
-    if (isFileUploadSuccess) {
-      setFileUrl(fileData.data.url);
-      setOpenSnackbar(true);
+    if (isAddCommentSuccess) {
+      setMessageSnackbar('Comment added successfully');
       setSeveritySnackbar('success');
-      setMessageSnackbar('File uploaded successfully.');
-    } else if (fileUploadError) {
-      setMessageSnackbar('Error uploading file');
+      setOpenSnackbar(true);
+    } else if (addCommentError) {
+      setMessageSnackbar('Error adding comment');
       setSeveritySnackbar('error');
       setOpenSnackbar(true);
     }
-  }, [isFileUploadSuccess, fileUploadError]);
+  }, [isAddCommentSuccess, addCommentError]);
 
   function sendComment(comment) {
     if (comment.trim().length === 0) {
@@ -128,6 +134,22 @@ const TaskDetails = () => {
     addComments(data);
     setFileUrl(null);
   }
+
+  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess, isError: fileUploadError }] =
+    useUploadFileMutation();
+
+  useEffect(() => {
+    if (isFileUploadSuccess) {
+      setFileUrl(fileData.data.url);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('success');
+      setMessageSnackbar('File uploaded successfully.');
+    } else if (fileUploadError) {
+      setMessageSnackbar('Error uploading file');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isFileUploadSuccess, fileUploadError]);
 
   const handleApprove = () => {
     approveTask({
@@ -177,61 +199,65 @@ const TaskDetails = () => {
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      {!taskData && <DetailShimmer />}
-      {taskData && (
+      {!taskData || addAssigneeLoading ? (
+        <DetailShimmer />
+      ) : (
         <>
           <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
             {isSuccess && (
               <>
-                <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
-                <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
-                <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
-                <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
-                <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
-                <DetailsItem
-                  label='Created By'
-                  value={taskData?.data?.createdBy?.name}
-                  type='text'
-                />
-                <div className='description'>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='details-row'>
+                  <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
+                  <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
+                  <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
+                  <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
+                  <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
+                  <DetailsItem
+                    label='Created By'
+                    value={taskData?.data?.createdBy?.name}
+                    type='text'
+                  />
                 </div>
-                <ParticipantList
-                  participants={taskData?.data?.assignees}
-                  maxParticipants={taskData?.data?.maxParticipants}
-                  userRole={user?.data.role}
-                  taskId={id}
-                ></ParticipantList>
-                <div className='description-dummy'>
-                  <div>Description</div>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='description-row'>
+                  <div className='description'>
+                    <div className='description-heading'>Description</div>
+                    <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                  </div>
+                  <ParticipantList
+                    participants={taskData?.data?.assignees}
+                    maxParticipants={taskData?.data?.maxParticipants}
+                    userRole={user?.data.role}
+                    taskId={id}
+                  ></ParticipantList>
                 </div>
               </>
             )}
           </div>
-          <div className='progress'>
-            <div className='progress-header'>Comments</div>
-            <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-              {taskData &&
-                taskData?.data?.comments.map((comment) => {
-                  console.log(userId, taskData);
+          {commentsIsLoading ? (
+            <DetailShimmer />
+          ) : (
+            <div className='progress'>
+              <div className='progress-header'>Comments</div>
+              <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+                {taskData &&
+                  taskData?.data?.comments.map((comment) => {
+                    console.log(userId, taskData);
 
-                  return (
-                    <Comment
-                      key={comment.id}
-                      author={comment?.postedBy?.name}
-                      date={comment?.createdAt}
-                      comment={comment?.comment}
-                      attachment={comment?.url}
-                      isCurrentUserComment={userId === comment?.postedBy?.id}
-                    />
-                  );
-                })}
+                    return (
+                      <Comment
+                        key={comment.id}
+                        author={comment?.postedBy?.name}
+                        date={comment?.createdAt}
+                        comment={comment?.comment}
+                        attachment={comment?.url}
+                        isCurrentUserComment={userId === comment?.postedBy?.id}
+                      />
+                    );
+                  })}
+              </div>
+              {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
             </div>
-            {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
-          </div>
+          )}
         </>
       )}
       <CustomSnackbar

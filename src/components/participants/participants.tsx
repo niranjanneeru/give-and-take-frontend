@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './participants.css';
 import Select from 'react-select';
 import { useGetEmployeesQuery } from '../../pages/employee/api';
-import { useAddAssigneeMutation, useDeleteAssigneeMutation } from '../../pages/taskDetails/api';
+import { useAddAssigneesMutation } from '../../pages/taskDetails/api';
 
 const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) => {
   const [showAddparticipants, setShowAddparticipants] = useState(false);
@@ -12,8 +12,7 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
     })
   );
   const { data: employeeList } = useGetEmployeesQuery();
-  const [addAssignee] = useAddAssigneeMutation();
-  const [deleteAssignee] = useDeleteAssigneeMutation();
+  const [addAssignees] = useAddAssigneesMutation();
   const optionList = employeeList?.data.map((employee) => {
     return { value: employee.id, label: employee.name };
   });
@@ -28,26 +27,10 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
   };
   const handleSubmit = () => {
     const newParticipants = selectedParticipants.map((participant) => participant.value);
-    const oldParticipants = participants.map((participant) => participant.id);
 
-    console.log('New', newParticipants);
-    console.log('Old', oldParticipants);
+    console.log(newParticipants);
 
-    const addEmployees = newParticipants.filter(
-      (participant) => !oldParticipants.includes(participant)
-    );
-
-    const deleteEmployees = oldParticipants.filter(
-      (participant) => !newParticipants.includes(participant)
-    );
-
-    deleteEmployees.map((employeeId) => {
-      deleteAssignee({ taskId: taskId, assigneeId: employeeId });
-    });
-
-    addEmployees.map((employeeId) => {
-      addAssignee({ taskId: taskId, assigneeId: employeeId });
-    });
+    addAssignees({ taskId: taskId, assignees: newParticipants });
 
     setShowAddparticipants(false);
   };
@@ -87,8 +70,8 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
       </div>
       {!showAddparticipants && (
         <ul className='participants'>
-          {participants.map((participant) => (
-            <li key={participant.id}>{participant.name}</li>
+          {selectedParticipants.map((participant) => (
+            <li key={participant.id}>{participant.label}</li>
           ))}
         </ul>
       )}

@@ -57,4 +57,5 @@ select {
   flex-direction: row;
   justify-content: flex-start;
   padding: 10px;
+  width: 25%;
 }

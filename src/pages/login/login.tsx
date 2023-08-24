@@ -7,6 +7,7 @@ import { useLoginMutation } from './api';
 import { useDispatch } from 'react-redux';
 import { setRole } from '../../actions/employeeActions';
 import CustomSnackbar from '../../components/snackbar/snackbar';
+import RotateLoader from 'react-spinners/RotateLoader';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ const Login = () => {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  const [login, { data, isSuccess, isError, error: errLogin }] = useLoginMutation();
+  const [login, { data, isSuccess, isLoading, isError, error: errLogin }] = useLoginMutation();
 
   const navigate = useNavigate();
   const submit = (e) => {
@@ -61,24 +62,42 @@ const Login = () => {
 
   return (
     <section>
-      <div className='section1'>
-        <div>
-          <img src='assets/img/banner.png' className='login' />
+      {isLoading ? (
+        <div className='spinner-div'>
+          <RotateLoader color='#fff' loading speedMultiplier={0.75} />
         </div>
-      </div>
-      <div className='section2'>
-        <div>
-          <div className='logo'>
-            <img src='assets/img/kv logo.png' className='logo' />
+      ) : (
+        <>
+          <div className='section1'>
+            <div>
+              <img src='assets/img/banner.png' className='login' />
+            </div>
           </div>
-          <div className='login-form'>
-            <Input label='Email' type='text' value={email} onChange={setEmail}></Input>
-            <Input label='Password' type='password' value={password} onChange={setPassword}></Input>
-            <Button value='Login' onClick={submit}></Button>
+          <div className='section2'>
+            <div>
+              <div className='logo'>
+                <img src='assets/img/kv logo.png' className='logo' />
+              </div>
+              <div className='login-form'>
+                <Input label='Email' type='text' value={email} onChange={setEmail}></Input>
+                <Input
+                  label='Password'
+                  type='password'
+                  value={password}
+                  onChange={setPassword}
+                ></Input>
+                <Button value='Login' onClick={submit}></Button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <CustomSnackbar open={error} handleClose={handleClose} message={message} severity='error' />
+          <CustomSnackbar
+            open={error}
+            handleClose={handleClose}
+            message={message}
+            severity='error'
+          />
+        </>
+      )}
     </section>
   );
 };
