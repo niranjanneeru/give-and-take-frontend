@@ -1,6 +1,6 @@
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
-import { useGetTasksQuery, useLazyGetFilteredTasksQuery } from './api';
+import { useLazyGetFilteredTasksQuery, useLazyGetTasksQuery } from './api';
 import Layout from '../../components/layout/layout';
 import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
@@ -14,7 +14,7 @@ const TaskListPage = () => {
   const [currentTaskData, setTaskDataState] = useState(null);
 
   // add use effect
-  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
+  const [taskTrigger, { data: taskData, isSuccess: isTaskFetchSuccess }] = useLazyGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
@@ -55,7 +55,17 @@ const TaskListPage = () => {
     useLazyGetFilteredTasksQuery();
 
   useEffect(() => {
-    if (searchText.trim() === '') return;
+    if (searchText.trim() === '') {
+      if (selectedFilter) {
+        getFilteredTasks({ status: selectedFilter });
+
+        return;
+      }
+      taskTrigger();
+
+      return;
+    }
+
     const params = {};
 
     if (selectedFilter) params['status'] = selectedFilter;
@@ -74,6 +84,10 @@ const TaskListPage = () => {
   useEffect(() => {
     if (isTaskFetchSuccess) setTaskDataState(taskData);
   }, [taskData]);
+
+  useEffect(() => {
+    taskTrigger();
+  }, []);
 
   const searchBarProps = {
     setSearchText

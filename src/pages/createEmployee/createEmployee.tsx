@@ -71,9 +71,13 @@ const CreateEmployee = () => {
   }, [id]);
 
   useEffect(() => {
-    const updateDetails = results?.data || {};
+    if (isSuccess) {
+      const updateDetails = results.data;
 
-    setDetails(updateDetails);
+      const editableData = { ...updateDetails, role: updateDetails['role']['name'] };
+
+      setDetails(editableData);
+    }
   }, [isSuccess]);
 
   const subheaderProps = {
