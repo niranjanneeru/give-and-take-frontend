@@ -125,30 +125,29 @@ const TaskDetails = () => {
           <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
             {isSuccess && (
               <>
-                <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
-                <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
-                <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
-                <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
-                <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
-                <DetailsItem
-                  label='Created By'
-                  value={taskData?.data?.createdBy?.name}
-                  type='text'
-                />
-                <div className='description'>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='details-row'>
+                  <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
+                  <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
+                  <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
+                  <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
+                  <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
+                  <DetailsItem
+                    label='Created By'
+                    value={taskData?.data?.createdBy?.name}
+                    type='text'
+                  />
                 </div>
-                <ParticipantList
-                  participants={taskData?.data?.assignees}
-                  maxParticipants={taskData?.data?.maxParticipants}
-                  userRole={user?.data.role}
-                  taskId={id}
-                ></ParticipantList>
-                <div className='description-dummy'>
-                  <div>Description</div>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='description-row'>
+                  <div className='description'>
+                    <div className='description-heading'>Description</div>
+                    <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                  </div>
+                  <ParticipantList
+                    participants={taskData?.data?.assignees}
+                    maxParticipants={taskData?.data?.maxParticipants}
+                    userRole={user?.data.role}
+                    taskId={id}
+                  ></ParticipantList>
                 </div>
               </>
             )}
