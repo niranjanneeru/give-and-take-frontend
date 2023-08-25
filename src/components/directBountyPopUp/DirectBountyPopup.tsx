@@ -3,6 +3,7 @@ import './DirectBountyPopup.css';
 import PopupInput from '../popupInput/PopupInput';
 import TextArea from '../textArea/TextArea';
 import Button from '../button/button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 type DirectBountyPopupType = {
   onClose: () => void;
@@ -42,7 +43,9 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({
   return (
     <div className='modal'>
       <div className='modal-content1'>
-        <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        <Tooltip title={'Close'} arrow placement='bottom'>
+          <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        </Tooltip>
         <div className={class_popup}>{popup_text}</div>
         <div className='award-bounty-form'>
           <div className='bounty-div'>
