@@ -90,6 +90,13 @@ const EmployeeDetails = () => {
 
       return;
     }
+    if (bounty % 25 !== 0) {
+      setMessageSnackbar('Requested Bounty should be multiple by 25');
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+
+      return;
+    }
     createRedeemRequest(+bounty);
     setOpenRedeemRequest(false);
   };

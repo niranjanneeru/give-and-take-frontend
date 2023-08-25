@@ -38,7 +38,7 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({
   };
 
   const class_popup = isDirectBounty ? 'direct-popup' : 'redeem-popup';
-  const popup_text = isDirectBounty ? 'Award Direct Bounty' : 'Redeem Bounty';
+  const popup_text = isDirectBounty ? 'Award Direct Bounty' : 'Redeem Bounty(multiple of 25)';
 
   return (
     <div className='modal'>
