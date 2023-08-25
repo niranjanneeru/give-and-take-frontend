@@ -9,7 +9,6 @@ import { setRole } from '../../actions/employeeActions';
 import CustomSnackbar from '../../components/snackbar/snackbar';
 import RotateLoader from 'react-spinners/RotateLoader';
 
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +16,6 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
-
 
   const [login, { data, isSuccess, isError, error: errLogin, isLoading }] = useLoginMutation();
 
