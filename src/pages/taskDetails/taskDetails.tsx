@@ -258,10 +258,10 @@ const TaskDetails = () => {
                       />
                     );
                   })}
-                {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
-                  <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
-                )}
               </div>
+              {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
+                <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
+              )}
             </div>
           )}
         </>
