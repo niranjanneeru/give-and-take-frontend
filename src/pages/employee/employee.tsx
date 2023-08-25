@@ -9,6 +9,7 @@ import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPo
 import { useCreateTaskMutation } from '../createEditTask/api';
 import TableShimmer from '../../components/shimmer/TableShimmer';
 import Popup from '../../components/deletePopup/deletePopup';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const EmployeePage = () => {
   const [id, setId] = useState('');
@@ -17,8 +18,17 @@ const EmployeePage = () => {
   const [bounty, setBounty] = useState(0);
   const [reason, setReason] = useState('');
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState('');
+  const [severitySnackbar, setSeveritySnackbar] = useState('');
+
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
+
   const { data: employeesData } = useGetEmployeesQuery();
-  const [deleteEmp] = useDeleteEmployeesMutation();
+  const [deleteEmp, { isError: errorOnDelete, error: deleteError }] = useDeleteEmployeesMutation();
   const { data: user } = useGetUserQuery();
   const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
     useCreateTaskMutation();
@@ -58,6 +68,15 @@ const EmployeePage = () => {
     onClick: () => navigate(`/employees/create`),
     isTask: false
   };
+
+  useEffect(() => {
+    if (errorOnDelete) {
+      console.log(deleteError);
+      setMessageSnackbar('error'); //filterError['data']['message'])
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [errorOnDelete]);
 
   useEffect(() => {
     if (directBountyData && directBountySuccess) navigate('/employees');
@@ -101,6 +120,12 @@ const EmployeePage = () => {
         ) : null}
       </table>
       <div className='loading-div'>{!employeesData && <TableShimmer />}</div>
+      <CustomSnackbar
+        open={openSnackbar}
+        message={messageSnackbar}
+        severity={severitySnackbar}
+        handleClose={handleSnackbarClose}
+      />
     </Layout>
   );
 };

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import './dropdownContent.css';
+import { filterCondtionsList } from '../../utils/filterConditions';
 
 export type DropdownProps = {
   onClick?: (e) => void;
@@ -9,7 +10,15 @@ export type DropdownProps = {
 const DropdownContent: FC<DropdownProps> = ({ handleFilter }) => {
   return (
     <ul className='dropdown-content'>
-      <li>
+      {Object.keys(filterCondtionsList).map((item) => {
+        return (
+          <li key={item}>
+            <a onClick={() => handleFilter(String(item))}>{filterCondtionsList[item]}</a>
+          </li>
+        );
+      })}
+
+      {/* <li>
         <a onClick={() => handleFilter('CREATED')}>Created</a>
       </li>
       <li>
@@ -23,7 +32,7 @@ const DropdownContent: FC<DropdownProps> = ({ handleFilter }) => {
       </li>
       <li>
         <a onClick={() => handleFilter('IS_DIRECT_BOUNTY')}>Direct Bounty</a>
-      </li>
+      </li> */}
     </ul>
   );
 };

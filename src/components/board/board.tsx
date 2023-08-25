@@ -3,7 +3,6 @@ import Column from '../column/column';
 import './board.css';
 
 const Board = ({ taskInProgress, taskCompleted, taskCreated, navigateToTaskDetail }) => {
-
   return (
     <div className='board'>
       <Column
