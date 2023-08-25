@@ -11,6 +11,7 @@ import { useCreateTaskMutation } from '../createEditTask/api';
 import Board from '../../components/board/board';
 import ContentBoxShimmer from '../../components/shimmer/ContentBoxShimmer';
 import CustomSnackbar from '../../components/snackbar/snackbar';
+import getWallet from '../../utils/getWallet';
 
 const EmployeeDetails = () => {
   const { id } = useParams();
@@ -85,6 +86,13 @@ const EmployeeDetails = () => {
   const handleRedeemRequest = (bounty: number) => {
     if (bounty < 25) {
       setMessageSnackbar('Minimum Bounty Point Req Limit is 25');
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+
+      return;
+    }
+    if (bounty % 25 !== 0) {
+      setMessageSnackbar('Requested Bounty should be multiple by 25');
       setOpenSnackbar(true);
       setSeveritySnackbar('error');
 
@@ -168,6 +176,13 @@ const EmployeeDetails = () => {
               value={employee.data.bounty}
               bounty={employee.data.bounty}
             />
+            {subheaderProps?.isUser && (
+              <DetailsItem
+                label='Wallet'
+                value={`${String(getWallet(employee.data.bounty, employee.data.redeemed_bounty))}`}
+                type='text'
+              />
+            )}
           </>
         )}
       </div>
