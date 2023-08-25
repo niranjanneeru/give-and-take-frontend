@@ -6,26 +6,47 @@ import './styles.css';
 import { useLoginMutation } from './api';
 import { useDispatch } from 'react-redux';
 import { setRole } from '../../actions/employeeActions';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 import RotateLoader from 'react-spinners/RotateLoader';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  const [login, { data, isSuccess, isLoading }] = useLoginMutation();
+
+  const [login, { data, isSuccess, isError, error: errLogin, isLoading }] = useLoginMutation();
 
   const navigate = useNavigate();
   const submit = (e) => {
     e.preventDefault();
-    if (email.length == 0 || password.length == 0) setError(true);
-    else
+    if (email.length == 0 || password.length == 0) {
+      setMessage('Empty Fields');
+      setError(true);
+    } else {
       login({
         email: email,
         password: password
       });
+    }
   };
+
+  useEffect(() => {
+    if (isError) {
+      if (errLogin['status'] === 400) {
+        setMessage('Invalid Email or Password');
+        setError(true);
+
+        return;
+      }
+      setMessage(errLogin['data']['message']);
+      setError(true);
+    }
+  }, [isError]);
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -34,6 +55,12 @@ const Login = () => {
       navigate('/employees');
     }
   }, [data, isSuccess]);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setError(false);
+  };
 
   return (
     <section>
@@ -61,11 +88,16 @@ const Login = () => {
                   value={password}
                   onChange={setPassword}
                 ></Input>
-                {error && <div>Provide username and Password</div>}
                 <Button value='Login' onClick={submit}></Button>
               </div>
             </div>
           </div>
+          <CustomSnackbar
+            open={error}
+            handleClose={handleClose}
+            message={message}
+            severity='error'
+          />
         </>
       )}
     </section>

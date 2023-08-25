@@ -18,7 +18,7 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
   });
   const handleSelect = (data) => {
     console.log(data);
-    setSelectedParticipants(data);
+    if (data.length <= maxParticipants) setSelectedParticipants(data);
   };
   const handleAddParticipant = () => {
     console.log('Plus clicked');
@@ -70,8 +70,8 @@ const ParticipantList = ({ participants, maxParticipants, userRole, taskId }) =>
       </div>
       {!showAddparticipants && (
         <ul className='participants'>
-          {selectedParticipants.map((participant) => (
-            <li key={participant.id}>{participant.label}</li>
+          {participants.map((participant) => (
+            <li key={participant.id}>{participant.name}</li>
           ))}
         </ul>
       )}

@@ -1,28 +1,9 @@
-// import _ from 'lodash';
+import React from 'react';
 import './header.css';
-// import { useMemo } from 'react';
 
-const Header = () => {
-  // const searchDebounce = useMemo(
-  //   () =>
-  //     _.debounce(
-  //       (e) => {
-  //         setSearchText(e.target.value);
-  //       },
-  //       250,
-  //       { maxWait: 1000 }
-  //     ),
-  //   []
-  // );
-
+const Header = ({ userRole }) => {
   return (
-    <div className='header'>
-      {/* {setSearchText && (
-        <div className='search-input'>
-          <input className='search-button' placeholder='Search' onChange={searchDebounce}></input>
-        </div>
-      )} */}
-    </div>
+    <div className='header'>{userRole && <div className='user-greeting'>Hi , {userRole}</div>}</div>
   );
 };
 
