@@ -26,6 +26,7 @@ const EmployeeDetails = () => {
       error: errorDirectBountyCreation
     }
   ] = useCreateTaskMutation();
+
   const [
     createRedeemRequest,
     {
@@ -35,6 +36,7 @@ const EmployeeDetails = () => {
       error: redeemRequestError
     }
   ] = useCreateRedeemRequestMutation();
+
   const [openDirectBounty, setopenDirectBounty] = useState(false);
   const [bounty, setBounty] = useState(0);
   const [reason, setReason] = useState('');
@@ -109,7 +111,6 @@ const EmployeeDetails = () => {
 
   useEffect(() => {
     if (isRedeemRequestError) {
-      console.log(redeemRequestError);
       setMessageSnackbar(redeemRequestError['data']['message']);
       setOpenSnackbar(true);
       setSeveritySnackbar('error');

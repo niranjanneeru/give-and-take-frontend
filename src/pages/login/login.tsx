@@ -18,6 +18,7 @@ const Login = () => {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
+
   const [login, { data, isSuccess, isError, error: errLogin, isLoading }] = useLoginMutation();
 
   const navigate = useNavigate();
@@ -91,7 +92,12 @@ const Login = () => {
               </div>
             </div>
           </div>
-        <CustomSnackbar open={error} handleClose={handleClose} message={message} severity='error' />
+          <CustomSnackbar
+            open={error}
+            handleClose={handleClose}
+            message={message}
+            severity='error'
+          />
         </>
       )}
     </section>
