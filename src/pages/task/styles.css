@@ -8,3 +8,8 @@
   resize: vertical;
   overflow: auto;
 }
+
+.pagination{
+  display: flex;
+  justify-content: center;
+}

@@ -12,6 +12,7 @@ import {
 import { useLazyGetEmployeeByIDQuery } from '../employeeDetails/api';
 import { useGetUserQuery } from '../employee/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
+import Button from '../../components/button/button';
 
 const CreateEmployee = () => {
   const [details, setDetails] = useState({
@@ -36,8 +37,6 @@ const CreateEmployee = () => {
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
 
-    console.log('Details address', temp);
-
     key == 'address'
       ? (temp.address['line1'] = value)
       : key == 'experience'
@@ -51,8 +50,8 @@ const CreateEmployee = () => {
   const { data: departments } = useGetDepartmentOptionsQuery();
   const { data: roles } = useGetRolesOptionsQuery();
   const [getEmp, { data: results, isSuccess }] = useLazyGetEmployeeByIDQuery();
-  const [createEmployee] = useCreateEmployeeMutation();
-  const [updateEmployee] = useUpdateEmployeeMutation();
+  const [createEmployee, { isLoading: createLoading }] = useCreateEmployeeMutation();
+  const [updateEmployee, { isLoading: editLoading }] = useUpdateEmployeeMutation();
   const { data: user } = useGetUserQuery();
 
   const navigate = useNavigate();
@@ -64,6 +63,10 @@ const CreateEmployee = () => {
       updateEmployee({ id, ...details });
       navigate('/employees');
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/employees');
   };
 
   useEffect(() => {
@@ -83,6 +86,8 @@ const CreateEmployee = () => {
   const subheaderProps = {
     heading: isEditing ? 'Edit Employee' : 'Create Employee'
   };
+
+  console.log(createLoading, editLoading);
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
@@ -164,14 +169,13 @@ const CreateEmployee = () => {
               </>
             )}
           </div>
-          <div className='end'>
-            <input
-              type='submit'
+          <div className='end' style={{ width: '25%' }}>
+            <Button
               value={isEditing ? 'Save' : 'Create'}
-              className='form-create'
               onClick={handleSubmit}
-            />
-            <input type='submit' value='Cancel' className='form-cancel' />
+              className='pop-confirm'
+            ></Button>
+            <Button value='Cancel' className='pop-cancel' onClick={handleCancel}></Button>
           </div>
         </div>
       )}

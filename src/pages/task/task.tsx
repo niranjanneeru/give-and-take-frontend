@@ -9,11 +9,13 @@ import { useEffect, useState } from 'react';
 import TableShimmer from '../../components/shimmer/TableShimmer';
 import CustomSnackbar from '../../components/snackbar/snackbar';
 import { filterCondtionsList } from '../../utils/filterConditions';
+import Pagination from '@material-ui/lab/Pagination';
 
 const TaskListPage = () => {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [currentTaskData, setTaskDataState] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [messageSnackbar, setMessageSnackbar] = useState('');
@@ -89,7 +91,20 @@ const TaskListPage = () => {
   }, [searchData]);
 
   useEffect(() => {
-    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+    if (isFilterSuccess) {
+      setTaskDataState(filteredTaskData);
+      // const page = filteredTaskData['meta']['page'];
+      const pageSize = filteredTaskData['meta']['pageSize'];
+      const total = filteredTaskData['meta']['total'];
+
+      if (!pageSize) {
+        setTotalPage(1);
+
+        return;
+      }
+
+      setTotalPage(Math.ceil(total / pageSize));
+    }
   }, [filteredTaskData]);
 
   useEffect(() => {
@@ -110,6 +125,17 @@ const TaskListPage = () => {
 
   const searchBarProps = {
     setSearchText
+  };
+
+  const handlePagination = (event, page) => {
+    console.log(event);
+    console.log(page);
+    console.log(totalPage);
+    const params = { page: page - 1, pageSize: 5 };
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    searchTrigger(params);
   };
 
   return (
@@ -144,6 +170,9 @@ const TaskListPage = () => {
         severity={severitySnackbar}
         handleClose={handleSnackbarClose}
       />
+      <div className='pagination'>
+        <Pagination count={totalPage} shape='rounded' onChange={handlePagination} />
+      </div>
     </Layout>
   );
 };

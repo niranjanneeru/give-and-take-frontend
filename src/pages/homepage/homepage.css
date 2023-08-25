@@ -10,13 +10,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #252540;
+    height: 100vh;background-color: #252540;
   }
   
   .project-name {
-    font-size: 46px;
-    font-family: sans-serif;
+    font-size: 66px;
+    font-family: 'Monsterrat';
     margin-bottom: 20px;
     text-align: center;
     color: white;

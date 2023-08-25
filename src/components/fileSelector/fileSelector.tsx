@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 import Button from '../button/button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 function FileSelector({ setVisible, handleFileUpload }) {
   const [isDragging, setIsDragging] = useState(false);
@@ -36,11 +37,13 @@ function FileSelector({ setVisible, handleFileUpload }) {
   return (
     <div className='outer-dropzone'>
       <div className='mid-dropzone'>
-        <img
-          className='close-button-drag-nd-drop'
-          src='/assets/icons/close.svg'
-          onClick={setVisible}
-        />
+        <Tooltip title={'Close'} arrow placement='top'>
+          <img
+            className='close-button-drag-nd-drop'
+            src='/assets/icons/close.svg'
+            onClick={setVisible}
+          />
+        </Tooltip>
         <div
           className={`dropzone ${isDragging ? 'dragging' : ''}`}
           onDragEnter={handleDragEnter}
