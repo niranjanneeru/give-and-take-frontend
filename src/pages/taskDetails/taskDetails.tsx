@@ -231,6 +231,7 @@ const TaskDetails = () => {
                     maxParticipants={taskData?.data?.maxParticipants}
                     userRole={user?.data.role}
                     taskId={id}
+                    isApproved={isApproved}
                   ></ParticipantList>
                 </div>
               </>
