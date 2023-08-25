@@ -9,13 +9,14 @@ import { useLazyGetTaskByIDQuery } from '../taskDetails/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
 
 import Button from '../../components/button/button';
+import { useGetUserQuery } from '../employee/api';
 
 const CreateEditTask = () => {
   const [details, setDetails] = useState({
     title: '',
     deadline: '',
     maxParticipants: null,
-    bounty: null,
+    bounty: 0,
     skills: '',
     description: ''
   });
@@ -26,6 +27,7 @@ const CreateEditTask = () => {
   ] = useCreateTaskMutation();
   const [editTask, { data: editData, isSuccess: isSuccessOnEdit }] = useUpdateTaskMutation();
   const [getTask, { data: taskData, isSuccess: isSuccessOnGetLazy }] = useLazyGetTaskByIDQuery();
+  const { data: user } = useGetUserQuery();
 
   const handleChange = (key: string, value: string) => {
     const temp = { ...details };
@@ -57,7 +59,6 @@ const CreateEditTask = () => {
     if (taskData && isSuccessOnGetLazy) {
       const updateDetails = taskData?.data;
 
-      // List of properties to update
       const propertiesToUpdate = [
         'title',
         'deadline',
@@ -69,7 +70,7 @@ const CreateEditTask = () => {
 
       // Update only specific properties of the `details` object
       setDetails((prevDetails) => {
-        const updatedDetails = { ...prevDetails }; // Copy the existing details
+        const updatedDetails = { ...prevDetails };
 
         propertiesToUpdate.forEach((property) => {
           if (updateDetails[property] !== undefined && updateDetails[property] !== null)
@@ -121,15 +122,16 @@ const CreateEditTask = () => {
               ></FormInput>
             </div>
             <div className='input-flex-row'>
-              {/* only if authorised */}
-              <FormInput
-                name='bounty'
-                label='Bounty Points'
-                type='number'
-                placeholder='Enter Bounty Points'
-                value={String(details.bounty)}
-                onChange={handleChange}
-              ></FormInput>
+              {user.data.role === 'LEAD' && (
+                <FormInput
+                  name='bounty'
+                  label='Bounty Points'
+                  type='number'
+                  placeholder='Enter Bounty Points'
+                  value={String(details.bounty)}
+                  onChange={handleChange}
+                ></FormInput>
+              )}
               <MultiValueInput
                 name='skills'
                 label='Skills Required'
