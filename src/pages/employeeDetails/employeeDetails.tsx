@@ -26,8 +26,17 @@ const EmployeeDetails = () => {
       error: errorDirectBountyCreation
     }
   ] = useCreateTaskMutation();
-  const [createRedeemRequest, { data: redeemRequestData, isSuccess: redeemRequestSuccess }] =
-    useCreateRedeemRequestMutation();
+
+  const [
+    createRedeemRequest,
+    {
+      data: redeemRequestData,
+      isSuccess: redeemRequestSuccess,
+      isError: isRedeemRequestError,
+      error: redeemRequestError
+    }
+  ] = useCreateRedeemRequestMutation();
+
   const [openDirectBounty, setopenDirectBounty] = useState(false);
   const [bounty, setBounty] = useState(0);
   const [reason, setReason] = useState('');
@@ -74,7 +83,13 @@ const EmployeeDetails = () => {
   };
 
   const handleRedeemRequest = (bounty: number) => {
-    console.log('bounty', bounty);
+    if (bounty < 25) {
+      setMessageSnackbar('Minimum Bounty Point Req Limit is 25');
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+
+      return;
+    }
     createRedeemRequest(+bounty);
     setOpenRedeemRequest(false);
   };
@@ -95,6 +110,14 @@ const EmployeeDetails = () => {
   };
 
   useEffect(() => {
+    if (isRedeemRequestError) {
+      setMessageSnackbar(redeemRequestError['data']['message']);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+    }
+  }, [isRedeemRequestError]);
+
+  useEffect(() => {
     if (isErrorDirectBountyCreation) {
       setMessageSnackbar(errorDirectBountyCreation['data']['message']);
       setOpenSnackbar(true);
@@ -105,14 +128,19 @@ const EmployeeDetails = () => {
   useEffect(() => {
     if (directBountyData && directBountySuccess) {
       setopenDirectBounty(false);
-      setMessageSnackbar(`${bounty} bounty point awarded`);
+      setMessageSnackbar(`Bounty points awarded`);
       setOpenSnackbar(true);
       setSeveritySnackbar('success');
     }
   }, [directBountyData, directBountySuccess]);
 
   useEffect(() => {
-    if (redeemRequestData && redeemRequestSuccess) navigate('/employees');
+    if (redeemRequestData && redeemRequestSuccess) {
+      setOpenRedeemRequest(false);
+      setMessageSnackbar(`Request forwarded to HR`);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('success');
+    }
   }, [redeemRequestData, redeemRequestSuccess]);
 
   return (

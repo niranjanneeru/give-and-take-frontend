@@ -12,6 +12,7 @@ import {
 import { useLazyGetEmployeeByIDQuery } from '../employeeDetails/api';
 import { useGetUserQuery } from '../employee/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
+import Button from '../../components/button/button';
 
 const CreateEmployee = () => {
   const [details, setDetails] = useState({
@@ -62,6 +63,10 @@ const CreateEmployee = () => {
       updateEmployee({ id, ...details });
       navigate('/employees');
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/employees');
   };
 
   useEffect(() => {
@@ -164,14 +169,13 @@ const CreateEmployee = () => {
               </>
             )}
           </div>
-          <div className='end'>
-            <input
-              type='submit'
+          <div className='end' style={{ width: '25%' }}>
+            <Button
               value={isEditing ? 'Save' : 'Create'}
-              className='form-create'
               onClick={handleSubmit}
-            />
-            <input type='submit' value='Cancel' className='form-cancel' />
+              className='pop-confirm'
+            ></Button>
+            <Button value='Cancel' className='pop-cancel' onClick={handleCancel}></Button>
           </div>
         </div>
       )}

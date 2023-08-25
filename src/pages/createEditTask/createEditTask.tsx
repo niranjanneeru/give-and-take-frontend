@@ -7,6 +7,7 @@ import { useCreateTaskMutation, useUpdateTaskMutation } from './api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLazyGetTaskByIDQuery } from '../taskDetails/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
+
 import Button from '../../components/button/button';
 
 const CreateEditTask = () => {
@@ -38,6 +39,10 @@ const CreateEditTask = () => {
   const handleSubmit = () => {
     if (!isEditing) createTask(details);
     else editTask({ id, ...details });
+  };
+
+  const handleCancel = () => {
+    navigate('/tasks');
   };
 
   useEffect(() => {

@@ -2,13 +2,13 @@
   width: 100%;
   min-height: 84px;
   background-color: #252540;
+  text-align: right;
 }
-/* .search-button{
-  border-radius: 50px;
-  padding: 10px 150px 16px 30px;
-  margin-top: 20px;
-  /* justify-content: center; */
-  /* margin-left: 1185px;
-  opacity: 80%;
-  background-color: #ffff; */
-/* } */ 
+.user-greeting{
+  margin-right: 40px;
+font-weight: bold;
+color: white;
+font-family: sans-serif;
+margin-top: 50px;
+font-size: large;
+}
