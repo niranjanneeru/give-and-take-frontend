@@ -13,9 +13,6 @@ const Sidebar = ({
 }) => {
   const [isLogOutPopUpVisible, setPopUpVisible] = useState(false);
 
-  console.log(isLogOutPopUpVisible);
-  console.log(handleNavigateToLogout);
-
   return (
     <aside className='sidebar'>
       <div className='logo-employee'>
@@ -44,13 +41,13 @@ const Sidebar = ({
               <span>Redeem Requests</span>
             </a>
           )}
+          <hr></hr>
           <a onClick={handleNavigateToProfile}>
             <div className='icon-li'>
               <img src='assets/icons/profile.svg' />
             </div>
             <span>Profile</span>
           </a>
-
           <a onClick={handleNavigateAbout}>
             <div className='icon-li'>
               <img src='assets/icons/about.svg' />

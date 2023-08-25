@@ -6,7 +6,8 @@ const employeeDetailsApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/employees/${id}`,
         method: 'get'
-      })
+      }),
+      providesTags: ['employee.details']
     }),
     createRedeemRequest: builder.mutation<any, number>({
       query: (bounty) => ({
