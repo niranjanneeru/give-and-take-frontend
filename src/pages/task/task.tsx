@@ -7,6 +7,8 @@ import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useEffect, useState } from 'react';
 import TableShimmer from '../../components/shimmer/TableShimmer';
+import CustomSnackbar from '../../components/snackbar/snackbar';
+import { filterCondtionsList } from '../../utils/filterConditions';
 import Pagination from '@material-ui/lab/Pagination';
 
 const TaskListPage = () => {
@@ -14,6 +16,15 @@ const TaskListPage = () => {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [currentTaskData, setTaskDataState] = useState(null);
   const [totalPage, setTotalPage] = useState(1);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState('');
+  const [severitySnackbar, setSeveritySnackbar] = useState('');
+
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
 
   // add use effect
   const [taskTrigger, { data: taskData, isSuccess: isTaskFetchSuccess }] = useLazyGetTasksQuery();
@@ -97,6 +108,14 @@ const TaskListPage = () => {
   }, [filteredTaskData]);
 
   useEffect(() => {
+    if (isFilterSuccess && selectedFilter) {
+      setMessageSnackbar(`${filterCondtionsList[selectedFilter]} filter applied`);
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    }
+  }, [currentTaskData]);
+
+  useEffect(() => {
     if (isTaskFetchSuccess) setTaskDataState(taskData);
   }, [taskData]);
 
@@ -125,8 +144,8 @@ const TaskListPage = () => {
       subheaderProps={subheaderProps}
       userRole={user?.data.role}
     >
-      {!taskData && <TableShimmer />}
-      {taskData && (
+      {!currentTaskData && <TableShimmer />}
+      {currentTaskData && (
         <div className='taskList-container'>
           <table className='table'>
             <TableHeader userRole={user?.data.role} page={'task'}></TableHeader>
@@ -145,6 +164,12 @@ const TaskListPage = () => {
           </table>
         </div>
       )}
+      <CustomSnackbar
+        open={openSnackbar}
+        message={messageSnackbar}
+        severity={severitySnackbar}
+        handleClose={handleSnackbarClose}
+      />
       <div className='pagination'>
         <Pagination count={totalPage} shape='rounded' onChange={handlePagination} />
       </div>
