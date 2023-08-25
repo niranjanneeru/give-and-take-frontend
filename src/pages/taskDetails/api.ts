@@ -44,6 +44,14 @@ const taskDetailsApi = baseApi.injectEndpoints({
         method: 'DELETE'
       }),
       invalidatesTags: ['task.detail']
+    }),
+    addAssignees: builder.mutation({
+      query: (body) => ({
+        url: `/tasks/${body.taskId}/assignees`,
+        method: 'PATCH',
+        body: { assignees: body.assignees }
+      }),
+      invalidatesTags: ['task.detail']
     })
   })
 });
@@ -57,5 +65,6 @@ export const {
   useLazyGetTaskByIDQuery,
   useAddAssigneeMutation,
   useDeleteTaskMutation,
-  useDeleteAssigneeMutation
+  useDeleteAssigneeMutation,
+  useAddAssigneesMutation
 } = taskDetailsApi;

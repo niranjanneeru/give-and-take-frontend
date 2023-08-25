@@ -37,13 +37,16 @@ const DirectBountyPopup: FC<DirectBountyPopupType> = ({
     setReason(e.target.value);
   };
 
+  const class_popup = isDirectBounty ? 'direct-popup' : 'redeem-popup';
+  const popup_text = isDirectBounty ? 'Award Direct Bounty' : 'Redeem Bounty';
+
   return (
     <div className='modal'>
       <div className='modal-content1'>
         <Tooltip title={'Close'} arrow placement='bottom'>
           <img src='assets/icons/close.svg' className='close' onClick={onClose} />
         </Tooltip>
-        <div className='popHeading1'>Award Direct Bounty</div>
+        <div className={class_popup}>{popup_text}</div>
         <div className='award-bounty-form'>
           <div className='bounty-div'>
             <PopupInput
