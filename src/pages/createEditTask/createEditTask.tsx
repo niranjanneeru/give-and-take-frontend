@@ -150,8 +150,12 @@ const CreateEditTask = () => {
             </div>
           </div>
           <div className='end'>
-            <Button value={isEditing ? 'Save' : 'Create'} onClick={handleSubmit} className='pop-confirm'></Button>
-            <Button value='Cancel' className='pop-cancel'></Button>
+            <Button
+              value={isEditing ? 'Save' : 'Create'}
+              onClick={handleSubmit}
+              className='pop-confirm'
+            ></Button>
+            <Button value='Cancel' className='pop-cancel' onClick={handleCancel}></Button>
           </div>
         </div>
       )}
