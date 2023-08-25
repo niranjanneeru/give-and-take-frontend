@@ -18,7 +18,7 @@ const EmployeePage = () => {
   const [reason, setReason] = useState('');
 
   const { data: employeesData } = useGetEmployeesQuery();
-  const [deleteEmp, { isError: errorOnDelete, error: deleteError }] = useDeleteEmployeesMutation();
+  const [deleteEmp] = useDeleteEmployeesMutation();
   const { data: user } = useGetUserQuery();
   const [createDirectBounty, { data: directBountyData, isSuccess: directBountySuccess }] =
     useCreateTaskMutation();
