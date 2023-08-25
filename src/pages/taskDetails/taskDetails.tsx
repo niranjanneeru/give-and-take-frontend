@@ -107,6 +107,9 @@ const TaskDetails = () => {
       handleDelete(id);
     }
   };
+  const isAssignee = taskData?.data.assignees.find((assignee) => assignee.id === user?.data.id)
+    ? true
+    : false;
 
   useEffect(() => {
     if (isFileUploadSuccess) setFileUrl(fileData.data.url);
@@ -174,8 +177,10 @@ const TaskDetails = () => {
                       />
                     );
                   })}
+                {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
+                  <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
+                )}
               </div>
-              {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
             </div>
           )}
         </>
