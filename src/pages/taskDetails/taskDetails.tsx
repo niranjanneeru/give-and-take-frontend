@@ -17,35 +17,111 @@ import Comment from '../../components/comment/Comment';
 import { useGetUserQuery } from '../employee/api';
 import { useUpdateTaskMutation } from '../createEditTask/api';
 import DetailShimmer from '../../components/shimmer/DetailShimmer';
+import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const TaskDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accordian, setAccordian] = useState(true);
-  const [fileUrl, setFileUrl] = useState(null);
 
+  function handleAccordian(): void {
+    setAccordian(!accordian);
+  }
   const { data: taskData, isSuccess } = useGetTaskByIDQuery(id);
 
   const { data: user } = useGetUserQuery();
   const userId = user?.data?.id;
 
-  const [addAssignee] = useAddAssigneeMutation();
+  const [fileUrl, setFileUrl] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [messageSnackbar, setMessageSnackbar] = useState('');
+  const [severitySnackbar, setSeveritySnackbar] = useState('');
+
+  const handleSnackbarClose = (reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
+
+  const [
+    addAssignee,
+    {
+      isSuccess: isSuccessOnAddAssignee,
+      isError: isErrorOnAddAssignee,
+      isLoading: addAssigneeLoading
+    }
+  ] = useAddAssigneeMutation();
 
   function handleJoin() {
+    if (taskData?.data.assignees.length == taskData?.data.maxParticipants) {
+      setOpenSnackbar(true);
+      setSeveritySnackbar('error');
+      setMessageSnackbar('Cannot join task! Participant limit exceeds');
+
+      return;
+    }
     addAssignee({ taskId: id, assigneeId: userId });
   }
+  useEffect(() => {
+    if (isSuccessOnAddAssignee) {
+      setMessageSnackbar('You have successfully joined the task');
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    } else if (isErrorOnAddAssignee) {
+      setMessageSnackbar('Error joining task');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isSuccessOnAddAssignee, isErrorOnAddAssignee]);
 
-  const [addComments] = useAddCommentsMutation();
-  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess }] = useUploadFileMutation();
+  const [approveTask, { isSuccess: approveSuccess, isError: isErrorOnApprove }] =
+    useUpdateTaskMutation();
+  const [deleteTask, { isError: isErrorOnDelete }] = useDeleteTaskMutation();
 
-  const [approveTask, { data: approveData, isSuccess: approveSuccess }] = useUpdateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
+  useEffect(() => {
+    if (approveSuccess) {
+      setMessageSnackbar('Task approved successfully.');
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    } else if (isErrorOnApprove) {
+      setMessageSnackbar('Error approving task.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [approveSuccess, isErrorOnApprove]);
 
-  function handleAccordian(): void {
-    setAccordian(!accordian);
-  }
+  useEffect(() => {
+    if (isErrorOnDelete) {
+      setMessageSnackbar('Error deleting task.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isErrorOnDelete]);
+
+  const [
+    addComments,
+    { isLoading: commentsIsLoading, isSuccess: isAddCommentSuccess, isError: addCommentError }
+  ] = useAddCommentsMutation();
+
+  useEffect(() => {
+    if (isAddCommentSuccess) {
+      setMessageSnackbar('Comment added successfully');
+      setSeveritySnackbar('success');
+      setOpenSnackbar(true);
+    } else if (addCommentError) {
+      setMessageSnackbar('Error adding comment');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isAddCommentSuccess, addCommentError]);
 
   function sendComment(comment) {
+    if (comment.trim().length === 0) {
+      setMessageSnackbar('Comment cannot be empty.');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+
+      return;
+    }
     const data = {
       id,
       body: {
@@ -59,9 +135,23 @@ const TaskDetails = () => {
     setFileUrl(null);
   }
 
+  const [addFiles, { data: fileData, isSuccess: isFileUploadSuccess, isError: fileUploadError }] =
+    useUploadFileMutation();
+
+  useEffect(() => {
+    if (isFileUploadSuccess) {
+      setFileUrl(fileData.data.url);
+      setOpenSnackbar(true);
+      setSeveritySnackbar('success');
+      setMessageSnackbar('File uploaded successfully.');
+    } else if (fileUploadError) {
+      setMessageSnackbar('Error uploading file');
+      setSeveritySnackbar('error');
+      setOpenSnackbar(true);
+    }
+  }, [isFileUploadSuccess, fileUploadError]);
+
   const handleApprove = () => {
-    console.log('Approve clicked');
-    console.log(taskData?.data);
     approveTask({
       id: taskData?.data.id,
       status: 'COMPLETED'
@@ -73,7 +163,6 @@ const TaskDetails = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(`Delete ${id}`);
     deleteTask(id);
     navigate('/tasks');
   };
@@ -107,74 +196,81 @@ const TaskDetails = () => {
       handleDelete(id);
     }
   };
-
-  useEffect(() => {
-    if (isFileUploadSuccess) setFileUrl(fileData.data.url);
-  }, [isFileUploadSuccess]);
-
-  useEffect(() => {
-    if (approveData && approveSuccess) navigate(`/tasks/${id}`);
-  }, [approveData, approveSuccess]);
+  const isAssignee = taskData?.data.assignees.find((assignee) => assignee.id === user?.data.id)
+    ? true
+    : false;
 
   return (
     <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      {!taskData && <DetailShimmer />}
-      {taskData && (
+      {!taskData || addAssigneeLoading ? (
+        <DetailShimmer />
+      ) : (
         <>
           <div className={accordian ? 'TaskDetailsCard' : 'HiddenCard'}>
             {isSuccess && (
               <>
-                <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
-                <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
-                <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
-                <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
-                <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
-                <DetailsItem
-                  label='Created By'
-                  value={taskData?.data?.createdBy?.name}
-                  type='text'
-                />
-                <div className='description'>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='details-row'>
+                  <DetailsItem label='Task' value={taskData?.data?.title} type='text' />
+                  <DetailsItem label='Deadline' value={taskData?.data?.deadline} type='text' />
+                  <DetailsItem label='Bounty Points' value={taskData?.data?.bounty} type='text' />
+                  <DetailsItem label='Status' value={taskData?.data?.status} type='status' />
+                  <DetailsItem label='Skills' value={taskData?.data?.skills} type='text' />
+                  <DetailsItem
+                    label='Created By'
+                    value={taskData?.data?.createdBy?.name}
+                    type='text'
+                  />
                 </div>
-                <ParticipantList
-                  participants={taskData?.data?.assignees}
-                  maxParticipants={taskData?.data?.maxParticipants}
-                  userRole={user?.data.role}
-                  taskId={id}
-                ></ParticipantList>
-                <div className='description-dummy'>
-                  <div>Description</div>
-                  <div className='description-heading'>Description</div>
-                  <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                <div className='description-row'>
+                  <div className='description'>
+                    <div className='description-heading'>Description</div>
+                    <ReactMarkdown>{taskData?.data?.description}</ReactMarkdown>
+                  </div>
+                  <ParticipantList
+                    participants={taskData?.data?.assignees}
+                    maxParticipants={taskData?.data?.maxParticipants}
+                    userRole={user?.data.role}
+                    taskId={id}
+                  ></ParticipantList>
                 </div>
               </>
             )}
           </div>
-          <div className='progress'>
-            <div className='progress-header'>Comments</div>
-            <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
-              {taskData &&
-                taskData?.data?.comments.map((comment) => {
-                  console.log(userId, taskData);
+          {commentsIsLoading ? (
+            <DetailShimmer />
+          ) : (
+            <div className='progress'>
+              <div className='progress-header'>Comments</div>
+              <div className={`progress-content ${accordian ? 'content-with-accordian' : ''}`}>
+                {taskData &&
+                  taskData?.data?.comments.map((comment) => {
+                    console.log(userId, taskData);
 
-                  return (
-                    <Comment
-                      key={comment.id}
-                      author={comment?.postedBy?.name}
-                      date={comment?.createdAt}
-                      comment={comment?.comment}
-                      attachment={comment?.url}
-                      isCurrentUserComment={userId === comment?.postedBy?.id}
-                    />
-                  );
-                })}
+                    return (
+                      <Comment
+                        key={comment.id}
+                        author={comment?.postedBy?.name}
+                        date={comment?.createdAt}
+                        comment={comment?.comment}
+                        attachment={comment?.url}
+                        isCurrentUserComment={userId === comment?.postedBy?.id}
+                      />
+                    );
+                  })}
+                {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
+                  <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
+                )}
+              </div>
             </div>
-            {!isApproved && <CommentInput sendComment={sendComment} uploadFile={uploadFile} />}
-          </div>
+          )}
         </>
       )}
+      <CustomSnackbar
+        open={openSnackbar}
+        message={messageSnackbar}
+        severity={severitySnackbar}
+        handleClose={handleSnackbarClose}
+      />
     </Layout>
   );
 };

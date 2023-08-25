@@ -1,20 +1,22 @@
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
-import { useGetTasksQuery, useLazyGetFilteredTasksQuery } from './api';
+import { useLazyGetFilteredTasksQuery, useLazyGetTasksQuery } from './api';
 import Layout from '../../components/layout/layout';
 import { useGetUserQuery } from '../employee/api';
 import TableHeader from '../../components/tableHeader/tableHeader';
 import TableRow from '../../components/tableRow/tableRow';
 import { useEffect, useState } from 'react';
 import TableShimmer from '../../components/shimmer/TableShimmer';
+import Pagination from '@material-ui/lab/Pagination';
 
 const TaskListPage = () => {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [currentTaskData, setTaskDataState] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
 
   // add use effect
-  const { data: taskData, isSuccess: isTaskFetchSuccess } = useGetTasksQuery();
+  const [taskTrigger, { data: taskData, isSuccess: isTaskFetchSuccess }] = useLazyGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
@@ -55,7 +57,17 @@ const TaskListPage = () => {
     useLazyGetFilteredTasksQuery();
 
   useEffect(() => {
-    if (searchText.trim() === '') return;
+    if (searchText.trim() === '') {
+      if (selectedFilter) {
+        getFilteredTasks({ status: selectedFilter });
+
+        return;
+      }
+      taskTrigger();
+
+      return;
+    }
+
     const params = {};
 
     if (selectedFilter) params['status'] = selectedFilter;
@@ -68,15 +80,43 @@ const TaskListPage = () => {
   }, [searchData]);
 
   useEffect(() => {
-    if (isFilterSuccess) setTaskDataState(filteredTaskData);
+    if (isFilterSuccess) {
+      setTaskDataState(filteredTaskData);
+      // const page = filteredTaskData['meta']['page'];
+      const pageSize = filteredTaskData['meta']['pageSize'];
+      const total = filteredTaskData['meta']['total'];
+
+      if (!pageSize) {
+        setTotalPage(1);
+
+        return;
+      }
+
+      setTotalPage(Math.ceil(total / pageSize));
+    }
   }, [filteredTaskData]);
 
   useEffect(() => {
     if (isTaskFetchSuccess) setTaskDataState(taskData);
   }, [taskData]);
 
+  useEffect(() => {
+    taskTrigger();
+  }, []);
+
   const searchBarProps = {
     setSearchText
+  };
+
+  const handlePagination = (event, page) => {
+    console.log(event);
+    console.log(page);
+    console.log(totalPage);
+    const params = { page: page - 1, pageSize: 5 };
+
+    if (selectedFilter) params['status'] = selectedFilter;
+    if (searchText.trim() !== '') params['search'] = searchText;
+    searchTrigger(params);
   };
 
   return (
@@ -105,6 +145,9 @@ const TaskListPage = () => {
           </table>
         </div>
       )}
+      <div className='pagination'>
+        <Pagination count={totalPage} shape='rounded' onChange={handlePagination} />
+      </div>
     </Layout>
   );
 };

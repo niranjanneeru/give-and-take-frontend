@@ -1,24 +1,31 @@
 .TaskDetailsCard {
-  /* max-width: 1275px; */
-  /* height: 400px; */
   display: flex;
-  align-items: center;
+  flex-direction: column;
   background-color: #f8eae2;
   border-radius: 7px;
   margin-left: 20px;
   margin-right: 20px;
-  /* margin: 20px 20px; */
   padding: 15px;
   box-shadow: 0px 5px 5px -3px rgb(191, 193, 194);
-  flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  justify-content: center;
+}
+
+.description-row {
+  display: flex;
+}
+.description {
+  flex: 0.8;
 }
 .HiddenCard {
   display: none;
 }
 .description {
-  width: 80%;
-  height: 107px;
   padding: 15px;
   flex-direction: column;
 }

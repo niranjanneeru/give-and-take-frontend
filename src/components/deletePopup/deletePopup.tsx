@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import './deletePopup.css';
 import Button from '../button/button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 type deletePopupTypes = {
   onClose: () => void;
@@ -12,7 +13,9 @@ const Popup: FC<deletePopupTypes> = ({ onClose, onConfirm, desc }) => {
   return (
     <div className='modal'>
       <div className='modal-content'>
-        <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        <Tooltip title={'Preview'} arrow placement='right'>
+          <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        </Tooltip>
         <div className='popHeading'>Are you sure ?</div>
         <div className='popSubheading'>{desc}</div>
         <div className='popupButton'>

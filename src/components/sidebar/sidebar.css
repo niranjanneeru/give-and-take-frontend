@@ -35,6 +35,10 @@ hr{
   margin-top: auto; 
   border-color :white;
 }
+hr{
+  margin-top: auto; 
+  border-color :white;
+}
 .list > a {
   display: flex;
   align-items: center;

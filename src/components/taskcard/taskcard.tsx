@@ -23,7 +23,6 @@ const TaskCard = ({ task, navigateToTaskDetail }) => {
           ))}
         </div>
       </div>
-      <div className={`task-status ${task.status.toLowerCase()}`}>{task.status}</div>
     </div>
   );
 };
