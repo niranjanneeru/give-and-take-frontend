@@ -9,7 +9,6 @@ import DirectBountyPopup from '../../components/directBountyPopUp/DirectBountyPo
 import { useCreateTaskMutation } from '../createEditTask/api';
 import TableShimmer from '../../components/shimmer/TableShimmer';
 import Popup from '../../components/deletePopup/deletePopup';
-import CustomSnackbar from '../../components/snackbar/snackbar';
 
 const EmployeePage = () => {
   const [id, setId] = useState('');
@@ -17,15 +16,6 @@ const EmployeePage = () => {
   const [openDirectBounty, setopenDirectBounty] = useState(false);
   const [bounty, setBounty] = useState(0);
   const [reason, setReason] = useState('');
-
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [messageSnackbar, setMessageSnackbar] = useState('');
-  const [severitySnackbar, setSeveritySnackbar] = useState('');
-
-  const handleSnackbarClose = (reason) => {
-    if (reason === 'clickaway') return;
-    setOpenSnackbar(false);
-  };
 
   const { data: employeesData } = useGetEmployeesQuery();
   const [deleteEmp, { isError: errorOnDelete, error: deleteError }] = useDeleteEmployeesMutation();
@@ -70,15 +60,6 @@ const EmployeePage = () => {
   };
 
   useEffect(() => {
-    if (errorOnDelete) {
-      console.log(deleteError);
-      setMessageSnackbar('error'); //filterError['data']['message'])
-      setSeveritySnackbar('error');
-      setOpenSnackbar(true);
-    }
-  }, [errorOnDelete]);
-
-  useEffect(() => {
     if (directBountyData && directBountySuccess) navigate('/employees');
   }, [directBountyData, directBountySuccess]);
 
@@ -120,12 +101,6 @@ const EmployeePage = () => {
         ) : null}
       </table>
       <div className='loading-div'>{!employeesData && <TableShimmer />}</div>
-      <CustomSnackbar
-        open={openSnackbar}
-        message={messageSnackbar}
-        severity={severitySnackbar}
-        handleClose={handleSnackbarClose}
-      />
     </Layout>
   );
 };
