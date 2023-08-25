@@ -26,17 +26,12 @@ const TaskListPage = () => {
     setOpenSnackbar(false);
   };
 
-  // add use effect
   const [taskTrigger, { data: taskData, isSuccess: isTaskFetchSuccess }] = useLazyGetTasksQuery();
 
   const onClick = (id) => navigate(`/tasks/${id}`);
 
-  const { data: user, refetch } = useGetUserQuery();
+  const { data: user } = useGetUserQuery();
 
-  useEffect(() => {
-    // Refetch task data when the component mounts (user navigates back)
-    refetch();
-  }, [refetch]);
   const [getFilteredTasks, { data: filteredTaskData, isSuccess: isFilterSuccess }] =
     useLazyGetFilteredTasksQuery();
 
@@ -93,7 +88,6 @@ const TaskListPage = () => {
   useEffect(() => {
     if (isFilterSuccess) {
       setTaskDataState(filteredTaskData);
-      // const page = filteredTaskData['meta']['page'];
       const pageSize = filteredTaskData['meta']['pageSize'];
       const total = filteredTaskData['meta']['total'];
 

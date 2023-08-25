@@ -37,7 +37,7 @@ const Subheader: FC<subheaderProps> = ({
   iconText,
   handleAccordian = null,
   isTask,
-  isTaskPage = false, // clean code
+  isTaskPage = false,
   isEmployeeDetail = false,
   isUser = false,
   handleApprove = null,

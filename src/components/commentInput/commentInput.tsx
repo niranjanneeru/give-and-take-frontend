@@ -26,7 +26,6 @@ export default function CommentInput({ sendComment, uploadFile }) {
 
   return (
     <div className='commentBox'>
-      {/* <div className='comment-text'> */}
       <textarea
         className='comment-textbox'
         placeholder='Type your message...'
@@ -35,7 +34,6 @@ export default function CommentInput({ sendComment, uploadFile }) {
         }}
         value={markdownText}
       ></textarea>
-      {/* </div> */}
       <div className='send'>
         <Tooltip title={'File picker'} arrow placement='left'>
           <button
