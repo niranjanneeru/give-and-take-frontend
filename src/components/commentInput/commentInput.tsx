@@ -25,16 +25,16 @@ export default function CommentInput({ sendComment, uploadFile }) {
 
   return (
     <div className='commentBox'>
-      <div className='comment-text'>
-        <textarea
-          className='comment-textbox'
-          placeholder='Type your message...'
-          onChange={(e) => {
-            setMarkdownText(e.target.value);
-          }}
-          value={markdownText}
-        ></textarea>
-      </div>
+      {/* <div className='comment-text'> */}
+      <textarea
+        className='comment-textbox'
+        placeholder='Type your message...'
+        onChange={(e) => {
+          setMarkdownText(e.target.value);
+        }}
+        value={markdownText}
+      ></textarea>
+      {/* </div> */}
       <div className='send'>
         <button
           className='file-button'
