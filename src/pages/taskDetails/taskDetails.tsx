@@ -231,6 +231,7 @@ const TaskDetails = () => {
                     maxParticipants={taskData?.data?.maxParticipants}
                     userRole={user?.data.role}
                     taskId={id}
+                    isApproved={isApproved}
                   ></ParticipantList>
                 </div>
               </>
@@ -257,10 +258,10 @@ const TaskDetails = () => {
                       />
                     );
                   })}
-                {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
-                  <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
-                )}
               </div>
+              {!isApproved && (isAssignee || user?.data.role === 'LEAD') && (
+                <CommentInput sendComment={sendComment} uploadFile={uploadFile} />
+              )}
             </div>
           )}
         </>
