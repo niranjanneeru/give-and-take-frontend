@@ -52,16 +52,19 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, pageType, onClick, onDelet
         </td>
       )}
       {/* render actions on employee list page */}
+
       {userRole == 'HR' && pageType == 'employeeList' && (
         <td className='img-td'>
-          <img
-            src={`assets/icons/delete.svg`}
-            onClick={(e) => {
-              onDelete();
-              e.stopPropagation();
-            }}
-          />
-          <Tooltip title={'Edit Employee'}>
+          <Tooltip title='Delete Employee' arrow placement='top'>
+            <img
+              src={`assets/icons/delete.svg`}
+              onClick={(e) => {
+                onDelete();
+                e.stopPropagation();
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={'Edit Employee'} arrow placement='top'>
             <img
               src={`assets/icons/pencil-edit.svg`}
               onClick={(e) => {
@@ -75,20 +78,24 @@ const TableRow: FC<tableRowProps> = ({ row, userRole, pageType, onClick, onDelet
       {/* render actions on redeem requests list page */}
       {userRole == 'HR' && pageType == 'redeemRequestsList' && (
         <td className='img-td'>
-          <img
-            src={`assets/icons/check.svg`}
-            onClick={(e) => {
-              onEdit();
-              e.stopPropagation();
-            }}
-          />
-          <img
-            src={`assets/icons/cross.svg`}
-            onClick={(e) => {
-              onDelete();
-              e.stopPropagation();
-            }}
-          />
+          <Tooltip title={'Approve request'} arrow placement='top'>
+            <img
+              src={`assets/icons/accept.svg`}
+              onClick={(e) => {
+                onEdit();
+                e.stopPropagation();
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={'Reject request'} arrow placement='top'>
+            <img
+              src={`assets/icons/reject.svg`}
+              onClick={(e) => {
+                onDelete();
+                e.stopPropagation();
+              }}
+            />
+          </Tooltip>
         </td>
       )}
     </tr>

@@ -55,7 +55,7 @@ const Layout: FC<LayoutProps> = ({ userRole, searchBarProps = {}, subheaderProps
         userRole={userRole}
       ></Sidebar>
       <div className='sectionRight'>
-        <Header></Header>
+        <Header userRole={userRole}></Header>
         <div className='feed'>
           <Subheader userRole={userRole} {...subheaderProps} {...searchBarProps}></Subheader>
           {children}
