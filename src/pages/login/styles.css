@@ -5,7 +5,7 @@ section {
 }
 
 .section1 {
-  background-color: #e6f7fd;
+  background-color: #252540;
   width: 50%;
   display: flex;
   justify-content: center;
@@ -35,4 +35,13 @@ section {
 
 .login-form {
   width: 450px;
+}
+
+.spinner-div {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #252540;
 }

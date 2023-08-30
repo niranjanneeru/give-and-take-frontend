@@ -11,6 +11,8 @@ import {
 } from './api';
 import { useLazyGetEmployeeByIDQuery } from '../employeeDetails/api';
 import { useGetUserQuery } from '../employee/api';
+import DetailShimmer from '../../components/shimmer/DetailShimmer';
+import Button from '../../components/button/button';
 
 const CreateEmployee = () => {
   const [details, setDetails] = useState({
@@ -48,8 +50,8 @@ const CreateEmployee = () => {
   const { data: departments } = useGetDepartmentOptionsQuery();
   const { data: roles } = useGetRolesOptionsQuery();
   const [getEmp, { data: results, isSuccess }] = useLazyGetEmployeeByIDQuery();
-  const [createEmployee] = useCreateEmployeeMutation();
-  const [updateEmployee] = useUpdateEmployeeMutation();
+  const [createEmployee, { isLoading: createLoading }] = useCreateEmployeeMutation();
+  const [updateEmployee, { isLoading: editLoading }] = useUpdateEmployeeMutation();
   const { data: user } = useGetUserQuery();
 
   const navigate = useNavigate();
@@ -63,108 +65,120 @@ const CreateEmployee = () => {
     }
   };
 
+  const handleCancel = () => {
+    navigate('/employees');
+  };
+
   useEffect(() => {
-    getEmp(id);
+    if (id) getEmp(id);
   }, [id]);
 
   useEffect(() => {
-    const updateDetails = results?.data || {};
+    if (isSuccess) {
+      const updateDetails = results.data;
 
-    setDetails(updateDetails);
+      const editableData = { ...updateDetails, role: updateDetails['role']['name'] };
+
+      setDetails(editableData);
+    }
   }, [isSuccess]);
 
   const subheaderProps = {
     heading: isEditing ? 'Edit Employee' : 'Create Employee'
   };
 
+  console.log(createLoading, editLoading);
+
   return (
-    <Layout subheaderProps={subheaderProps} userRole={user?.data.role}>
-      <div className='form'>
-        <div className='input-flex'>
-          {departments && roles && (
-            <>
-              {console.log('details', details)}
-              <FormInput
-                name='name'
-                label='Employee Name'
-                type='text'
-                placeholder='Employee name'
-                value={details.name}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='joiningDate'
-                label='Joining Date'
-                type='text'
-                placeholder='Joining Date'
-                value={details.joiningDate}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='experience'
-                label='Experience'
-                type='text'
-                placeholder='Experience'
-                value={details.experience}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='departmentId'
-                label='Department'
-                type='select'
-                placeholder={isEditing ? details.departmentId : 'Choose Department'}
-                options={departments.data.map((department) => department.id)}
-                value={details.departmentId}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='role'
-                label='Role'
-                type='select'
-                placeholder={isEditing ? details.role : 'Choose Role'}
-                value={details.role}
-                options={roles.data}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='status'
-                label='Status'
-                type='select'
-                placeholder={isEditing ? details.status : 'Status'}
-                options={['ACTIVE', 'PROBATION', 'INACTIVE']}
-                value={details.status}
-                onChange={handleChange}
-              ></FormInput>
-              <FormInput
-                name='address'
-                label='Address'
-                type='text'
-                placeholder='Address'
-                value={details.address?.line1}
-                onChange={handleChange}
-              ></FormInput>
-              {isEditing ? (
+    <Layout subheaderProps={subheaderProps} userRole={user?.data.role.name}>
+      {!departments && !roles && <DetailShimmer />}
+      {departments && roles && (
+        <div className='form'>
+          <div className='input-flex'>
+            {departments && roles && (
+              <>
+                {console.log('details', details)}
                 <FormInput
-                  name='employeeid'
-                  label='Employee ID'
+                  name='name'
+                  label='Employee Name'
                   type='text'
-                  placeholder=''
-                  value={id}
+                  placeholder='Employee name'
+                  value={details.name}
+                  onChange={handleChange}
                 ></FormInput>
-              ) : null}
-            </>
-          )}
+                <FormInput
+                  name='joiningDate'
+                  label='Joining Date'
+                  type='text'
+                  placeholder='Joining Date'
+                  value={details.joiningDate}
+                  onChange={handleChange}
+                ></FormInput>
+                <FormInput
+                  name='experience'
+                  label='Experience'
+                  type='text'
+                  placeholder='Experience'
+                  value={details.experience}
+                  onChange={handleChange}
+                ></FormInput>
+                <FormInput
+                  name='departmentId'
+                  label='Department'
+                  type='select'
+                  placeholder={isEditing ? details.departmentId : 'Choose Department'}
+                  options={departments.data.map((department) => department.id)}
+                  value={details.departmentId}
+                  onChange={handleChange}
+                ></FormInput>
+                <FormInput
+                  name='role'
+                  label='Role'
+                  type='select'
+                  placeholder={isEditing ? details.role : 'Choose Role'}
+                  value={details.role}
+                  options={roles.data.map((role) => role.name)}
+                  onChange={handleChange}
+                ></FormInput>
+                <FormInput
+                  name='status'
+                  label='Status'
+                  type='select'
+                  placeholder={isEditing ? details.status : 'Status'}
+                  options={['ACTIVE', 'PROBATION', 'INACTIVE']}
+                  value={details.status}
+                  onChange={handleChange}
+                ></FormInput>
+                <FormInput
+                  name='address'
+                  label='Address'
+                  type='text'
+                  placeholder='Address'
+                  value={details.address?.line1}
+                  onChange={handleChange}
+                ></FormInput>
+                {isEditing ? (
+                  <FormInput
+                    name='employeeid'
+                    label='Employee ID'
+                    type='text'
+                    placeholder=''
+                    value={id}
+                  ></FormInput>
+                ) : null}
+              </>
+            )}
+          </div>
+          <div className='end' style={{ width: '25%' }}>
+            <Button
+              value={isEditing ? 'Save' : 'Create'}
+              onClick={handleSubmit}
+              className='pop-confirm'
+            ></Button>
+            <Button value='Cancel' className='pop-cancel' onClick={handleCancel}></Button>
+          </div>
         </div>
-        <div className='end'>
-          <input
-            type='submit'
-            value={isEditing ? 'Save' : 'Create'}
-            className='form-create'
-            onClick={handleSubmit}
-          />
-          <input type='submit' value='Cancel' className='form-cancel' />
-        </div>
-      </div>
+      )}
     </Layout>
   );
 };

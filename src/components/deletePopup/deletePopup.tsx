@@ -1,25 +1,30 @@
 import { FC } from 'react';
 import './deletePopup.css';
+import Button from '../button/button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 type deletePopupTypes = {
   onClose: () => void;
   onConfirm: () => void;
+  desc: string;
 };
 
-const DeletePopup: FC<deletePopupTypes> = ({ onClose, onConfirm }) => {
+const Popup: FC<deletePopupTypes> = ({ onClose, onConfirm, desc }) => {
   return (
     <div className='modal'>
       <div className='modal-content'>
-        <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        <Tooltip title={'Preview'} arrow placement='right'>
+          <img src='assets/icons/close.svg' className='close' onClick={onClose} />
+        </Tooltip>
         <div className='popHeading'>Are you sure ?</div>
-        <div className='popSubheading'>Do you really want to delete employee ?</div>
+        <div className='popSubheading'>{desc}</div>
         <div className='popupButton'>
-          <input type='submit' value='Confirm' className='pop-confirm' onClick={onConfirm} />
-          <input type='submit' value='Cancel' className='pop-cancel' onClick={onClose} />
+          <Button value='Confirm' onClick={onConfirm} className='pop-confirm'></Button>
+          <Button value='Cancel' onClick={onClose} className='pop-cancel'></Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default DeletePopup;
+export default Popup;

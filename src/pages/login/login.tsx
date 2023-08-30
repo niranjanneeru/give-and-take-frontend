@@ -6,25 +6,45 @@ import './styles.css';
 import { useLoginMutation } from './api';
 import { useDispatch } from 'react-redux';
 import { setRole } from '../../actions/employeeActions';
+import CustomSnackbar from '../../components/snackbar/snackbar';
+import RotateLoader from 'react-spinners/RotateLoader';
 
 const Login = () => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
-  const [login, { data, isSuccess }] = useLoginMutation();
+  const [login, { data, isSuccess, isError, error: errLogin, isLoading }] = useLoginMutation();
 
   const navigate = useNavigate();
   const submit = (e) => {
     e.preventDefault();
-    if (name.length == 0 || password.length == 0) setError(true);
-    else
+    if (email.length == 0 || password.length == 0) {
+      setMessage('Empty Fields');
+      setError(true);
+    } else {
       login({
-        username: name,
+        email: email,
         password: password
       });
+    }
   };
+
+  useEffect(() => {
+    if (isError) {
+      if (errLogin['status'] === 400) {
+        setMessage('Invalid Email or Password');
+        setError(true);
+
+        return;
+      }
+      setMessage(errLogin['data']['message']);
+      setError(true);
+    }
+  }, [isError]);
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -34,26 +54,50 @@ const Login = () => {
     }
   }, [data, isSuccess]);
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setError(false);
+  };
+
   return (
     <section>
-      <div className='section1'>
-        <div>
-          <img src='assets/img/banner.png' className='login' />
+      {isLoading ? (
+        <div className='spinner-div'>
+          <RotateLoader color='#fff' loading speedMultiplier={0.75} />
         </div>
-      </div>
-      <div className='section2'>
-        <div>
-          <div className='logo'>
-            <img src='assets/img/kv logo.png' className='logo' />
+      ) : (
+        <>
+          <div className='section1'>
+            <div>
+              <img src='assets/img/banner.png' className='login' />
+            </div>
           </div>
-          <div className='login-form'>
-            <Input label='Username' type='text' value={name} onChange={setName}></Input>
-            <Input label='Password' type='password' value={password} onChange={setPassword}></Input>
-            {error && <div>Provide username and Password</div>}
-            <Button value='Login' onClick={submit}></Button>
+          <div className='section2'>
+            <div>
+              <div className='logo'>
+                <img src='assets/img/kv logo.png' className='logo' />
+              </div>
+              <div className='login-form'>
+                <Input label='Email' type='text' value={email} onChange={setEmail}></Input>
+                <Input
+                  label='Password'
+                  type='password'
+                  value={password}
+                  onChange={setPassword}
+                ></Input>
+                <Button value='Login' onClick={submit}></Button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <CustomSnackbar
+            open={error}
+            handleClose={handleClose}
+            message={message}
+            severity='error'
+          />
+        </>
+      )}
     </section>
   );
 };

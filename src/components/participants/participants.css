@@ -1,0 +1,24 @@
+.participant-list {
+  color: #8b8d9d;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+.participants {
+  color: black;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.plus-btn-task {
+  background: transparent;
+  color: #a18b9e;
+  font-size: 19px;
+  padding-left: 5px;
+  border: none;
+  font-family: sans-serif;
+  font-size: medium;
+}
+
+.selectParticipants-container {
+  display: flex;
+}

@@ -1,22 +1,25 @@
 import type { FC } from 'react';
-import './styles.css';
+import './button.css';
+import DropdownContent from '../dropdownContent/dropdownContent';
 
 export type ButtonProps = {
   value: string;
+  iconImg?: string;
   onClick?: (e) => void;
+  handleFilter?: (e) => void;
+  className?: string;
 };
 
-const Button: FC<ButtonProps> = ({ value, onClick }) => {
+const Button: FC<ButtonProps> = ({ value, onClick, iconImg, handleFilter, className }) => {
   return (
-    <div className='relative'>
-      <input
-        type='submit'
-        value={value}
-        className='form-login'
-        onClick={onClick}
-        data-testid='button-test'
-      ></input>
-    </div>
+    <button onClick={onClick} className={className ? className : 'button-relative'}>
+      {iconImg && <img className='subheader-img' src={`assets/icons/${iconImg}.svg`} />}
+
+      <div className={!className ? 'form-login' : null} data-testid='button-test'>
+        {value}
+      </div>
+      {value === 'Filter task' && <DropdownContent handleFilter={handleFilter}></DropdownContent>}
+    </button>
   );
 };
 

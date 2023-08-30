@@ -1,0 +1,15 @@
+.taskList-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.scroll-tr{
+  max-height: 71vh;
+  resize: vertical;
+  overflow: auto;
+}
+
+.pagination{
+  display: flex;
+  justify-content: center;
+}

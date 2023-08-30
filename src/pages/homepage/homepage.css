@@ -1,0 +1,38 @@
+/* styles.css */
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;background-color: #252540;
+  }
+  
+  .project-name {
+    font-size: 66px;
+    font-family: 'Monsterrat';
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+  }
+  
+  .login-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #a18b9e;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+  }
+  
+  .login-button:hover {
+    background-color: #535778
+  }
+  

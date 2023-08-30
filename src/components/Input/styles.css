@@ -7,7 +7,7 @@
   outline: none;
 }
 
-.form-input {
+.form-input{
   margin: 10px 0;
   padding: 15px;
   border: 2px solid #eee;
@@ -39,7 +39,7 @@ input:valid + label {
   top: 3px;
   background: white;
   padding: 0 10px;
-  color: #03aeee;
+  color: #a18b9e;
   font-size: small;
   font-weight: bold;
 }
